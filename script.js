@@ -358,39 +358,7 @@ document.querySelectorAll('video').forEach(video => {
     videoObserver.observe(video);
 });
 
-// Simple message-based approach to pause YouTube videos
-// Uses postMessage API to communicate with YouTube iframes
+// YouTube video embeds initialized
 document.addEventListener('DOMContentLoaded', () => {
-    const iframes = document.querySelectorAll('.demo-video iframe');
-
-    if (iframes.length === 0) return;
-
-    console.log('Setting up YouTube video controls for', iframes.length, 'videos');
-
-    // Listen for messages from YouTube iframes about playback state
-    window.addEventListener('message', (event) => {
-        // Check if message is from YouTube
-        if (event.origin !== 'https://www.youtube.com') return;
-
-        try {
-            const data = JSON.parse(event.data);
-
-            // YouTube sends event=1 when video starts playing
-            if (data.event === 'onStateChange' && data.info === 1) {
-                console.log('Video started playing, pausing others');
-
-                // Pause all other videos
-                iframes.forEach((iframe) => {
-                    // Don't pause the one that's playing
-                    if (iframe.contentWindow !== event.source) {
-                        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-                    }
-                });
-            }
-        } catch (e) {
-            // Not a JSON message, ignore
-        }
-    });
-
-    console.log('YouTube video controls initialized');
+    console.log('YouTube video embeds loaded');
 });
