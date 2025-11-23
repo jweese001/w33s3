@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>w33s3 - Technical Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #2563eb;
+            --accent-teal: #9dd9d9;
+            --accent-purple: #c77dcd;
+            --accent-sage: #c4c67a;
+            --background: #ffffff;
+            --background-dark: #1a1a1a;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --border: #f3f4f6;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--background);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header {
+            background: var(--background-dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-teal);
+        }
+
+        .subsection {
+            margin: 2rem 0;
+        }
+
+        .subsection-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .code-block {
+            background: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        .feature-card {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-code {
+            background: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .toc {
+            background: var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent-purple);
+            text-decoration: underline;
+        }
+
+        .color-swatch {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .file-structure {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent-sage);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .responsive-table {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--border);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid var(--accent-teal);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title">w33s3</h1>
+            <p class="subtitle">Technical Documentation - CSS & JavaScript Architecture</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2 class="toc-title">Table of Contents</h2>
+            <ul class="toc-list">
+                <li><a href="#overview">Project Overview</a></li>
+                <li><a href="#file-structure">File Structure</a></li>
+                <li><a href="#css-architecture">CSS Architecture</a></li>
+                <li><a href="#color-system">Color System</a></li>
+                <li><a href="#layout-components">Layout & Components</a></li>
+                <li><a href="#javascript-features">JavaScript Features</a></li>
+                <li><a href="#responsive-design">Responsive Design</a></li>
+                <li><a href="#performance">Performance Optimizations</a></li>
+                <li><a href="#maintenance">Maintenance Guide</a></li>
+            </ul>
+        </div>
+
+        <!-- Project Overview -->
+        <section id="overview" class="section">
+            <h2 class="section-title">Project Overview</h2>
+            <p>The w33s3 portfolio website is a modern, responsive showcase for healthcare technology expertise, specifically highlighting the CarePrime Digital Patient Engagement Platform. The site uses contemporary web technologies and follows best practices for performance, accessibility, and maintainability.</p>
+            
+            <div class="info">
+                <strong>Key Technologies:</strong> HTML5, CSS3 (with custom properties), Vanilla JavaScript, Inter font family, responsive design patterns
+            </div>
+
+            <div class="file-structure">
+<strong>Project Structure:</strong>
+w33s3/
+├── index.html          # Main portfolio page
+├── styles.css          # Complete stylesheet
+├── script.js           # Interactive functionality
+└── assets/
+    ├── sg-w33s3.html   # Style guide documentation
+    ├── *.m4v, *.mp4    # Demo videos
+    ├── *.pdf           # Documentation & resume
+    └── *.svg           # Diagrams & graphics
+            </div>
+        </section>
+
+        <!-- CSS Architecture -->
+        <section id="css-architecture" class="section">
+            <h2 class="section-title">CSS Architecture</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Design System Foundation</h3>
+                <p>The stylesheet is built on a systematic approach using CSS custom properties (variables) for consistent theming, maintainability, and easy customization.</p>
+                
+                <div class="code-block">
+:root {
+    /* Core Colors */
+    --primary-color: #1a1a1a;
+    --secondary-color: #2563eb;
+    --accent-teal: #9dd9d9;
+    --accent-purple: #c77dcd;
+    --accent-sage: #c4c67a;
+    
+    /* Typography */
+    --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+    
+    /* Spacing & Layout */
+    --container-max-width: 1200px;
+    --section-padding: 5rem 0;
+    
+    /* Effects */
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">CSS Organization Structure</h3>
+                <div class="grid">
+                    <div class="feature-card">
+                        <div class="feature-title">1. Reset & Base Styles</div>
+                        <div class="feature-description">Universal reset, root variables, and base typography</div>
+                        <div class="feature-code">lines 1-55: * {}, :root {}, body {}</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">2. Navigation System</div>
+                        <div class="feature-description">Fixed header, mobile hamburger menu, smooth scrolling</div>
+                        <div class="feature-code">lines 57-132: .navbar, .nav-*, .hamburger</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">3. Hero Section</div>
+                        <div class="feature-description">Full-screen landing with gradient background and animations</div>
+                        <div class="feature-code">lines 133-251: .hero, .hero-*, .btn-*</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">4. Content Sections</div>
+                        <div class="feature-description">Modular section layouts with consistent spacing</div>
+                        <div class="feature-code">lines 252-521: .section, .overview, .features</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">5. Curriculum/Resume</div>
+                        <div class="feature-description">Professional resume presentation with interactive elements</div>
+                        <div class="feature-code">lines 522-970: .cv-*, .experience-*, .education-*</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">6. Responsive Design</div>
+                        <div class="feature-description">Mobile-first breakpoints and adaptive layouts</div>
+                        <div class="feature-code">lines 971-1124: @media queries</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Color System -->
+        <section id="color-system" class="section">
+            <h2 class="section-title">Color System</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Core Palette</h3>
+                <div class="responsive-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Color</th>
+                                <th>Variable</th>
+                                <th>Hex Value</th>
+                                <th>Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="color-swatch" style="background: #1a1a1a;"></span>Primary</td>
+                                <td>--primary-color</td>
+                                <td>#1a1a1a</td>
+                                <td>Main text, headings, dark elements</td>
+                            </tr>
+                            <tr>
+                                <td><span class="color-swatch" style="background: #2563eb;"></span>Secondary</td>
+                                <td>--secondary-color</td>
+                                <td>#2563eb</td>
+                                <td>Links, accents, professional elements</td>
+                            </tr>
+                            <tr>
+                                <td><span class="color-swatch" style="background: #ffffff; border: 1px solid #ccc;"></span>Background</td>
+                                <td>--background</td>
+                                <td>#ffffff</td>
+                                <td>Page background, card surfaces</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Accent Colors (Strategic Use)</h3>
+                <div class="grid">
+                    <div class="feature-card">
+                        <div class="feature-title">
+                            <span class="color-swatch" style="background: #9dd9d9;"></span>Teal (#9dd9d9)
+                        </div>
+                        <div class="feature-description">Used for: Primary buttons, CV name, experience duration tags, hover effects</div>
+                        <div class="feature-code">--accent-teal</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">
+                            <span class="color-swatch" style="background: #c77dcd;"></span>Purple (#c77dcd)
+                        </div>
+                        <div class="feature-description">Used for: Demo tags, secondary button borders, resume download button</div>
+                        <div class="feature-code">--accent-purple</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">
+                            <span class="color-swatch" style="background: #c4c67a;"></span>Sage (#c4c67a)
+                        </div>
+                        <div class="feature-description">Used for: Button hover states, subtle accent elements</div>
+                        <div class="feature-code">--accent-sage</div>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <strong>Color Usage Guidelines:</strong> Accent colors should be used sparingly to maintain professional appearance. Primary and secondary colors form the foundation, with accents providing strategic highlights.
+                </div>
+            </div>
+        </section>
+
+        <!-- Layout & Components -->
+        <section id="layout-components" class="section">
+            <h2 class="section-title">Layout & Components</h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Navigation System</h3>
+                <div class="feature-card">
+                    <div class="feature-title">Fixed Header Navigation</div>
+                    <div class="feature-description">
+                        Sticky navigation bar with blur backdrop, responsive hamburger menu for mobile, and smooth scroll anchoring.
+                    </div>
+                    <div class="code-block">
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Glassmorphism effect with backdrop blur</li>
+                        <li>Dynamic background opacity on scroll</li>
+                        <li>Mobile-responsive hamburger menu</li>
+                        <li>Active link highlighting based on scroll position</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Hero Section</h3>
+                <div class="feature-card">
+                    <div class="feature-title">Full-Screen Landing</div>
+                    <div class="feature-description">
+                        Dramatic hero section with gradient background, animated statistics, and call-to-action buttons.
+                    </div>
+                    <div class="code-block">
+.hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    display: flex;
+    align-items: center;
+}
+                    </div>
+                    <p><strong>Components:</strong></p>
+                    <ul>
+                        <li>Animated counter statistics</li>
+                        <li>Gradient background with overlay pattern</li>
+                        <li>Interactive call-to-action buttons</li>
+                        <li>Responsive typography scaling</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Content Sections</h3>
+                <div class="grid">
+                    <div class="feature-card">
+                        <div class="feature-title">Overview Cards</div>
+                        <div class="feature-description">Grid layout with hover animations and icon integration</div>
+                        <div class="feature-code">.overview-card:hover { transform: translateY(-8px); }</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Demo Videos</div>
+                        <div class="feature-description">Responsive video grid with metadata tags and descriptions</div>
+                        <div class="feature-code">.demo-card, .demo-video, .tag</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Technology Stack</div>
+                        <div class="feature-description">Organized grid showing technical expertise with role descriptions</div>
+                        <div class="feature-code">.tech-category, .tech-grid, .tech-item</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Curriculum/Resume Section</h3>
+                <div class="feature-card">
+                    <div class="feature-title">Professional Resume Layout</div>
+                    <div class="feature-description">
+                        Comprehensive CV presentation with contact information, experience timeline, education, and skills breakdown.
+                    </div>
+                    <p><strong>Key Components:</strong></p>
+                    <ul>
+                        <li><strong>CV Header:</strong> Name, title, contact info, resume download button</li>
+                        <li><strong>Experience:</strong> Clean timeline-free layout with duration tags</li>
+                        <li><strong>Skills Grid:</strong> Categorized technical expertise</li>
+                        <li><strong>Education:</strong> Academic credentials with institutions</li>
+                        <li><strong>Achievements:</strong> Key accomplishments with visual cards</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- JavaScript Features -->
+        <section id="javascript-features" class="section">
+            <h2 class="section-title">JavaScript Features</h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Core Functionality Overview</h3>
+                <p>The JavaScript implementation focuses on performance, accessibility, and user experience enhancement through progressive enhancement principles.</p>
+
+                <div class="grid">
+                    <div class="feature-card">
+                        <div class="feature-title">🍔 Mobile Navigation</div>
+                        <div class="feature-description">Hamburger menu toggle with automatic closing on link clicks</div>
+                        <div class="feature-code">hamburger.addEventListener('click', toggle)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🎯 Smooth Scrolling</div>
+                        <div class="feature-description">Enhanced anchor navigation with navbar offset compensation</div>
+                        <div class="feature-code">window.scrollTo({ behavior: 'smooth' })</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">👁️ Intersection Observer</div>
+                        <div class="feature-description">Performance-optimized scroll animations and lazy loading</div>
+                        <div class="feature-code">IntersectionObserver API</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🔢 Counter Animation</div>
+                        <div class="feature-description">Animated statistics display in hero section</div>
+                        <div class="feature-code">setInterval() with easing</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">🎨 Dynamic Navbar</div>
+                        <div class="feature-description">Background opacity and shadow changes on scroll</div>
+                        <div class="feature-code">scroll event listeners</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">♿ Accessibility</div>
+                        <div class="feature-description">Keyboard navigation, focus management, ARIA support</div>
+                        <div class="feature-code">keyboard event handlers</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Mobile Navigation System</h3>
+                <div class="code-block">
+// Mobile Navigation Toggle
+const hamburger = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav-menu');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+// Auto-close menu on link click
+document.querySelectorAll('.nav-link').forEach(n => 
+    n.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    })
+);
+                </div>
+                <p><strong>Features:</strong> Clean toggle functionality, automatic menu closing, accessibility-friendly implementation</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Enhanced Scroll Navigation</h3>
+                <div class="code-block">
+// Smooth scrolling with navbar offset
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar ? navbar.offsetHeight : 70;
+            const targetPosition = target.offsetTop - navbarHeight - 1;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+                </div>
+                <p><strong>Smart Offset:</strong> Automatically calculates navbar height to prevent content hiding behind fixed header</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Performance-Optimized Animations</h3>
+                <div class="code-block">
+// Intersection Observer for scroll animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Initialize animations on target elements
+document.querySelectorAll('.overview-card, .feature-category, .demo-card, .tech-category')
+    .forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
+    });
+                </div>
+                <p><strong>Benefits:</strong> Uses modern Intersection Observer API for better performance than scroll event listeners</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Statistics Counter Animation</h3>
+                <div class="code-block">
+// Animated counter for hero statistics
+function animateCounter(element, target) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = target + '+';
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current) + '+';
+        }
+    }, 50);
+}
+
+// Trigger animation when hero becomes visible
+const heroObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach((stat, index) => {
+                const text = stat.textContent;
+                if (text.includes('1500')) {
+                    stat.textContent = '0+';
+                    animateCounter(stat, 1500);
+                }
+            });
+            heroObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+                </div>
+                <p><strong>Smart Animation:</strong> Triggers only once when visible, unobserves after completion to prevent memory leaks</p>
+            </div>
+        </section>
+
+        <!-- Responsive Design -->
+        <section id="responsive-design" class="section">
+            <h2 class="section-title">Responsive Design Strategy</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Mobile-First Approach</h3>
+                <p>The design system uses a mobile-first methodology with progressive enhancement for larger screens.</p>
+                
+                <div class="responsive-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Breakpoint</th>
+                                <th>Width</th>
+                                <th>Layout Changes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mobile</td>
+                                <td>&lt; 480px</td>
+                                <td>Single column, stacked navigation, reduced font sizes</td>
+                            </tr>
+                            <tr>
+                                <td>Tablet</td>
+                                <td>481px - 768px</td>
+                                <td>Two-column grids, visible hamburger menu</td>
+                            </tr>
+                            <tr>
+                                <td>Desktop</td>
+                                <td>&gt; 768px</td>
+                                <td>Multi-column grids, horizontal navigation, larger typography</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Key Responsive Features</h3>
+                <div class="grid">
+                    <div class="feature-card">
+                        <div class="feature-title">Fluid Typography</div>
+                        <div class="feature-description">Font sizes scale appropriately across devices</div>
+                        <div class="feature-code">font-size: clamp(1.5rem, 4vw, 4rem)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Flexible Grids</div>
+                        <div class="feature-description">CSS Grid with auto-fit and minmax for adaptive layouts</div>
+                        <div class="feature-code">grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Responsive Images</div>
+                        <div class="feature-description">Optimized media queries and flexible containers</div>
+                        <div class="feature-code">max-width: 100%; height: auto;</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance -->
+        <section id="performance" class="section">
+            <h2 class="section-title">Performance Optimizations</h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">CSS Performance</h3>
+                <div class="grid">
+                    <div class="feature-card">
+                        <div class="feature-title">CSS Custom Properties</div>
+                        <div class="feature-description">Centralized theming reduces redundancy and improves maintainability</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Efficient Selectors</div>
+                        <div class="feature-description">Optimized CSS selectors for faster rendering</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Hardware Acceleration</div>
+                        <div class="feature-description">Transform and opacity animations leverage GPU</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">JavaScript Performance</h3>
+                <div class="grid">
+                    <div class="feature-card">
+                        <div class="feature-title">Intersection Observer</div>
+                        <div class="feature-description">Replaces scroll event listeners for better performance</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Event Delegation</div>
+                        <div class="feature-description">Efficient event handling with minimal listeners</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">Memory Management</div>
+                        <div class="feature-description">Proper cleanup of observers and timers</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Maintenance Guide -->
+        <section id="maintenance" class="section">
+            <h2 class="section-title">Maintenance Guide</h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Updating Colors</h3>
+                <div class="info">
+                    <p><strong>To change the color scheme:</strong></p>
+                    <ol>
+                        <li>Modify CSS custom properties in <code>:root</code> section (lines 7-41)</li>
+                        <li>Update the corresponding style guide file <code>assets/sg-w33s3.html</code></li>
+                        <li>Test contrast ratios for accessibility compliance</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Adding New Sections</h3>
+                <div class="code-block">
+<!-- HTML Structure -->
+&lt;section id="new-section" class="section"&gt;
+    &lt;div class="container"&gt;
+        &lt;div class="section-header"&gt;
+            &lt;h2 class="section-title"&gt;New Section&lt;/h2&gt;
+            &lt;p class="section-subtitle"&gt;Description&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;!-- Content --&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+                </div>
+                <p>Add corresponding navigation link and ensure JavaScript smooth scrolling includes the new section.</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Browser Support</h3>
+                <div class="responsive-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Modern Browsers</th>
+                                <th>Fallback</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CSS Custom Properties</td>
+                                <td>✅ Supported</td>
+                                <td>Static values can be substituted</td>
+                            </tr>
+                            <tr>
+                                <td>CSS Grid</td>
+                                <td>✅ Supported</td>
+                                <td>Flexbox fallback where needed</td>
+                            </tr>
+                            <tr>
+                                <td>Intersection Observer</td>
+                                <td>✅ Supported</td>
+                                <td>Polyfill available for IE11</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="warning">
+                <strong>Best Practices:</strong>
+                <ul>
+                    <li>Always test changes across different devices and browsers</li>
+                    <li>Maintain the established CSS organization structure</li>
+                    <li>Follow the existing naming conventions for classes and variables</li>
+                    <li>Update documentation when making significant changes</li>
+                    <li>Test accessibility features after modifications</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--background-dark); color: white; text-align: center; padding: 2rem 0; margin-top: 3rem;">
+        <div class="container">
+            <p>&copy; 2024 w33s3 Portfolio - Technical Documentation</p>
+            <p style="margin-top: 0.5rem; color: var(--text-light);">Built with modern web technologies and best practices</p>
+        </div>
+    </footer>
+</body>
+</html>

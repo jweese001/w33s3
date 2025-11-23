@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>w33s3 Style Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Colors extracted from distributional.com */
+            --primary-color: #1a1a1a;
+            --secondary-blue: #2563eb;
+            --neutral-white: #ffffff;
+            --neutral-black: #000000;
+            --neutral-mid-gray: #6b7280;
+            --neutral-dark-gray: #374151;
+            --neutral-light-gray: #f3f4f6;
+            
+            /* Accent Colors - Use sparingly for backgrounds and highlights */
+            --accent-sage: #c4c67a;
+            --accent-teal: #9dd9d9;
+            --accent-purple: #c77dcd;
+            
+            /* Typography */
+            --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            
+            /* Layout */
+            --container-max-width: 43.75rem;
+            --grid-gap-main: 2rem;
+            --grid-gap-md: 1.5rem;
+            --grid-gap-sm: 1rem;
+            --breakpoint-desktop: 992px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            
+            /* Border Radius */
+            --radius-sm: 0.125rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            
+            /* Transitions */
+            --transition-base: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            line-height: 1.6;
+            color: var(--neutral-dark-gray);
+            background: var(--neutral-white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .header {
+            background: var(--neutral-white);
+            border-bottom: 1px solid var(--neutral-light-gray);
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+        }
+
+        .title {
+            font-size: var(--font-size-4xl);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .subtitle {
+            font-size: var(--font-size-lg);
+            color: var(--neutral-mid-gray);
+        }
+
+        .section {
+            padding: var(--spacing-2xl) 0;
+            border-bottom: 1px solid var(--neutral-light-gray);
+        }
+
+        .section-title {
+            font-size: var(--font-size-3xl);
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .grid {
+            display: grid;
+            gap: var(--grid-gap-main);
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .color-swatch {
+            background: var(--neutral-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s var(--transition-base);
+        }
+
+        .color-swatch:hover {
+            transform: translateY(-2px);
+        }
+
+        .color-preview {
+            height: 100px;
+            width: 100%;
+        }
+
+        .color-info {
+            padding: var(--spacing-md);
+        }
+
+        .color-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .color-value {
+            font-family: Monaco, 'Cascadia Code', monospace;
+            font-size: var(--font-size-sm);
+            color: var(--neutral-mid-gray);
+            background: var(--neutral-light-gray);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            display: inline-block;
+        }
+
+        /* Typography Specimens */
+        .typography-sample {
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: var(--neutral-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .font-demo {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .font-label {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-mid-gray);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* Components */
+        .component-demo {
+            padding: var(--spacing-xl);
+            background: var(--neutral-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            border: none;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s var(--transition-base);
+            margin-right: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--neutral-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--neutral-dark-gray);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-blue);
+            color: var(--neutral-white);
+        }
+
+        .btn-secondary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--neutral-white);
+        }
+
+        /* Spacing Visualization */
+        .spacing-demo {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .spacing-box {
+            background: var(--secondary-blue);
+            opacity: 0.3;
+            margin-right: var(--spacing-md);
+        }
+
+        .spacing-label {
+            font-family: Monaco, 'Cascadia Code', monospace;
+            font-size: var(--font-size-sm);
+            color: var(--neutral-mid-gray);
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: var(--neutral-black);
+            color: var(--neutral-white);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-family: Monaco, 'Cascadia Code', monospace;
+            font-size: var(--font-size-sm);
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: var(--spacing-md) 0;
+        }
+
+        .property {
+            color: #60a5fa;
+        }
+
+        .value {
+            color: #34d399;
+        }
+
+        /* Layout Grid Demo */
+        .layout-demo {
+            background: var(--neutral-light-gray);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-md) 0;
+        }
+
+        .layout-item {
+            background: var(--secondary-blue);
+            color: var(--neutral-white);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .section-title {
+                font-size: var(--font-size-2xl);
+            }
+            
+            .grid-4 {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title">w33s3</h1>
+            <p class="subtitle">Design System & Style Guide</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Colors Section -->
+        <section class="section">
+            <h2 class="section-title">Color Palette</h2>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--primary-color);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Primary</div>
+                        <div class="color-value">#1a1a1a</div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--secondary-blue);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Secondary Blue</div>
+                        <div class="color-value">#2563eb</div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--neutral-white); border: 1px solid var(--neutral-light-gray);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Neutral White</div>
+                        <div class="color-value">#ffffff</div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--neutral-black);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Neutral Black</div>
+                        <div class="color-value">#000000</div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--neutral-mid-gray);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Neutral Mid Gray</div>
+                        <div class="color-value">#6b7280</div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--neutral-dark-gray);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Neutral Dark Gray</div>
+                        <div class="color-value">#374151</div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--neutral-light-gray);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Neutral Light Gray</div>
+                        <div class="color-value">#f3f4f6</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="margin: var(--spacing-xl) 0 var(--spacing-lg) 0; color: var(--primary-color); font-size: var(--font-size-xl);">Accent Colors</h3>
+            <p style="margin-bottom: var(--spacing-lg); color: var(--neutral-mid-gray);">Use sparingly for backgrounds and highlights</p>
+            
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--accent-sage);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Accent Sage</div>
+                        <div class="color-value">#c4c67a</div>
+                        <div style="font-size: var(--font-size-xs); color: var(--neutral-mid-gray); margin-top: var(--spacing-xs);">
+                            For subtle backgrounds and soft highlights
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--accent-teal);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Accent Teal</div>
+                        <div class="color-value">#9dd9d9</div>
+                        <div style="font-size: var(--font-size-xs); color: var(--neutral-mid-gray); margin-top: var(--spacing-xs);">
+                            For calm backgrounds and gentle accents
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="color-swatch">
+                    <div class="color-preview" style="background: var(--accent-purple);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Accent Purple</div>
+                        <div class="color-value">#c77dcd</div>
+                        <div style="font-size: var(--font-size-xs); color: var(--neutral-mid-gray); margin-top: var(--spacing-xs);">
+                            For creative highlights and vibrant accents
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Section -->
+        <section class="section">
+            <h2 class="section-title">Typography</h2>
+            
+            <div class="typography-sample">
+                <div class="font-label">Font Family</div>
+                <div class="font-demo" style="font-size: var(--font-size-lg);">
+                    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+                </div>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-label">Heading 1 - 2.25rem (36px)</div>
+                <h1 class="font-demo" style="font-size: var(--font-size-4xl); font-weight: 700; color: var(--primary-color);">
+                    The quick brown fox jumps over the lazy dog
+                </h1>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-label">Heading 2 - 1.875rem (30px)</div>
+                <h2 class="font-demo" style="font-size: var(--font-size-3xl); font-weight: 600; color: var(--primary-color);">
+                    The quick brown fox jumps over the lazy dog
+                </h2>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-label">Heading 3 - 1.5rem (24px)</div>
+                <h3 class="font-demo" style="font-size: var(--font-size-2xl); font-weight: 600; color: var(--primary-color);">
+                    The quick brown fox jumps over the lazy dog
+                </h3>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-label">Body Large - 1.125rem (18px)</div>
+                <p class="font-demo" style="font-size: var(--font-size-lg); color: var(--neutral-dark-gray);">
+                    The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-label">Body - 1rem (16px)</div>
+                <p class="font-demo" style="font-size: var(--font-size-base); color: var(--neutral-dark-gray);">
+                    The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-label">Body Small - 0.875rem (14px)</div>
+                <p class="font-demo" style="font-size: var(--font-size-sm); color: var(--neutral-mid-gray);">
+                    The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
+            </div>
+        </section>
+
+        <!-- Spacing Section -->
+        <section class="section">
+            <h2 class="section-title">Spacing System</h2>
+            
+            <div class="spacing-demo">
+                <div class="spacing-box" style="width: 0.25rem; height: 2rem;"></div>
+                <div class="spacing-label">XS - 0.25rem (4px)</div>
+            </div>
+            
+            <div class="spacing-demo">
+                <div class="spacing-box" style="width: 0.5rem; height: 2rem;"></div>
+                <div class="spacing-label">SM - 0.5rem (8px)</div>
+            </div>
+            
+            <div class="spacing-demo">
+                <div class="spacing-box" style="width: 1rem; height: 2rem;"></div>
+                <div class="spacing-label">MD - 1rem (16px)</div>
+            </div>
+            
+            <div class="spacing-demo">
+                <div class="spacing-box" style="width: 1.5rem; height: 2rem;"></div>
+                <div class="spacing-label">LG - 1.5rem (24px)</div>
+            </div>
+            
+            <div class="spacing-demo">
+                <div class="spacing-box" style="width: 2rem; height: 2rem;"></div>
+                <div class="spacing-label">XL - 2rem (32px)</div>
+            </div>
+            
+            <div class="spacing-demo">
+                <div class="spacing-box" style="width: 3rem; height: 2rem;"></div>
+                <div class="spacing-label">2XL - 3rem (48px)</div>
+            </div>
+        </section>
+
+        <!-- Components Section -->
+        <section class="section">
+            <h2 class="section-title">Visual Components</h2>
+            
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">Buttons</h3>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <button class="btn btn-primary">Primary Button</button>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#1a1a1a</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <button class="btn btn-secondary">Secondary Button</button>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#2563eb</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <button class="btn btn-outline">Outline Button</button>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">border: #1a1a1a</div>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">Accent Button Variations</h3>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <button class="btn" style="background: var(--accent-purple); color: white; border: none;">Purple Accent</button>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#c77dcd</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <button class="btn" style="background: var(--accent-teal); color: var(--primary-color); border: none;">Teal Accent</button>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#9dd9d9</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <button class="btn" style="background: var(--accent-sage); color: var(--primary-color); border: none;">Sage Accent</button>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#c4c67a</div>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">Tags & Labels</h3>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <span style="background: var(--accent-purple); color: white; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); font-size: var(--font-size-sm); margin-right: var(--spacing-sm);">Demo Tag</span>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#c77dcd</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <span style="background: var(--accent-teal); color: black; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); font-size: var(--font-size-sm); margin-right: var(--spacing-sm);">Duration Tag</span>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#9dd9d9</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <span style="background: var(--accent-sage); color: black; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); font-size: var(--font-size-sm); margin-right: var(--spacing-sm);">Sage Tag</span>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#c4c67a</div>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">System Architecture Components</h3>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <span style="background: var(--accent-purple); color: black; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 500; margin-right: var(--spacing-sm);">Frontend Layer</span>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">bg: #c77dcd, text: black</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <span style="background: var(--accent-teal); color: black; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 500; margin-right: var(--spacing-sm);">Application Layer</span>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">bg: #9dd9d9, text: black</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <span style="background: var(--accent-sage); color: black; padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 500; margin-right: var(--spacing-sm);">Data Layer</span>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">bg: #c4c67a, text: black</div>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">Achievement Card Headings</h3>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <h4 style="color: var(--neutral-white); font-size: var(--font-size-lg); font-weight: 600; margin: 0; background: var(--primary-color); padding: var(--spacing-sm); border-radius: var(--radius-md); display: inline-block;">Achievement Heading</h4>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">color: #ffffff</div>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">Text Highlights</h3>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <h2 style="color: var(--accent-teal); font-size: var(--font-size-2xl); margin: 0;">Teal Heading</h2>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">#9dd9d9</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-xl);">
+                    <h3 style="color: var(--neutral-white); background: var(--primary-color); padding: var(--spacing-sm); border-radius: var(--radius-md); margin: 0; display: inline-block;">White on Dark</h3>
+                    <div style="display: inline-block; margin-left: var(--spacing-sm); font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">bg: #1a1a1a, text: #ffffff</div>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">Decorative Flourishes</h3>
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <div style="width: 100px; height: 4px; background: linear-gradient(90deg, var(--accent-purple), var(--accent-teal)); border-radius: 2px; margin-bottom: var(--spacing-sm);"></div>
+                    <div style="font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">Gradient line: #c77dcd → #9dd9d9</div>
+                </div>
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <div style="width: 12px; height: 12px; background: var(--accent-sage); border-radius: 50%; display: inline-block; margin-right: var(--spacing-sm);"></div>
+                    <div style="width: 8px; height: 8px; background: var(--accent-teal); border-radius: 50%; display: inline-block; margin-right: var(--spacing-sm);"></div>
+                    <div style="width: 6px; height: 6px; background: var(--accent-purple); border-radius: 50%; display: inline-block; margin-right: var(--spacing-lg);"></div>
+                    <span style="font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray);">Accent dots</span>
+                </div>
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <div style="border-left: 3px solid var(--accent-teal); padding-left: var(--spacing-md); font-style: italic; color: var(--neutral-dark-gray);">
+                        "Teal accent border for quotes or callouts"
+                    </div>
+                    <div style="font-family: Monaco, monospace; font-size: var(--font-size-xs); color: var(--neutral-mid-gray); margin-top: var(--spacing-xs);">border-left: 3px solid #9dd9d9</div>
+                </div>
+            </div>
+
+            <div class="component-demo">
+                <h3 style="margin-bottom: var(--spacing-lg); color: var(--primary-color);">Grid Layouts</h3>
+                <div class="layout-demo">
+                    <div class="grid grid-3">
+                        <div class="layout-item">Grid Item 1</div>
+                        <div class="layout-item">Grid Item 2</div>
+                        <div class="layout-item">Grid Item 3</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CSS Variables Section -->
+        <section class="section">
+            <h2 class="section-title">CSS Custom Properties</h2>
+            
+            <div class="code-block">
+<span class="property">:root</span> {
+  <span class="comment">/* Colors */</span>
+  <span class="property">--primary-color</span>: <span class="value">#1a1a1a</span>;
+  <span class="property">--secondary-blue</span>: <span class="value">#2563eb</span>;
+  <span class="property">--neutral-white</span>: <span class="value">#ffffff</span>;
+  <span class="property">--neutral-black</span>: <span class="value">#000000</span>;
+  <span class="property">--neutral-mid-gray</span>: <span class="value">#6b7280</span>;
+  <span class="property">--neutral-dark-gray</span>: <span class="value">#374151</span>;
+  <span class="property">--neutral-light-gray</span>: <span class="value">#f3f4f6</span>;
+  
+  <span class="comment">/* Accent Colors - Use sparingly */</span>
+  <span class="property">--accent-sage</span>: <span class="value">#c4c67a</span>;
+  <span class="property">--accent-teal</span>: <span class="value">#9dd9d9</span>;
+  <span class="property">--accent-purple</span>: <span class="value">#c77dcd</span>;
+  
+  <span class="comment">/* Typography */</span>
+  <span class="property">--font-family-base</span>: <span class="value">-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif</span>;
+  <span class="property">--font-size-base</span>: <span class="value">1rem</span>;
+  <span class="property">--font-size-lg</span>: <span class="value">1.125rem</span>;
+  <span class="property">--font-size-xl</span>: <span class="value">1.25rem</span>;
+  <span class="property">--font-size-2xl</span>: <span class="value">1.5rem</span>;
+  
+  <span class="comment">/* Spacing */</span>
+  <span class="property">--spacing-xs</span>: <span class="value">0.25rem</span>;
+  <span class="property">--spacing-sm</span>: <span class="value">0.5rem</span>;
+  <span class="property">--spacing-md</span>: <span class="value">1rem</span>;
+  <span class="property">--spacing-lg</span>: <span class="value">1.5rem</span>;
+  <span class="property">--spacing-xl</span>: <span class="value">2rem</span>;
+  
+  <span class="comment">/* Layout */</span>
+  <span class="property">--container-max-width</span>: <span class="value">43.75rem</span>;
+  <span class="property">--grid-gap-main</span>: <span class="value">2rem</span>;
+  <span class="property">--breakpoint-desktop</span>: <span class="value">992px</span>;
+  
+  <span class="comment">/* Effects */</span>
+  <span class="property">--shadow-md</span>: <span class="value">0 4px 6px -1px rgba(0, 0, 0, 0.1)</span>;
+  <span class="property">--radius-lg</span>: <span class="value">0.5rem</span>;
+  <span class="property">--transition-base</span>: <span class="value">cubic-bezier(0.4, 0, 0.2, 1)</span>;
+}
+            </div>
+        </section>
+
+        <!-- Design Principles Section -->
+        <section class="section">
+            <h2 class="section-title">Design Principles</h2>
+            
+            <div class="grid grid-2">
+                <div class="component-demo">
+                    <h3 style="color: var(--primary-color); margin-bottom: var(--spacing-md);">Responsive Design</h3>
+                    <p>Mobile-first approach with breakpoint at 992px. Flexible grid systems with adaptive spacing.</p>
+                </div>
+                
+                <div class="component-demo">
+                    <h3 style="color: var(--primary-color); margin-bottom: var(--spacing-md);">Accessibility</h3>
+                    <p>Keyboard navigation support, focus management, and semantic HTML structure throughout.</p>
+                </div>
+                
+                <div class="component-demo">
+                    <h3 style="color: var(--primary-color); margin-bottom: var(--spacing-md);">Performance</h3>
+                    <p>CSS variables for consistent theming, optimized animations with cubic-bezier transitions.</p>
+                </div>
+                
+                <div class="component-demo">
+                    <h3 style="color: var(--primary-color); margin-bottom: var(--spacing-md);">Consistency</h3>
+                    <p>Systematic approach to spacing, typography, and color usage across all components.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

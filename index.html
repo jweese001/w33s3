@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>w33s3 - Technology Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">w33s3</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#hero" class="nav-link">Home</a></li>
+                <li><a href="#overview" class="nav-link">Overview</a></li>
+                <li><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#demos" class="nav-link">Demos</a></li>
+                <li><a href="#tech" class="nav-link">Technology</a></li>
+                <li><a href="#curriculum" class="nav-link">Curriculum</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero">
+        <div id="home-section-background"></div>
+        <div id="home-section-content" class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">w33s3</h1>
+                <h2 class="hero-subtitle">Technology Portfolio</h2>
+                <p class="hero-description">
+                    When I co-founded Bioscape Digital in 2013, I saw healthcare struggling with a fundamental problem: patients were disconnected from their care experience, sitting in hospital beds with no way to understand their treatment or communicate effectively with their care teams. We built a tablet-based, bedside solution that integrates text, audio and 3D visual imagery into an intuitive touch screen experience, allowing providers to overcome language and education barriers. Over 11 years, I architected and scaled the CarePrime platform from a startup concept to an enterprise solution now serving 140+ healthcare facilities, transforming how patients engage with their healthcare journey at the most critical moment: the point of care.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">1500+</span>
+                        <span class="stat-label">Content Modules</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Patient Engagement</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label">Uptime</span>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <a href="#overview" class="btn-primary">Explore Platform</a>
+                    <a href="#demos" class="btn-secondary">View Demos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="overview" class="section">
+        <div class="container">
+            <!-- Analytics Banner -->
+            <div class="analytics-banner">
+                <img src="./images/module-views-banner.jpg" alt="Module Views Analytics - Week of June 5th" class="banner-image">
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Platform Overview</h2>
+                <p class="section-subtitle">
+                    The challenge was immense: how do you build technology that works seamlessly across the complex, regulated, and mission-critical environment of a hospital? Starting with a small team in Atlanta, we designed every component of our patient engagement ecosystem to be bulletproof yet intuitive. From real-time feedback to portal signups, the platform really is one of a kind, as one administrator at Memorial Hospital Jacksonville told us. My team transformed each bedside tablet into a gateway to education, entertainment, and connection—whether a patient needed to understand their heart disease through interactive 3D visualization or video-call their family during COVID-19 restrictions. Together, we built more than a content delivery system; we created meaningful moments of engagement that measurably improved patient satisfaction and clinical outcomes.
+                </p>
+            </div>
+
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="card-icon"><span class="material-symbols-outlined">local_hospital</span></div>
+                    <h3>Healthcare Focus</h3>
+                    <p>Designed specifically for hospital environments with customized bedside tablet experiences that enhance patient care and engagement.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon"><span class="material-symbols-outlined">smartphone</span></div>
+                    <h3>Multi-Device Platform</h3>
+                    <p>Supports patient tablets, QuickView tablets, mobile apps, and administrator PCs with seamless data synchronization.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon"><span class="material-symbols-outlined">cloud</span></div>
+                    <h3>Cloud Infrastructure</h3>
+                    <p>Built on Rackspace cloud with redundant systems, encrypted data transmission, and automated backup processes.</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon"><span class="material-symbols-outlined">analytics</span></div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Comprehensive reporting system with real-time insights into patient engagement, usage patterns, and satisfaction metrics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="section section-dark">
+        <div id="architecture-section-background"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">System Architecture</h2>
+                <p class="section-subtitle">
+                    Building healthcare technology means building for zero tolerance of failure. When designing the CarePrime architecture, every decision was driven by the reality that our system would be supporting patients during their most vulnerable moments. The team chose a cloud-first approach on Rackspace infrastructure with LUKS-encrypted databases, redundant MySQL systems, and NGINX load balancing because hospitals can't afford downtime. But the real innovation came from our client-side architecture: we developed a comprehensive suite of proprietary Android applications that gave us complete control over thousands of deployed tablets. From remote provisioning to automated content updates, my team built a system where every device could be managed, monitored, and maintained without a technician ever needing to visit the bedside. We created a platform so reliable that nurses and doctors could focus on what they do best: caring for patients.
+                </p>
+            </div>
+            <div class="architecture-content">
+                <div class="architecture-diagram">
+                    <div class="arch-layer">
+                        <h3>Frontend Layer</h3>
+                        <div class="arch-components">
+                            <span class="component frontend-component">Patient Tablets</span>
+                            <span class="component frontend-component">QuickView Interface</span>
+                            <span class="component frontend-component">Mobile Apps</span>
+                            <span class="component frontend-component">Admin Portal</span>
+                        </div>
+                    </div>
+                    <div class="arch-layer">
+                        <h3>Application Layer</h3>
+                        <div class="arch-components">
+                            <span class="component application-component">NGINX Web Server</span>
+                            <span class="component application-component">PHP Application</span>
+                            <span class="component application-component">Auth0 Authentication</span>
+                            <span class="component application-component">Content Distribution</span>
+                        </div>
+                    </div>
+                    <div class="arch-layer">
+                        <h3>Data Layer</h3>
+                        <div class="arch-components">
+                            <span class="component data-component">MySQL Operations DB</span>
+                            <span class="component data-component">Reporting Database</span>
+                            <span class="component data-component">LUKS Encryption</span>
+                            <span class="component data-component">Automated Backups</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="architecture-features">
+                    <div class="feature-item">
+                        <h4>Scalable Backend Services</h4>
+                        <p>Backend services for device configuration, app updates, content distribution, and data collection.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Advanced Reporting Engine</h4>
+                        <p>Real-time dashboards for usage trends, survey results, and comprehensive device monitoring.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Log Collection & Analytics</h4>
+                        <p>Centralized logging system for system monitoring, troubleshooting, and performance optimization.</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Continuous Provisioning</h4>
+                        <p>Automated device tracking, tablet deployment, and seamless integration processes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Key Platform Features</h2>
+                <p class="section-subtitle">
+                    The magic happened when clinical workflow met intuitive technology. Working directly with our in-house physician, we designed features that solved real problems healthcare workers faced every day. Our digital rounding toolkit transformed how nurses conducted their rounds, replacing clipboards with real-time data collection and instant service recovery capabilities. The platform allows for effective service recovery when required by giving staff immediate visibility into patient satisfaction in real-time. Meanwhile, patients could explore our library of 1,500+ educational modules, play interactive games, or use our 3D anatomy reference system to understand their procedures. Every feature was born from countless hours the team spent in hospital halls, watching how technology could either enhance or hinder the sacred relationship between caregiver and patient.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-category">
+                    <h3>Patient Engagement</h3>
+                    <ul class="feature-list">
+                        <li><span class="material-symbols-outlined feature-icon">play_circle</span>Audio/Video content</li>
+                        <li><span class="material-symbols-outlined feature-icon">school</span>Educational content library</li>
+                        <li><span class="material-symbols-outlined feature-icon">sports_esports</span>Games and entertainment</li>
+                        <li><span class="material-symbols-outlined feature-icon">view_in_ar</span>3D simulations</li>
+                        <li><span class="material-symbols-outlined feature-icon">rate_review</span>Feedback collection</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Clinical Tools</h3>
+                    <ul class="feature-list">
+                        <li><span class="material-symbols-outlined feature-icon">medical_services</span>Clinician toolkit</li>
+                        <li><span class="material-symbols-outlined feature-icon">medical_services</span>Patient toolkit</li>
+                        <li><span class="material-symbols-outlined feature-icon">assignment</span>Rounding toolkit</li>
+                        <li><span class="material-symbols-outlined feature-icon">event</span>Rehab scheduling system</li>
+                        <li><span class="material-symbols-outlined feature-icon">emergency</span>Real-time service recovery</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Technical Capabilities</h3>
+                    <ul class="feature-list">
+                        <li><span class="material-symbols-outlined feature-icon">language</span>Web applications</li>
+                        <li><span class="material-symbols-outlined feature-icon">smartphone</span>In-house standalone APKs</li>
+                        <li><span class="material-symbols-outlined feature-icon">hub</span>Third-party app integration</li>
+                        <li><span class="material-symbols-outlined feature-icon">tune</span>Customizable UI per device</li>
+                        <li><span class="material-symbols-outlined feature-icon">settings_remote</span>Remote management</li>
+                    </ul>
+                </div>
+                <div class="feature-category">
+                    <h3>Analytics & Reporting</h3>
+                    <ul class="feature-list">
+                        <li><span class="material-symbols-outlined feature-icon">visibility</span>Marketing key views</li>
+                        <li><span class="material-symbols-outlined feature-icon">analytics</span>Usage analytics</li>
+                        <li><span class="material-symbols-outlined feature-icon">rate_review</span>Customer feedback tracking</li>
+                        <li><span class="material-symbols-outlined feature-icon">school</span>Education activity monitoring</li>
+                        <li><span class="material-symbols-outlined feature-icon">assignment</span>Rounding activity analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demos" class="section section-dark">
+        <div id="demos-section-background"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Platform Demonstrations</h2>
+                <p class="section-subtitle">
+                    Nothing tells the story better than seeing the platform in action. These videos capture years of iteration and refinement, born from feedback from thousands of patient interactions across 80 hospitals and 60 infusion centers. The Anatomy Reference System grew from watching patients struggle to understand complex medical procedures—the team realized that a 3D interactive heart model could communicate what hours of explanation couldn't. Our Infusion Management interface emerged from spending time with cancer patients who wanted to understand their treatment journey. Each demo represents not just technical achievement, but human-centered design solving real problems for people during some of the most challenging moments of their lives.
+                </p>
+            </div>
+            <div class="demos-grid">
+                <div class="demo-card">
+                    <div class="demo-video">
+                        <video controls poster="assets/previews/anatomy-reference-preview.jpg">
+                            <source src="assets/AnatomyReference.m4v" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="demo-info">
+                        <h3>Anatomy Reference System</h3>
+                        <p>Interactive 3D anatomy reference tool designed to help patients understand their medical conditions and procedures through visual learning.</p>
+                        <div class="demo-tags">
+                            <span class="tag">3D Visualization</span>
+                            <span class="tag">Patient Education</span>
+                            <span class="tag">Interactive</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-video">
+                        <video controls poster="assets/previews/infusion-management-preview.jpg">
+                            <source src="assets/InfuseClip.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="demo-info">
+                        <h3>Infusion Management</h3>
+                        <p>Comprehensive infusion management interface providing real-time monitoring and patient education about their treatment process.</p>
+                        <div class="demo-tags">
+                            <span class="tag">Clinical Workflow</span>
+                            <span class="tag">Real-time</span>
+                            <span class="tag">Patient Safety</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-video">
+                        <video controls poster="assets/previews/large-format-display-preview.jpg">
+                            <source src="assets/LFD_WX_1080p.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="demo-info">
+                        <h3>Large Format Display</h3>
+                        <p>Large format display interface showcasing the platform's scalability across different screen sizes and deployment scenarios.</p>
+                        <div class="demo-tags">
+                            <span class="tag">Scalable UI</span>
+                            <span class="tag">Multi-format</span>
+                            <span class="tag">Responsive</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-video">
+                        <video controls poster="assets/previews/tablet-interface-preview.jpg">
+                            <source src="assets/TabletScreen720P.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="demo-info">
+                        <h3>Tablet Interface</h3>
+                        <p>Core tablet interface demonstration showing the intuitive patient-facing design and key interaction patterns.</p>
+                        <div class="demo-tags">
+                            <span class="tag">Touch Interface</span>
+                            <span class="tag">User Experience</span>
+                            <span class="tag">Patient-Centered</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Technology Stack</h2>
+                <p class="section-subtitle">
+                    Every technology choice was intentional, tested under the pressure of healthcare's demanding environment. When building for hospitals, you can't choose trendy frameworks—the team chose battle-tested technologies that would work reliably for years. PHP and MySQL formed our stable backend foundation, while Angular and React gave us the flexibility to create engaging patient interfaces. The Android/Java stack was essential for our custom tablet management system, allowing us to control every aspect of the patient-facing devices. But the real innovation was in how my team made these technologies work together: seamless data flow from bedside tablet to cloud analytics, real-time updates across thousands of devices, and HIPAA-compliant security at every layer. We built not just a technology stack, but a reliability platform that supported some of the most critical moments in people's lives.
+                </p>
+            </div>
+            <div class="tech-stack">
+                <div class="tech-category">
+                    <h3>Backend Technologies</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-name">Ubuntu 20.04.1</span>
+                            <span class="tech-role">Operating System</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">NGINX 1.18.0</span>
+                            <span class="tech-role">Web Server</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">PHP 7.4.2</span>
+                            <span class="tech-role">Application Layer</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">MySQL 8.0.34</span>
+                            <span class="tech-role">Database</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3>Frontend Technologies</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-name">TypeScript</span>
+                            <span class="tech-role">Primary Language</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">Angular</span>
+                            <span class="tech-role">Web Framework</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">React</span>
+                            <span class="tech-role">Component Library</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">Android/Java</span>
+                            <span class="tech-role">Mobile Platform</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3>Infrastructure & Tools</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-name">Rackspace</span>
+                            <span class="tech-role">OnMetal</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">VMware</span>
+                            <span class="tech-role">Virtualization</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">Cisco ASA</span>
+                            <span class="tech-role">Firewall</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">Auth0</span>
+                            <span class="tech-role">Authentication</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3>Development & Design</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-name">Android</span>
+                            <span class="tech-role">Java</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">Unity</span>
+                            <span class="tech-role">3D Development</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">Adobe</span>
+                            <span class="tech-role">Creative Cloud</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-name">Atlassian</span>
+                            <span class="tech-role">Jira</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="curriculum" class="section section-dark">
+        <div id="curriculum-section-background"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Curriculum Vitae</h2>
+                <p class="section-subtitle">
+                    My journey from digital artist to healthcare technology executive wasn't traditional, but it gave me a unique perspective on how technology should serve human needs. Starting with a BFA in Digital Photography and advancing to a Master's in Digital Media from Georgia Tech, I learned that great technology isn't about the code—it's about understanding the human experience. I began my career as a graphic designer in the music and set design industry, where I learned the importance of creating experiences that connect emotionally with audiences. At Rival Industries, my team and I served Fortune 500 clients like AT&T and IBM, learning how to build enterprise-grade solutions that scale. But co-founding Bioscape Digital taught me how technology can truly matter. Bioscape Digital's Patient Engagement Platform really has taken our patients' experience to the next level—words like these from healthcare administrators remind me why the Bioscape team and I spent over a decade building not just software, but tools that help heal.
+                </p>
+            </div>
+            <div class="curriculum-content">
+                <div class="cv-header">
+                    <h2 class="cv-name">Jeff Weese</h2>
+                    <h3 class="cv-title">Creative Technology Executive</h3>
+                    <div class="cv-contact">
+                        <span><span class="material-symbols-outlined">phone</span> 678-794-0627</span>
+                        <span><span class="material-symbols-outlined">email</span> w33s3@icloud.com</span>
+                        <span><span class="material-symbols-outlined">location_on</span> 8768 S.E. Colony Street, Hobe Sound, Florida, 33455</span>
+                    </div>
+                    <div class="cv-download">
+                        <a href="assets/Weese_Resume2025.pdf" class="btn-resume-download" target="_blank">
+                            <span class="material-symbols-outlined">description</span> Download Printable Resume
+                        </a>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3>Executive Summary</h3>
+                    <p class="cv-summary">
+                        Results-driven CTO with 18+ years of engineering leadership experience building and scaling technology companies. 
+                        Proven track record co-founding successful startups, leading teams through growth phases, and delivering enterprise 
+                        solutions across 140+ facilities. Expert in product development, system architecture, and regulatory compliance.
+                    </p>
+                </div>
+
+                <div class="cv-section">
+                    <h3>Professional Experience</h3>
+                    <div class="experience-timeline">
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <h4>Chief Technology Officer | Bioscape Digital</h4>
+                                <span class="experience-location">Atlanta, GA</span>
+                                <span class="experience-duration">2013 - 2024</span>
+                            </div>
+                            <p class="experience-subtitle">Co-founded healthcare IT scale-up, leading technological transformation</p>
+                            <ul class="responsibility-list">
+                                <li>Architected comprehensive Patient Engagement Platform improving healthcare communication through data-driven insights</li>
+                                <li>Designed proprietary business analytics solution enabling data-driven decision-making for healthcare providers</li>
+                                <li>Built and led engineering teams of up to 12 developers, scaling from startup to enterprise operations</li>
+                                <li>Successfully deployed solutions across 140+ facilities (80 hospitals, 60 infusion centers)</li>
+                                <li>Established cloud-first architecture supporting thousands of concurrent users with HIPAA compliance</li>
+                            </ul>
+                        </div>
+
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <h4>Chief Creative | Rival Industries</h4>
+                                <span class="experience-location">Atlanta, GA</span>
+                                <span class="experience-duration">2006 - 2012</span>
+                            </div>
+                            <p class="experience-subtitle">Co-founded boutique software company serving Fortune 500 clients</p>
+                            <ul class="responsibility-list">
+                                <li>Led product development for enterprise clients including AT&T, Nagravision, Rosser International, and IBM</li>
+                                <li>Managed creative team of 8 developers with agile processes and quality standards</li>
+                                <li>Provided technical expertise supporting sales and client relationship management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3>Education</h3>
+                    <div class="education-content">
+                        <div class="education-item">
+                            <h4><span class="material-symbols-outlined">school</span> MS, Digital Media</h4>
+                            <p class="education-school">Georgia Institute of Technology</p>
+                            <span class="education-year">2005</span>
+                        </div>
+                        <div class="education-item">
+                            <h4><span class="material-symbols-outlined">school</span> BFA, Digital Photography</h4>
+                            <p class="education-school">Atlanta College of Art</p>
+                            <span class="education-year">1997</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3>Key Achievements</h3>
+                    <div class="achievements-grid">
+                        <div class="achievement-card">
+                            <div class="achievement-icon"><span class="material-symbols-outlined">local_hospital</span></div>
+                            <h4>Healthcare Scale</h4>
+                            <p>Led technology teams serving 140+ healthcare facilities through multiple startup growth phases</p>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-icon"><span class="material-symbols-outlined">check_circle</span></div>
+                            <h4>Regulatory Excellence</h4>
+                            <p>Maintained 100% regulatory compliance while scaling in highly regulated healthcare industry</p>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-icon"><span class="material-symbols-outlined">groups</span></div>
+                            <h4>Team Leadership</h4>
+                            <p>Built high-performing engineering teams fostering innovation in fast-paced startup environments</p>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-icon"><span class="material-symbols-outlined">rocket_launch</span></div>
+                            <h4>Enterprise Solutions</h4>
+                            <p>Delivered enterprise solutions supporting thousands of users across major healthcare systems</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h3>Technical Expertise</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Leadership & Strategy</h4>
+                            <ul class="skill-list">
+                                <li>Engineering Team Management</li>
+                                <li>Product Development Strategy</li>
+                                <li>System Architecture Design</li>
+                                <li>Regulatory Compliance (HIPAA)</li>
+                                <li>Startup Scaling Operations</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Backend & Infrastructure</h4>
+                            <ul class="skill-list">
+                                <li>Cloud-First Architecture</li>
+                                <li>Enterprise System Design</li>
+                                <li>Database Architecture</li>
+                                <li>API Development</li>
+                                <li>Performance Optimization</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Healthcare Technology</h4>
+                            <ul class="skill-list">
+                                <li>Patient Engagement Platforms</li>
+                                <li>Healthcare Analytics</li>
+                                <li>Medical Device Integration</li>
+                                <li>Clinical Workflow Solutions</li>
+                                <li>Healthcare Data Security</li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Business & Client Relations</h4>
+                            <ul class="skill-list">
+                                <li>Fortune 500 Client Management</li>
+                                <li>Business Analytics Solutions</li>
+                                <li>Sales Technical Support</li>
+                                <li>Startup Co-founding</li>
+                                <li>Agile Development Processes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Current Projects</h2>
+                <p class="section-subtitle">
+                    Showcasing ongoing development work and technical exploration across different domains and technologies
+                </p>
+            </div>
+            
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="react">React</button>
+                <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                <button class="filter-btn" data-filter="healthcare">Healthcare</button>
+                <button class="filter-btn" data-filter="typescript">TypeScript</button>
+                <button class="filter-btn" data-filter="threejs">Three.js</button>
+            </div>
+            
+            <div class="projects-content">
+                <div class="project-grid">
+                    <div class="project-card" data-tags="react,typescript,material-ui">
+                        <div class="project-header">
+                            <h3>Seaborne React Application</h3>
+                            <div class="project-status">In Development</div>
+                        </div>
+                        <div class="project-description">
+                            <p>A comprehensive React application built with TypeScript and Material-UI, featuring modern state management and responsive design patterns.</p>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag" data-tech="react">React</span>
+                            <span class="tech-tag" data-tech="typescript">TypeScript</span>
+                            <span class="tech-tag" data-tech="material-ui">Material-UI</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">View Details</a>
+                            <a href="#" class="project-github">GitHub</a>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" data-tags="javascript,threejs,webgl">
+                        <div class="project-header">
+                            <h3>w33s3 Portfolio Platform</h3>
+                            <div class="project-status">Completed</div>
+                        </div>
+                        <div class="project-description">
+                            <p>A modern portfolio website featuring custom Three.js integration, responsive design, and interactive animations showcasing healthcare technology work.</p>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag" data-tech="javascript">JavaScript</span>
+                            <span class="tech-tag" data-tech="threejs">Three.js</span>
+                            <span class="tech-tag" data-tech="webgl">WebGL</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">View Details</a>
+                            <a href="#" class="project-github">GitHub</a>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" data-tags="healthcare,digital-engagement,platform">
+                        <div class="project-header">
+                            <h3>CarePrime Digital Platform</h3>
+                            <div class="project-status">Enterprise</div>
+                        </div>
+                        <div class="project-description">
+                            <p>Comprehensive digital patient engagement platform for healthcare providers, featuring secure communications, appointment management, and care coordination tools.</p>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag" data-tech="healthcare">Healthcare Tech</span>
+                            <span class="tech-tag" data-tech="digital-engagement">Digital Engagement</span>
+                            <span class="tech-tag" data-tech="platform">Platform Architecture</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link">View Details</a>
+                            <a href="#" class="project-github">Documentation</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Platform Documentation</h4>
+                    <p>Comprehensive technical documentation available showcasing the complete architecture and implementation details of the CarePrime platform.</p>
+                    <a href="assets/Bioscape Digital Patient Engagement Platform Architecture and Deployment 2023.pdf" class="footer-link" target="_blank">
+                        View Technical Documentation
+                    </a>
+                </div>
+                <div class="footer-section">
+                    <h4>Key Metrics</h4>
+                    <ul class="footer-metrics">
+                        <li><strong>1500+</strong> Cataloged modules</li>
+                        <li><strong>Multi-platform</strong> deployment</li>
+                        <li><strong>Enterprise-grade</strong> security</li>
+                        <li><strong>Real-time</strong> analytics</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Information</h4>
+                    <p>For technical inquiries about the CarePrime platform architecture, implementation details, or demonstration requests.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Healthcare Technology Portfolio. Built to showcase the CarePrime Digital Patient Engagement Platform.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script type="module" src="./assets/hero-background.js"></script>
+    <script type="module" src="./assets/architecture-viz/architecture-viz.js"></script>
+    <script type="module" src="./assets/demos-background.js"></script>
+    <script type="module" src="./assets/curriculum-background.js"></script>
+</body>
+</html>
