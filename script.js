@@ -359,37 +359,42 @@ document.querySelectorAll('video').forEach(video => {
 });
 
 // YouTube iframe API - Pause other videos when one starts playing
-let youtubeIframes = [];
+let youtubePlayers = [];
 
 // Load YouTube IFrame API
-const tag = document.createElement('script');
-tag.src = 'https://www.youtube.com/iframe_api';
-const firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+if (document.querySelectorAll('.demo-video iframe').length > 0) {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
 
 // This function is called by YouTube API when ready
 window.onYouTubeIframeAPIReady = function() {
-    const iframes = document.querySelectorAll('.demo-video iframe');
+    const playerIds = ['youtube-player-1', 'youtube-player-2', 'youtube-player-3', 'youtube-player-4'];
 
-    iframes.forEach((iframe, index) => {
-        youtubeIframes[index] = new YT.Player(iframe, {
-            events: {
-                'onStateChange': (event) => {
-                    // When a video starts playing (state = 1)
-                    if (event.data === YT.PlayerState.PLAYING) {
-                        // Pause all other videos
-                        youtubeIframes.forEach((player, i) => {
-                            if (i !== index && player.getPlayerState) {
-                                try {
-                                    player.pauseVideo();
-                                } catch (e) {
-                                    console.log('Could not pause video', i);
+    playerIds.forEach((id, index) => {
+        const element = document.getElementById(id);
+        if (element) {
+            youtubePlayers[index] = new YT.Player(id, {
+                events: {
+                    'onStateChange': (event) => {
+                        // When a video starts playing (state = 1)
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            // Pause all other videos
+                            youtubePlayers.forEach((player, i) => {
+                                if (i !== index && player && player.pauseVideo) {
+                                    try {
+                                        player.pauseVideo();
+                                    } catch (e) {
+                                        console.log('Could not pause video', i, e);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     });
 };
