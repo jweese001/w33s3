@@ -358,77 +358,39 @@ document.querySelectorAll('video').forEach(video => {
     videoObserver.observe(video);
 });
 
-// YouTube iframe API - Pause other videos when one starts playing
-let youtubePlayers = [];
-let isYouTubeAPIReady = false;
+// Simple message-based approach to pause YouTube videos
+// Uses postMessage API to communicate with YouTube iframes
+document.addEventListener('DOMContentLoaded', () => {
+    const iframes = document.querySelectorAll('.demo-video iframe');
 
-// Load YouTube IFrame API
-function loadYouTubeAPI() {
-    if (typeof(YT) !== 'undefined' && YT && YT.Player) {
-        initializeYouTubePlayers();
-        return;
-    }
+    if (iframes.length === 0) return;
 
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    tag.async = true;
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-}
+    console.log('Setting up YouTube video controls for', iframes.length, 'videos');
 
-// This function is called by YouTube API when ready
-window.onYouTubeIframeAPIReady = function() {
-    console.log('YouTube IFrame API Ready');
-    isYouTubeAPIReady = true;
-    initializeYouTubePlayers();
-};
+    // Listen for messages from YouTube iframes about playback state
+    window.addEventListener('message', (event) => {
+        // Check if message is from YouTube
+        if (event.origin !== 'https://www.youtube.com') return;
 
-function initializeYouTubePlayers() {
-    console.log('Initializing YouTube players...');
-    const playerIds = ['youtube-player-1', 'youtube-player-2', 'youtube-player-3', 'youtube-player-4'];
+        try {
+            const data = JSON.parse(event.data);
 
-    playerIds.forEach((id, index) => {
-        const element = document.getElementById(id);
-        if (element) {
-            console.log('Creating player for:', id);
-            youtubePlayers[index] = new YT.Player(id, {
-                events: {
-                    'onReady': (event) => {
-                        console.log('Player ready:', id);
-                    },
-                    'onStateChange': (event) => {
-                        console.log('State change for', id, ':', event.data);
-                        // When a video starts playing (state = 1)
-                        if (event.data === YT.PlayerState.PLAYING) {
-                            console.log('Playing:', id, '- Pausing others');
-                            // Pause all other videos
-                            youtubePlayers.forEach((player, i) => {
-                                if (i !== index && player && typeof player.pauseVideo === 'function') {
-                                    try {
-                                        const state = player.getPlayerState();
-                                        if (state === YT.PlayerState.PLAYING) {
-                                            console.log('Pausing player', i);
-                                            player.pauseVideo();
-                                        }
-                                    } catch (e) {
-                                        console.error('Could not pause video', i, e);
-                                    }
-                                }
-                            });
-                        }
+            // YouTube sends event=1 when video starts playing
+            if (data.event === 'onStateChange' && data.info === 1) {
+                console.log('Video started playing, pausing others');
+
+                // Pause all other videos
+                iframes.forEach((iframe) => {
+                    // Don't pause the one that's playing
+                    if (iframe.contentWindow !== event.source) {
+                        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                     }
-                }
-            });
-        } else {
-            console.warn('Element not found:', id);
+                });
+            }
+        } catch (e) {
+            // Not a JSON message, ignore
         }
     });
-}
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.querySelectorAll('.demo-video iframe').length > 0) {
-        console.log('Loading YouTube API...');
-        loadYouTubeAPI();
-    }
+    console.log('YouTube video controls initialized');
 });
