@@ -15,5 +15,8 @@
   "type": "commonjs",
   "devDependencies": {
     "vite": "^7.1.10"
+  },
+  "dependencies": {
+    "three": "^0.181.2"
   }
 }
