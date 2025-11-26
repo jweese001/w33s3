@@ -296,7 +296,7 @@ function createConnectionLines() {
     });
 
     lineSystem = new THREE.LineSegments(lineGeometry, lineMaterial);
-    scene.add(lineSystem);
+    nodeGroup.add(lineSystem);
 }
 
 // ============================================================================
