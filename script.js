@@ -198,39 +198,36 @@ document.querySelectorAll('video').forEach(video => {
 // Project Data Management
 const projectData = [
     {
-        id: 'seaborne-react',
-        title: 'Seaborne React Application',
-        status: 'In Development',
-        description: 'A comprehensive React application built with TypeScript and Material-UI, featuring modern state management and responsive design patterns.',
-        tags: ['react', 'typescript', 'material-ui'],
-        technologies: ['React', 'TypeScript', 'Material-UI'],
+        id: 'seaborne-navigation',
+        title: 'Seaborne Navigation Suite',
+        status: 'Live App',
+        description: 'Production-ready React/TypeScript navigation application with modern state management, responsive design patterns, and enterprise-grade architecture.',
+        tags: ['react', 'typescript'],
+        technologies: ['React', 'TypeScript'],
         links: {
-            details: '#seaborne-details',
-            github: 'https://github.com/username/seaborne-react'
+            live: 'https://jweese001.github.io/seaborne-alpha/'
         }
     },
     {
-        id: 'w33s3-portfolio',
-        title: 'w33s3 Portfolio Platform',
-        status: 'Completed',
-        description: 'A modern portfolio website featuring custom Three.js integration, responsive design, and interactive animations showcasing healthcare technology work.',
+        id: 'threejs-ide',
+        title: 'Three.js IDE',
+        status: 'Live App',
+        description: 'Browser-based 3D development environment with scene editing, material controls, real-time preview, and code export.',
         tags: ['javascript', 'threejs', 'webgl'],
         technologies: ['JavaScript', 'Three.js', 'WebGL'],
         links: {
-            details: '#portfolio-details',
-            github: 'https://github.com/username/w33s3-portfolio'
+            live: 'https://jweese001.github.io/threejs-ide-react/'
         }
     },
     {
-        id: 'careprime-platform',
-        title: 'CarePrime Digital Platform',
-        status: 'Enterprise',
-        description: 'Comprehensive digital patient engagement platform for healthcare providers, featuring secure communications, appointment management, and care coordination tools.',
-        tags: ['healthcare', 'digital-engagement', 'platform'],
-        technologies: ['Healthcare Tech', 'Digital Engagement', 'Platform Architecture'],
+        id: 'khora-engine',
+        title: 'Khora Engine',
+        status: 'Live App',
+        description: 'Procedural galaxy generator with realistic star systems, complex algorithms, and interactive 3D visualization.',
+        tags: ['typescript', 'react', 'threejs'],
+        technologies: ['TypeScript', 'React', 'Three.js'],
         links: {
-            details: '#careprime-details',
-            github: '#careprime-docs'
+            live: 'https://jweese001.github.io/galactic-assets/'
         }
     }
 ];
@@ -239,28 +236,29 @@ const projectData = [
 function renderProjectGrid(projects = projectData) {
     const projectGrid = document.querySelector('.project-grid');
     if (!projectGrid) return;
-    
-    projectGrid.innerHTML = projects.map(project => `
-        <div class="project-card" data-tags="${project.tags.join(',')}" data-project-id="${project.id}">
-            <div class="project-header">
-                <h3>${project.title}</h3>
-                <div class="project-status">${project.status}</div>
+
+    projectGrid.innerHTML = projects.map(project => {
+        return `
+            <div class="project-card" data-tags="${project.tags.join(',')}" data-project-id="${project.id}">
+                <div class="project-header">
+                    <h3>${project.title}</h3>
+                    <div class="project-status">${project.status}</div>
+                </div>
+                <div class="project-description">
+                    <p>${project.description}</p>
+                </div>
+                <div class="project-tech">
+                    ${project.technologies.map(tech =>
+                        `<span class="tech-tag">${tech}</span>`
+                    ).join('')}
+                </div>
+                <div class="project-links">
+                    <a href="${project.links.live}" class="project-link" target="_blank" rel="noopener noreferrer">View Live App</a>
+                </div>
             </div>
-            <div class="project-description">
-                <p>${project.description}</p>
-            </div>
-            <div class="project-tech">
-                ${project.technologies.map(tech => 
-                    `<span class="tech-tag" data-tech="${tech.toLowerCase().replace(/[\s\.]/g, '-')}">${tech}</span>`
-                ).join('')}
-            </div>
-            <div class="project-links">
-                <a href="${project.links.details}" class="project-link">View Details</a>
-                <a href="${project.links.github}" class="project-github">GitHub</a>
-            </div>
-        </div>
-    `).join('');
-    
+        `;
+    }).join('');
+
     // Re-initialize animations for new cards
     initializeProjectAnimations();
 }

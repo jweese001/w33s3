@@ -1198,8 +1198,8 @@ body {
 }
 
 .project-status {
-    background: var(--accent-blue);
-    color: var(--primary-color);
+    background: var(--accent-sage);
+    color: var(--primary-dark);
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-size: 0.8rem;
