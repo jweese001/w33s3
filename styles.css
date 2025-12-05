@@ -1363,6 +1363,12 @@ body {
     font-size: 0.875rem;
 }
 
+.footer-bottom a,
+.hero-description a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hamburger {
