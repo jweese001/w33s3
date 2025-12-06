@@ -1390,8 +1390,12 @@ body {
     margin-bottom: 1rem;
 }
 
+.footer-section a {
+    color: var(--accent-teal);
+}
+
 .footer-link {
-    color: var(--primary-color);
+    color: var(--accent-teal);
     text-decoration: none;
     font-weight: 500;
 }
@@ -1412,7 +1416,7 @@ body {
 }
 
 .footer-metrics strong {
-    color: var(--secondary-color);
+    color: var(--accent-teal);
 }
 
 .footer-bottom {
