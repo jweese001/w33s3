@@ -1169,6 +1169,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-xl);
+    align-items: start;
 }
 
 .project-card {
@@ -1181,6 +1182,7 @@ body {
     transition: all var(--duration-normal) var(--ease-out);
     position: relative;
     overflow: hidden;
+    min-height: 340px;
 }
 
 .project-card::before {
@@ -1287,13 +1289,17 @@ body {
 .video-panel {
     max-height: 0;
     overflow: hidden;
-    transition: max-height var(--duration-slow) var(--ease-out);
+    transition: max-height var(--duration-normal) var(--ease-out);
     background: #000;
     margin: 0 calc(var(--space-2xl) * -1) calc(var(--space-2xl) * -1);
 }
 
 .project-card.video-open .video-panel {
     max-height: 600px;
+}
+
+.project-card.video-open {
+    overflow: visible;
 }
 
 .video-panel video {

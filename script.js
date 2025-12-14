@@ -30,7 +30,7 @@ window.toggleVideoPreview = function(button) {
         // Wait for panel transition to complete, then scroll
         setTimeout(() => {
             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 450);
+        }, 250);
 
         // Auto-close when video ends
         video.onended = function() {
