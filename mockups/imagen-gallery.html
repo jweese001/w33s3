@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMAGEN | w33s3</title>
+    <link rel="icon" type="image/png" href="../assets/3Favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);
+            --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);
+            --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+            --text-lg: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+            --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+            --text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem);
+            --text-3xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+            --text-4xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+            --text-5xl: clamp(3rem, 2rem + 5vw, 6rem);
+
+            --ink: #1a1a1a;
+            --ink-deep: #0a0a0a;
+            --paper: #ffffff;
+
+            --accent-sage: #c4c67a;
+            --accent-teal: #9dd9d9;
+            --accent-purple: #c77dcd;
+            --accent-red: #e85d5d;
+
+            --text-on-dark: var(--paper);
+            --text-on-dark-muted: rgba(255, 255, 255, 0.7);
+            --text-on-dark-subtle: rgba(255, 255, 255, 0.4);
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --space-4xl: 6rem;
+
+            --max-width: 1400px;
+            --nav-height: 72px;
+
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --duration-fast: 150ms;
+            --duration-normal: 300ms;
+            --duration-slow: 500ms;
+
+            --border-dark-subtle: 1px solid rgba(255,255,255,0.08);
+        }
+
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--ink);
+            color: var(--text-on-dark);
+            min-height: 100vh;
+        }
+
+        ::selection { background: var(--accent-purple); color: white; }
+
+        /* NAVIGATION */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: var(--nav-height);
+            z-index: 1000;
+            background: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: var(--border-dark-subtle);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-logo .logo-text {
+            font-family: var(--font-mono);
+            font-size: var(--text-lg);
+            font-weight: 500;
+            color: var(--paper);
+            text-decoration: none;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-on-dark-muted);
+            text-decoration: none;
+            transition: color var(--duration-fast);
+        }
+
+        .nav-back:hover { color: var(--accent-teal); }
+
+        /* HERO - Arch Viz Style */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            margin-top: var(--nav-height);
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(26, 26, 26, 0.98) 0%,
+                rgba(26, 26, 26, 0.7) 30%,
+                rgba(26, 26, 26, 0.3) 60%,
+                transparent 100%
+            );
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(
+                to right,
+                var(--accent-purple) 0%,
+                var(--accent-teal) 50%,
+                var(--accent-sage) 100%
+            );
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-4xl) var(--space-xl);
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-red);
+            padding: var(--space-sm) var(--space-md);
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid var(--accent-red);
+        }
+
+        .hero-date {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-xl);
+        }
+
+        .hero-description {
+            font-size: var(--text-lg);
+            color: var(--text-on-dark-muted);
+            line-height: 1.8;
+            max-width: 650px;
+        }
+
+        .hero-description em {
+            font-family: var(--font-display);
+            font-style: italic;
+            color: var(--text-on-dark);
+        }
+
+        /* SECTION STYLING */
+        .section {
+            padding: var(--space-4xl) 0;
+        }
+
+        .section-alt {
+            background: var(--ink-deep);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: var(--space-3xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: var(--border-dark-subtle);
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-on-dark-subtle);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: 400;
+            margin-top: var(--space-sm);
+        }
+
+        /* MORPH DISPLAY - For emotions and turnaround */
+        .morph-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            align-items: center;
+        }
+
+        .morph-frame {
+            position: relative;
+            background: var(--ink-deep);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .morph-frame.portrait {
+            aspect-ratio: 3/4;
+        }
+
+        .morph-frame.full-body {
+            aspect-ratio: 1/1.9;
+        }
+
+        .morph-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        .morph-image.active {
+            opacity: 1;
+        }
+
+        .morph-info h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .morph-info p {
+            color: var(--text-on-dark-muted);
+            line-height: 1.9;
+            margin-bottom: var(--space-lg);
+        }
+
+        .morph-current {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--accent-red);
+            margin-bottom: var(--space-xl);
+            min-height: 1.5em;
+        }
+
+        .morph-controls {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+        }
+
+        .morph-btn {
+            padding: var(--space-sm) var(--space-md);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-on-dark-muted);
+            cursor: pointer;
+            transition: all var(--duration-fast);
+        }
+
+        .morph-btn:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .morph-btn.active {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: var(--ink);
+        }
+
+        /* GALLERY GRID */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform var(--duration-slow) var(--ease-out);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Gallery item sizes */
+        .gallery-item.full { grid-column: span 12; aspect-ratio: 21/9; }
+        .gallery-item.wide { grid-column: span 8; aspect-ratio: 16/9; }
+        .gallery-item.medium { grid-column: span 6; aspect-ratio: 4/3; }
+        .gallery-item.small { grid-column: span 4; aspect-ratio: 1; }
+        .gallery-item.tall { grid-column: span 4; aspect-ratio: 3/4; }
+
+        .gallery-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-xl) var(--space-lg);
+            background: linear-gradient(to top, rgba(26,26,26,0.95) 0%, transparent 100%);
+            transform: translateY(100%);
+            transition: transform var(--duration-normal) var(--ease-out);
+        }
+
+        .gallery-item:hover .gallery-item-info {
+            transform: translateY(0);
+        }
+
+        .gallery-item-title {
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent-purple);
+            transition: width var(--duration-normal) var(--ease-out);
+            z-index: 2;
+        }
+
+        .gallery-item:hover::before { width: 60px; }
+
+        /* Image focus/crop control via data-focus attribute */
+        .gallery-item[data-focus="top"] img { object-position: center top; }
+        .gallery-item[data-focus="bottom"] img { object-position: center bottom; }
+        .gallery-item[data-focus="left"] img { object-position: left center; }
+        .gallery-item[data-focus="right"] img { object-position: right center; }
+        .gallery-item[data-focus="center"] img { object-position: center center; }
+        .gallery-item[data-focus="top-left"] img { object-position: left top; }
+        .gallery-item[data-focus="top-right"] img { object-position: right top; }
+        .gallery-item[data-focus="bottom-left"] img { object-position: left bottom; }
+        .gallery-item[data-focus="bottom-right"] img { object-position: right bottom; }
+
+        /* Fit mode control - show full image, black bars on sides */
+        .gallery-item[data-fit="contain"] img {
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* Scale image within frame */
+        .gallery-item[data-scale] img {
+            object-fit: contain;
+        }
+
+        /* Last row - height matching */
+        .gallery-row-last {
+            display: flex;
+            gap: var(--space-lg);
+            grid-column: span 12;
+        }
+
+        .gallery-row-last .gallery-item {
+            aspect-ratio: unset;
+            background: none;
+        }
+
+        .gallery-row-last .gallery-item.fit-height {
+            flex: 0 0 auto;
+            line-height: 0;
+        }
+
+        .gallery-row-last .gallery-item.fit-height img {
+            height: 450px;
+            width: auto;
+            display: block;
+        }
+
+        .gallery-row-last .gallery-item.fill-width {
+            flex: 1;
+            min-width: 0;
+            height: 450px;
+            overflow: hidden;
+        }
+
+        .gallery-row-last .gallery-item.fill-width img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(10, 10, 10, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--duration-normal) var(--ease-out);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            position: relative;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            display: block;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: var(--space-xl);
+            right: var(--space-xl);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-on-dark-muted);
+            cursor: pointer;
+            transition: all var(--duration-fast);
+            z-index: 10;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-on-dark);
+            cursor: pointer;
+            transition: all var(--duration-fast);
+        }
+
+        .lightbox-nav:hover {
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+        }
+
+        .lightbox-prev { left: var(--space-xl); }
+        .lightbox-next { right: var(--space-xl); }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: var(--space-xl);
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-muted);
+        }
+
+        .lightbox-counter span { color: var(--accent-teal); }
+
+        /* FOOTER */
+        .gallery-footer {
+            padding: var(--space-3xl) 0;
+            text-align: center;
+            border-top: var(--border-dark-subtle);
+        }
+
+        .back-to-projects {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-on-dark-muted);
+            text-decoration: none;
+            padding: var(--space-md) var(--space-xl);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all var(--duration-fast);
+        }
+
+        .back-to-projects:hover {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+            color: var(--ink);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .morph-display {
+                grid-template-columns: 1fr;
+                gap: var(--space-2xl);
+            }
+
+            .morph-frame {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .gallery-item.wide { grid-column: span 12; }
+            .gallery-item.medium { grid-column: span 6; }
+            .gallery-item.small { grid-column: span 6; }
+            .gallery-item.tall { grid-column: span 6; }
+        }
+
+        @media (max-width: 768px) {
+            .hero { min-height: 70vh; }
+            .hero-title { font-size: var(--text-3xl); }
+
+            .gallery-item.wide,
+            .gallery-item.medium,
+            .gallery-item.small,
+            .gallery-item.tall {
+                grid-column: span 12;
+            }
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s var(--ease-out) backwards;
+        }
+
+        .hero-meta { animation-delay: 0.1s; }
+        .hero-title { animation-delay: 0.2s; }
+        .hero-description { animation-delay: 0.3s; }
+
+        .gallery-item {
+            animation: fadeInUp 0.6s var(--ease-out) backwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-text">w33s3</span>
+            </a>
+            <a href="../index.html#projects" class="nav-back">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back to Projects
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero - Street Scene -->
+    <section class="hero">
+        <div class="hero-image">
+            <img src="../assets/ImagenWeb/ chase-begins-ink.jpg" alt="The Chase Begins">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">IMAGEN</h1>
+            <div class="hero-meta">
+                <span class="hero-tag">Character Development</span>
+                <span class="hero-date">Ongoing / 2024-2025</span>
+            </div>
+            <p class="hero-description">
+                Character development for <em>people with problems</em>.
+                A visual study on repetition of a theme, exploring identity through
+                AI-assisted illustration and 3D reference modeling.
+            </p>
+        </div>
+    </section>
+
+    <!-- Emotional Range Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="section-label">Study 01</span>
+                    <h2 class="section-title">Emotional Range</h2>
+                </div>
+            </div>
+
+            <div class="morph-display">
+                <div class="morph-frame portrait">
+                    <img src="../assets/ImagenWeb/emotion/clay-sincere.jpg" class="morph-image active" data-emotion="sincere">
+                    <img src="../assets/ImagenWeb/emotion/Clay_Mischief.jpg" class="morph-image" data-emotion="mischief">
+                    <img src="../assets/ImagenWeb/emotion/clay-laughter.jpg" class="morph-image" data-emotion="laughter">
+                    <img src="../assets/ImagenWeb/emotion/clay-hilarity.jpg" class="morph-image" data-emotion="hilarity">
+                    <img src="../assets/ImagenWeb/emotion/clay-affection.jpg" class="morph-image" data-emotion="affection">
+                    <img src="../assets/ImagenWeb/emotion/clay-speaking.jpg" class="morph-image" data-emotion="speaking">
+                    <img src="../assets/ImagenWeb/emotion/clay-sarcastic.jpg" class="morph-image" data-emotion="sarcastic">
+                    <img src="../assets/ImagenWeb/emotion/clay-deadpan.jpg" class="morph-image" data-emotion="deadpan">
+                    <img src="../assets/ImagenWeb/emotion/clay-concerned.jpg" class="morph-image" data-emotion="concerned">
+                    <img src="../assets/ImagenWeb/emotion/clay-afraid.jpg" class="morph-image" data-emotion="afraid">
+                    <img src="../assets/ImagenWeb/emotion/clay-anger.jpg" class="morph-image" data-emotion="anger">
+                    <img src="../assets/ImagenWeb/emotion/clay-enraged.jpg" class="morph-image" data-emotion="enraged">
+                    <img src="../assets/ImagenWeb/emotion/clay-tears.jpg" class="morph-image" data-emotion="tears">
+                </div>
+
+                <div class="morph-info">
+                    <h3>Clayton Mason</h3>
+                    <p>
+                        Same pose. Same lighting. Same character. Only the emotion changes.
+                        This study explores how subtle shifts in expression can tell an entire story
+                        without changing a single other element.
+                    </p>
+                    <div class="morph-current">Currently: <span id="emotion-current">Sincere</span></div>
+                    <div class="morph-controls" id="emotion-controls">
+                        <button class="morph-btn active" data-target="sincere">Sincere</button>
+                        <button class="morph-btn" data-target="mischief">Mischief</button>
+                        <button class="morph-btn" data-target="laughter">Laughter</button>
+                        <button class="morph-btn" data-target="hilarity">Hilarity</button>
+                        <button class="morph-btn" data-target="affection">Affection</button>
+                        <button class="morph-btn" data-target="speaking">Speaking</button>
+                        <button class="morph-btn" data-target="sarcastic">Sarcastic</button>
+                        <button class="morph-btn" data-target="deadpan">Deadpan</button>
+                        <button class="morph-btn" data-target="concerned">Concerned</button>
+                        <button class="morph-btn" data-target="afraid">Afraid</button>
+                        <button class="morph-btn" data-target="anger">Anger</button>
+                        <button class="morph-btn" data-target="enraged">Enraged</button>
+                        <button class="morph-btn" data-target="tears">Tears</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Character Turnaround Section -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="section-label">Study 02</span>
+                    <h2 class="section-title">Character Turnaround</h2>
+                </div>
+            </div>
+
+            <div class="morph-display">
+                <div class="morph-frame full-body">
+                    <img src="../assets/ImagenWeb/CharacterSheets/ClayRef_Front.jpg" class="morph-image active" data-view="front">
+                    <img src="../assets/ImagenWeb/CharacterSheets/ClayRef_Side.jpg" class="morph-image" data-view="side">
+                    <img src="../assets/ImagenWeb/CharacterSheets/ClayRef_Back.jpg" class="morph-image" data-view="back">
+                    <img src="../assets/ImagenWeb/CharacterSheets/ClayRef_Posed.jpg" class="morph-image" data-view="posed">
+                </div>
+
+                <div class="morph-info">
+                    <h3>Reference Model</h3>
+                    <p>
+                        Full-body turnaround reference. These consistent views establish
+                        the character's proportions, costume details, and silhouette from
+                        every angle—the foundation for all subsequent generations.
+                    </p>
+                    <div class="morph-current">View: <span id="view-current">Front</span></div>
+                    <div class="morph-controls" id="view-controls">
+                        <button class="morph-btn active" data-target="front">Front</button>
+                        <button class="morph-btn" data-target="side">Side</button>
+                        <button class="morph-btn" data-target="back">Back</button>
+                        <button class="morph-btn" data-target="posed">Posed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Gallery Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="section-label">A story about rainbows and puppy breath</span>
+                    <h2 class="section-title">People With Problems</h2>
+                </div>
+                <span class="section-label"><span style="color: var(--accent-teal);">19</span> Images</span>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Row 1: Wide scene -->
+                <div class="gallery-item wide" data-src="../assets/ImagenWeb/chase-begins.jpg">
+                    <img src="../assets/ImagenWeb/chase-begins.jpg" alt="The Chase Begins">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">The Chase Begins</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item small" data-src="../assets/ImagenWeb/clay-portrait-sq.jpg">
+                    <img src="../assets/ImagenWeb/clay-portrait-sq.jpg" alt="Clay Portrait">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Clay Portrait</h4>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="gallery-item small" data-src="../assets/ImagenWeb/frankie-portrait-sq.jpg">
+                    <img src="../assets/ImagenWeb/frankie-portrait-sq.jpg" alt="Frankie Portrait">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Frankie</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item wide" data-focus="center 100%" data-src="../assets/ImagenWeb/street-philosophy.jpg">
+                    <img src="../assets/ImagenWeb/street-philosophy.jpg" alt="Street Philosophy">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Street Philosophy</h4>
+                    </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="gallery-item medium" data-src="../assets/ImagenWeb/Clay_DynamicPoses.png">
+                    <img src="../assets/ImagenWeb/Clay_DynamicPoses.png" alt="Dynamic Poses">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Dynamic Poses</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item medium" data-src="../assets/ImagenWeb/emotionalPoses.jpg">
+                    <img src="../assets/ImagenWeb/emotionalPoses.jpg" alt="Emotional Poses">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Emotional Poses</h4>
+                    </div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="gallery-item tall" data-src="../assets/ImagenWeb/clay-blend.jpg">
+                    <img src="../assets/ImagenWeb/clay-blend.jpg" alt="Clay - Bland">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Clay - Neutral</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item tall" data-src="../assets/ImagenWeb/tattoo-artist.jpeg">
+                    <img src="../assets/ImagenWeb/tattoo-artist.jpeg" alt="Tattoo Artist">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Tattoo Artist</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item tall" data-src="../assets/ImagenWeb/clay-ice-cream.jpeg">
+                    <img src="../assets/ImagenWeb/clay-ice-cream.jpeg" alt="Ice Cream">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Ice Cream</h4>
+                    </div>
+                </div>
+
+                <!-- Row 5 -->
+                <div class="gallery-item medium" data-src="../assets/ImagenWeb/pops-panicked.png">
+                    <img src="../assets/ImagenWeb/pops-panicked.png" alt="Pops Panicked">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Pops - Panicked</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item medium" data-focus="center 25%" data-src="../assets/ImagenWeb/Clay_bicycle.jpg">
+                    <img src="../assets/ImagenWeb/Clay_bicycle.jpg" alt="Clay on Bicycle">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">On the Move</h4>
+                    </div>
+                </div>
+
+                <!-- Row 6: Character sheets -->
+                <div class="gallery-item small" data-src="../assets/ImagenWeb/CharacterSheets/Clay_CharacterSheet_Illustrator.jpg">
+                    <img src="../assets/ImagenWeb/CharacterSheets/Clay_CharacterSheet_Illustrator.jpg" alt="Clay Illustrator Sheet">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Clay - Illustrator Sheet</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item small" data-src="../assets/ImagenWeb/Frankie_CharacterSheet.png">
+                    <img src="../assets/ImagenWeb/Frankie_CharacterSheet.png" alt="Frankie Character Sheet">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Frankie - Sheet</h4>
+                    </div>
+                </div>
+
+                <div class="gallery-item small" data-src="../assets/ImagenWeb/pops-character-sheet.jpg">
+                    <img src="../assets/ImagenWeb/pops-character-sheet.jpg" alt="Pops Character Sheet">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Pops - Sheet</h4>
+                    </div>
+                </div>
+
+                <!-- Row 7 - Height matched -->
+                <div class="gallery-row-last">
+                    <div class="gallery-item fit-height" data-src="../assets/ImagenWeb/pops-doorway.png">
+                        <img src="../assets/ImagenWeb/pops-doorway.png" alt="Pops - Doorway">
+                        <div class="gallery-item-info">
+                            <h4 class="gallery-item-title">Pops - Doorway</h4>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item fill-width" data-focus="bottom" data-src="../assets/ImagenWeb/ chase-begins-ink.jpg">
+                        <img src="../assets/ImagenWeb/ chase-begins-ink.jpg" alt="The Chase Begins">
+                        <div class="gallery-item-info">
+                            <h4 class="gallery-item-title">The Chase Begins</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 8 - Full width -->
+                <div class="gallery-item full" data-src="../assets/ImagenWeb/clay-dynamic-poses.jpg">
+                    <img src="../assets/ImagenWeb/clay-dynamic-poses.jpg" alt="Clay Dynamic Poses">
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Dynamic Poses</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gallery-footer">
+        <a href="../index.html#projects" class="back-to-projects">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Return to All Projects
+        </a>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <button class="lightbox-nav lightbox-prev">
+            <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button class="lightbox-nav lightbox-next">
+            <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-image">
+        </div>
+        <div class="lightbox-counter">
+            <span id="lightbox-current">1</span> / <span id="lightbox-total">18</span>
+        </div>
+    </div>
+
+    <script>
+        // Custom focus positioning (for percentage or pixel values)
+        document.querySelectorAll('.gallery-item[data-focus]').forEach(item => {
+            const focus = item.dataset.focus;
+            if (focus.includes('%') || focus.includes('px')) {
+                item.querySelector('img').style.objectPosition = focus;
+            }
+        });
+
+        // Scale image within frame
+        document.querySelectorAll('.gallery-item[data-scale]').forEach(item => {
+            const scale = parseInt(item.dataset.scale) / 100;
+            const img = item.querySelector('img');
+            img.style.transform = `scale(${scale})`;
+        });
+
+        // Emotion morph controls
+        const emotionBtns = document.querySelectorAll('#emotion-controls .morph-btn');
+        const emotionImages = document.querySelectorAll('.morph-frame.portrait .morph-image');
+        const emotionCurrent = document.getElementById('emotion-current');
+
+        emotionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.target;
+                emotionBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                emotionImages.forEach(img => {
+                    img.classList.toggle('active', img.dataset.emotion === target);
+                });
+                emotionCurrent.textContent = btn.textContent;
+            });
+        });
+
+        // View turnaround controls
+        const viewBtns = document.querySelectorAll('#view-controls .morph-btn');
+        const viewImages = document.querySelectorAll('.morph-frame.full-body .morph-image');
+        const viewCurrent = document.getElementById('view-current');
+
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.target;
+                viewBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                viewImages.forEach(img => {
+                    img.classList.toggle('active', img.dataset.view === target);
+                });
+                viewCurrent.textContent = btn.textContent;
+            });
+        });
+
+        // Gallery lightbox
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxCurrentEl = document.getElementById('lightbox-current');
+        const lightboxTotalEl = document.getElementById('lightbox-total');
+
+        const gallerySrcs = Array.from(galleryItems).map(item => item.dataset.src);
+        let currentIndex = 0;
+
+        lightboxTotalEl.textContent = gallerySrcs.length;
+
+        galleryItems.forEach((item, index) => {
+            item.style.animationDelay = `${0.1 + index * 0.05}s`;
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                updateLightbox();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function updateLightbox() {
+            lightboxImage.src = gallerySrcs[currentIndex];
+            lightboxCurrentEl.textContent = currentIndex + 1;
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.querySelector('.lightbox-prev').addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + gallerySrcs.length) % gallerySrcs.length;
+            updateLightbox();
+        });
+
+        document.querySelector('.lightbox-next').addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % gallerySrcs.length;
+            updateLightbox();
+        });
+
+        document.querySelectorAll('.lightbox-nav .material-symbols-outlined').forEach(icon => {
+            icon.style.pointerEvents = 'none';
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + gallerySrcs.length) % gallerySrcs.length;
+                updateLightbox();
+            }
+            if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % gallerySrcs.length;
+                updateLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
