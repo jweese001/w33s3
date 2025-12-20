@@ -362,6 +362,19 @@
             object-position: 70% center;
         }
 
+        /* Vertical fit for West and North images */
+        .gallery-item:nth-child(2),
+        .gallery-item:nth-child(3) {
+            height: 100%;
+        }
+        .gallery-item:nth-child(2) img,
+        .gallery-item:nth-child(3) img {
+            aspect-ratio: auto;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+        }
+
         .gallery-item img {
             width: 100%;
             aspect-ratio: 4/3;
@@ -825,7 +838,7 @@
     <!-- Hero with Featured Image -->
     <section class="hero">
         <div class="hero-image">
-            <img src="/assets/ArchVisWeb/PAC02.jpg" alt="Pacific Tower - Featured">
+            <img src="/assets/ArchVisWeb/PAC02.jpg" alt="Atlantic Center - Featured">
         </div>
         <div class="hero-content">
             <div class="hero-meta">
@@ -858,84 +871,84 @@
 
             <div class="gallery-grid">
                 <div class="gallery-item" data-index="0">
-                    <img src="/assets/ArchVisWeb/PAC02.jpg" alt="Pacific Tower - Exterior Dawn">
+                    <img src="/assets/ArchVisWeb/PAC02.jpg" alt="Atlantic Center - Exterior Dusk">
                     <div class="view-icon">
                         <span class="material-symbols-outlined">open_in_full</span>
                     </div>
                     <div class="gallery-item-info">
-                        <h4 class="gallery-item-title">Exterior Dawn</h4>
+                        <h4 class="gallery-item-title">Exterior Dusk</h4>
                         <div class="gallery-item-meta">
-                            <span>Pacific Tower</span>
+                            <span>Atlantic Center East</span>
                             <span>4K Render</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="gallery-item" data-index="1">
-                    <img src="/assets/ArchVisWeb/PAC03.jpg" alt="Pacific Tower - Lobby Interior">
+                    <img src="/assets/ArchVisWeb/PAC03.jpg" alt="Atlantic Center - Exterior Night">
                     <div class="view-icon">
                         <span class="material-symbols-outlined">open_in_full</span>
                     </div>
                     <div class="gallery-item-info">
-                        <h4 class="gallery-item-title">Lobby Interior</h4>
+                        <h4 class="gallery-item-title">Exterior Night</h4>
                         <div class="gallery-item-meta">
-                            <span>Pacific Tower</span>
+                            <span>Atlantic Center West</span>
                             <span>4K Render</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="gallery-item" data-index="2">
-                    <img src="/assets/ArchVisWeb/PAC04.jpg" alt="Pacific Tower - Aerial View">
+                    <img src="/assets/ArchVisWeb/PAC04.jpg" alt="Atlantic Center - Exterior Day">
                     <div class="view-icon">
                         <span class="material-symbols-outlined">open_in_full</span>
                     </div>
                     <div class="gallery-item-info">
-                        <h4 class="gallery-item-title">Aerial View</h4>
+                        <h4 class="gallery-item-title">Exterior Day</h4>
                         <div class="gallery-item-meta">
-                            <span>Pacific Tower</span>
+                            <span>Atlantic Center North</span>
                             <span>4K Render</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="gallery-item" data-index="3">
-                    <img src="/assets/ArchVisWeb/PAC05.jpg" alt="Pacific Tower - Night Exterior">
+                    <img src="/assets/ArchVisWeb/PAC05.jpg" alt="Atlantic Center - Exterior Day">
                     <div class="view-icon">
                         <span class="material-symbols-outlined">open_in_full</span>
                     </div>
                     <div class="gallery-item-info">
-                        <h4 class="gallery-item-title">Night Exterior</h4>
+                        <h4 class="gallery-item-title">Exterior Day</h4>
                         <div class="gallery-item-meta">
-                            <span>Pacific Tower</span>
+                            <span>Atlantic Center South</span>
                             <span>4K Render</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="gallery-item" data-index="4">
-                    <img src="/assets/ArchVisWeb/PAC06.jpg" alt="Pacific Tower - Detail Study">
+                    <img src="/assets/ArchVisWeb/PAC06.jpg" alt="Atlantic Center - Interior PAC">
                     <div class="view-icon">
                         <span class="material-symbols-outlined">open_in_full</span>
                     </div>
                     <div class="gallery-item-info">
-                        <h4 class="gallery-item-title">Detail Study</h4>
+                        <h4 class="gallery-item-title">Interior</h4>
                         <div class="gallery-item-meta">
-                            <span>Pacific Tower</span>
+                            <span>Atlantic Center PAC</span>
                             <span>4K Render</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="gallery-item" data-index="5">
-                    <img src="/assets/ArchVisWeb/PAC07.jpg" alt="Pacific Tower - Context View">
+                    <img src="/assets/ArchVisWeb/PAC07.jpg" alt="Atlantic Center - Context View">
                     <div class="view-icon">
                         <span class="material-symbols-outlined">open_in_full</span>
                     </div>
                     <div class="gallery-item-info">
                         <h4 class="gallery-item-title">Context View</h4>
                         <div class="gallery-item-meta">
-                            <span>Pacific Tower</span>
+                            <span>Atlantic Center</span>
                             <span>4K Render</span>
                         </div>
                     </div>
@@ -951,7 +964,7 @@
                 <h2>About This Project</h2>
                 <p>
                     This series represents work from my exploration of architectural visualization
-                    pipelines. The Pacific Tower project involved creating photorealistic renders
+                    pipelines. The Atlantic Center project involved creating photorealistic renders
                     for a proposed mixed-use development, requiring careful attention to lighting,
                     materials, and environmental context.
                 </p>
@@ -977,7 +990,7 @@
                 </div>
                 <div class="spec-item">
                     <span class="spec-label">Post-Production</span>
-                    <span class="spec-value">Photoshop, Lightroom</span>
+                    <span class="spec-value">Photoshop</span>
                 </div>
                 <div class="spec-item">
                     <span class="spec-label">Project Type</span>
@@ -1017,12 +1030,12 @@
     <script>
         // Gallery data
         const images = [
-            { src: '/assets/ArchVisWeb/PAC02.jpg', title: 'Exterior Dawn', meta: 'Pacific Tower' },
-            { src: '/assets/ArchVisWeb/PAC03.jpg', title: 'Lobby Interior', meta: 'Pacific Tower' },
-            { src: '/assets/ArchVisWeb/PAC04.jpg', title: 'Aerial View', meta: 'Pacific Tower' },
-            { src: '/assets/ArchVisWeb/PAC05.jpg', title: 'Night Exterior', meta: 'Pacific Tower' },
-            { src: '/assets/ArchVisWeb/PAC06.jpg', title: 'Detail Study', meta: 'Pacific Tower' },
-            { src: '/assets/ArchVisWeb/PAC07.jpg', title: 'Context View', meta: 'Pacific Tower' }
+            { src: '/assets/ArchVisWeb/PAC02.jpg', title: 'Exterior Dusk', meta: 'Atlantic Center East' },
+            { src: '/assets/ArchVisWeb/PAC03.jpg', title: 'Exterior Night', meta: 'Atlantic Center West' },
+            { src: '/assets/ArchVisWeb/PAC04.jpg', title: 'Exterior Day', meta: 'Atlantic Center North' },
+            { src: '/assets/ArchVisWeb/PAC05.jpg', title: 'Exterior Day', meta: 'Atlantic Center South' },
+            { src: '/assets/ArchVisWeb/PAC06.jpg', title: 'Interior', meta: 'Atlantic Center PAC' },
+            { src: '/assets/ArchVisWeb/PAC07.jpg', title: 'Context View', meta: 'Atlantic Center' }
         ];
 
         let currentIndex = 0;
