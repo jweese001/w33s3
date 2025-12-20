@@ -21,6 +21,11 @@
 
 **Note:** This bug existed since the galleries were first added - they only appeared to work because Vite dev server serves all files locally.
 
+### Known Issue: Rrrrr Gallery GPS Coordinates
+- Many image locations (lat/long) are incorrect - some off by 60-100 miles
+- Need to review and fix each image's coordinates
+- Priority for next session
+
 ---
 
 ## What We Did Earlier (Dec 20 - Morning)
