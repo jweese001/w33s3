@@ -1,13 +1,66 @@
-# Session Summary - December 19, 2025
+# Session Summary - December 20, 2025
 
 ## Current State
-- **Branch:** `project-additions`
-- **Site:** w33s3.com
+- **Branch:** `main`
+- **Site:** w33s3.com (deployed)
 - **Dev Server:** `npm run dev` on port 5173
 
 ---
 
-## What We Did This Session (Dec 19)
+## What We Did This Session (Dec 20 - Evening)
+
+### Fixed Gallery Images Not Loading in Production
+- **Problem:** All three galleries (Rrrrr, IMAGEN, Arch Viz) had broken images on live site
+- **Root Cause:** Gallery assets were in `assets/` (root) but Vite only deploys `public/` contents
+- **Fix:** Moved all gallery folders to `public/assets/`:
+  - `assets/Rrrrr/` → `public/assets/Rrrrr/`
+  - `assets/ArchVisWeb/` → `public/assets/ArchVisWeb/`
+  - `assets/ImagenWeb/` → `public/assets/ImagenWeb/`
+- Added `*.mov` to `.gitignore` (video files too large for GitHub)
+- **Commit:** `d587417`
+
+**Note:** This bug existed since the galleries were first added - they only appeared to work because Vite dev server serves all files locally.
+
+---
+
+## What We Did Earlier (Dec 20 - Morning)
+
+### Rrrrr Gallery Final Polish
+1. **Text updates:**
+   - Hero description: "characters you meet on the water" → "copious alone-time"
+   - Processing: "Lightroom, Generative AI" → "Photoshop, Gemini-CLI"
+   - Supply Run location: "Nassau" → "Andros"
+   - Coastal Florida location: "Stuart, FL" → "Hobe Sound, FL"
+
+2. **Project card on index.html:**
+   - Same text update (copious alone-time)
+   - Rolling R title now uses same font as other cards (removed serif italic override)
+
+3. **Current Projects intro:**
+   - Removed "fully" from "I leaned into it fully"
+
+### CSS Global Update
+- Added `text-wrap: pretty` to all paragraphs to prevent orphaned single words at end of paragraphs
+
+### Git Operations
+- Committed all rrrrr gallery work
+- Merged `project-additions` → `main`
+- Pushed to origin (live on w33s3.com)
+
+### Side Project: AI Instructor Application (OBSIDIAN folder)
+- Revised cover letter (`ai_instructor_cover_revised.md`)
+  - Added early hook about resume + website
+  - Tightened language, reduced repetitive structure
+- Created tailored resume (`Weese_Resume2025_Instructor.md`)
+  - Reframed for teaching role
+  - Added Teaching & Training Experience section
+  - Added AI & Technical Skills section
+- Converted to .docx via pandoc
+- **Status:** User still thinking it over - concerns about looking "light on experience" and listing tools feeling junior after 20+ years
+
+---
+
+## What We Did Session (Dec 19)
 
 ### Arch Viz Gallery Updates
 
@@ -147,9 +200,10 @@
 ---
 
 ## Previous Sessions
+- **Dec 19:** Arch Viz gallery label updates (Pacific Tower → Atlantic Center), vertical fit styling
+- **Dec 17:** Bug fixes (particles, video expansion), SEO files, hero copy update
 - **Dec 6:** Complete site redesign ("Precision Engineering" aesthetic), typography, colors
 - **Dec 5:** Video previews, branding updates, Platform Demos restyle
-- **Nov 29:** Projects section rewrite, footer updates, hero animation fix
 
 ---
 
@@ -160,16 +214,11 @@
 - Browser compatibility testing
 - Clean up/organize uncommitted asset files
 
-### New Project Cards to Add
-Three new cards for the Projects section (images TBD):
+### Galleries - COMPLETE
+All three galleries now live:
+- **Arch Viz from the Archive** (`/arch-viz.html`)
+- **IMAGEN** (`/imagen.html`)
+- **Arrrrrr** (`/rrrrr.html`) - Rolling R title effect, 38 images with GPS coords
 
-1. **Arch Viz from the Archive**
-   - Revisiting a large scale architectural render
-
-2. **IMAGEN**
-   - Character development for people with problems
-   - Studies on repetition of a theme
-
-3. **Arrrrrr**
-   - Shenanigans on the high seas
-   - Images from commercial towing life
+### Pending (Non-Site)
+- **AI Instructor application** - Resume needs rethinking, cover letter done
