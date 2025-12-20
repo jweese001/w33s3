@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrrrrr | w33s3</title>
+    <link rel="icon" type="image/png" href="/assets/3Favicon.png">
+
+    <!-- Typography: Same as main site -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <style>
+        /* ============================================================================
+           W33S3 GALLERY PAGE - MARITIME DOCUMENTARY COLLECTION
+           ============================================================================ */
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);
+            --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);
+            --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+            --text-lg: clamp(1.1rem, 1rem + 0.5vw, 1.25rem);
+            --text-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+            --text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem);
+            --text-3xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+            --text-4xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+            --text-5xl: clamp(3rem, 2rem + 5vw, 6rem);
+
+            --ink: #1a1a1a;
+            --ink-muted: #374151;
+            --ink-subtle: #6b7280;
+            --paper: #ffffff;
+            --paper-muted: #f3f4f6;
+
+            --accent-sage: #c4c67a;
+            --accent-teal: #9dd9d9;
+            --accent-purple: #c77dcd;
+            --accent-warm: #d4a574;
+            --accent: var(--accent-warm);
+
+            --text-on-dark: var(--paper);
+            --text-on-dark-muted: rgba(255, 255, 255, 0.7);
+
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --space-4xl: 6rem;
+
+            --max-width: 1400px;
+            --nav-height: 72px;
+
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+            --duration-fast: 150ms;
+            --duration-normal: 300ms;
+            --duration-slow: 500ms;
+
+            --border-dark-subtle: 1px solid rgba(255,255,255,0.08);
+            --border-dark-muted: 1px solid rgba(255,255,255,0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--ink);
+            color: var(--text-on-dark);
+            min-height: 100vh;
+        }
+
+        ::selection {
+            background: var(--accent-warm);
+            color: white;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            z-index: 1000;
+            background: rgba(26, 26, 26, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: var(--border-dark-subtle);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-logo .logo-text {
+            font-family: var(--font-mono);
+            font-size: var(--text-lg);
+            font-weight: 500;
+            color: var(--paper);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-on-dark-muted);
+            text-decoration: none;
+            transition: color var(--duration-fast);
+        }
+
+        .nav-back:hover {
+            color: var(--accent-warm);
+        }
+
+        .nav-back .material-symbols-outlined {
+            font-size: 1.25rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            margin-top: var(--nav-height);
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            opacity: 0.85;
+        }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(26, 26, 26, 0.98) 0%,
+                rgba(26, 26, 26, 0.7) 30%,
+                rgba(26, 26, 26, 0.3) 60%,
+                transparent 100%
+            );
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(
+                to right,
+                var(--accent-warm) 0%,
+                var(--accent-sage) 50%,
+                var(--accent-teal) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--space-4xl) var(--space-xl);
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero-tag {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-warm);
+            padding: var(--space-xs) var(--space-md);
+            border: 1px solid var(--accent-warm);
+        }
+
+        .hero-date {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-xl);
+            max-width: 800px;
+        }
+
+        /* Pirate "rolling R" title effect */
+        .pirate-title {
+            display: flex;
+            align-items: baseline;
+            letter-spacing: -0.05em;
+        }
+
+        .pirate-title .r {
+            display: inline-block;
+            text-transform: lowercase;
+        }
+
+        /* Curved scaling: small → peak → small */
+        .pirate-title .r1 { font-size: 0.35em; }
+        .pirate-title .r2 { font-size: 0.5em; }
+        .pirate-title .r3 { font-size: 0.7em; text-transform: uppercase; }
+        .pirate-title .r4 { font-size: 0.85em; text-transform: uppercase; }
+        .pirate-title .r5 { font-size: 1em; text-transform: uppercase; }
+        .pirate-title .r6 { font-size: 0.85em; text-transform: uppercase; }
+        .pirate-title .r7 { font-size: 0.7em; text-transform: uppercase; }
+        .pirate-title .r8 { font-size: 0.5em; }
+        .pirate-title .r9 { font-size: 0.35em; }
+
+        .hero-description {
+            font-size: var(--text-lg);
+            color: var(--text-on-dark-muted);
+            line-height: 1.8;
+            max-width: 650px;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: var(--space-4xl) 0;
+        }
+
+        .gallery-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: var(--space-3xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: var(--border-dark-subtle);
+        }
+
+        .gallery-count {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .gallery-count span {
+            color: var(--accent-warm);
+            font-weight: 600;
+        }
+
+        /* Asymmetric 12-column Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform var(--duration-slow) var(--ease-out),
+                        filter var(--duration-normal);
+        }
+
+        /* Gallery item sizes - must add to 12 per row */
+        .gallery-item.full { grid-column: span 12; aspect-ratio: 21/9; }
+        .gallery-item.wide { grid-column: span 8; aspect-ratio: 16/9; }
+        .gallery-item.medium { grid-column: span 6; aspect-ratio: 4/3; }
+        .gallery-item.small { grid-column: span 4; aspect-ratio: 1; }
+        .gallery-item.tall { grid-column: span 4; aspect-ratio: 3/4; }
+
+        /* Image focus/crop control via data-focus attribute */
+        .gallery-item[data-focus="top"] img { object-position: center top; }
+        .gallery-item[data-focus="bottom"] img { object-position: center bottom; }
+        .gallery-item[data-focus="left"] img { object-position: left center; }
+        .gallery-item[data-focus="right"] img { object-position: right center; }
+        .gallery-item[data-focus="center"] img { object-position: center center; }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        .gallery-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-xl) var(--space-lg);
+            background: linear-gradient(to top,
+                rgba(26,26,26,0.95) 0%,
+                rgba(26,26,26,0.7) 60%,
+                transparent 100%
+            );
+            transform: translateY(100%);
+            transition: transform var(--duration-normal) var(--ease-out);
+        }
+
+        .gallery-item:hover .gallery-item-info {
+            transform: translateY(0);
+        }
+
+        .gallery-item-title {
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+
+        .gallery-item-meta {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-warm);
+            transition: width var(--duration-normal) var(--ease-out);
+            z-index: 2;
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 0;
+            background: var(--accent-warm);
+            transition: height var(--duration-normal) var(--ease-out);
+            z-index: 2;
+        }
+
+        .gallery-item:hover::before {
+            width: 60px;
+        }
+
+        .gallery-item:hover::after {
+            height: 60px;
+        }
+
+        .gallery-item .view-icon {
+            position: absolute;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26,26,26,0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .gallery-item:hover .view-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .gallery-item .view-icon .material-symbols-outlined {
+            color: var(--accent-warm);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(10, 10, 10, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--duration-normal) var(--ease-out);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            position: relative;
+            transform: scale(0.95) translateY(20px);
+            transition: transform var(--duration-slow) var(--ease-out);
+        }
+
+        .lightbox.active .lightbox-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            display: block;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: var(--space-xl);
+            right: var(--space-xl);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-on-dark-muted);
+            cursor: pointer;
+            transition: all var(--duration-fast);
+            z-index: 10;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent-warm);
+            color: var(--accent-warm);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-on-dark);
+            cursor: pointer;
+            transition: all var(--duration-fast);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(26, 26, 26, 0.95);
+            border-color: var(--accent-warm);
+            color: var(--accent-warm);
+        }
+
+        .lightbox-nav .material-symbols-outlined {
+            pointer-events: none;
+        }
+
+        .lightbox-prev {
+            left: var(--space-xl);
+        }
+
+        .lightbox-next {
+            right: var(--space-xl);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: var(--space-xl);
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-muted);
+            letter-spacing: 0.1em;
+        }
+
+        .lightbox-counter span {
+            color: var(--accent-warm);
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: var(--space-3xl);
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 0 var(--space-xl);
+        }
+
+        .lightbox-caption h3 {
+            font-family: var(--font-body);
+            font-size: var(--text-lg);
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+        }
+
+        .lightbox-caption p {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+        }
+
+        /* Project Info */
+        .project-info {
+            padding: var(--space-4xl) 0;
+            border-top: var(--border-dark-subtle);
+        }
+
+        .project-info-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+        }
+
+        .project-details h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: 400;
+            margin-bottom: var(--space-xl);
+            letter-spacing: -0.02em;
+        }
+
+        .project-details p {
+            color: var(--text-on-dark-muted);
+            margin-bottom: var(--space-lg);
+        }
+
+        .project-specs h3 {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-warm);
+            margin-bottom: var(--space-xl);
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-md) 0;
+            border-bottom: var(--border-dark-subtle);
+        }
+
+        .spec-label {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .spec-value {
+            font-size: var(--text-sm);
+            text-align: right;
+        }
+
+        .spec-value.highlight {
+            color: var(--accent-warm);
+        }
+
+        /* Footer */
+        .gallery-footer {
+            padding: var(--space-3xl) 0;
+            text-align: center;
+            border-top: var(--border-dark-subtle);
+        }
+
+        .back-to-projects {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-muted);
+            text-decoration: none;
+            padding: var(--space-md) var(--space-xl);
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: all var(--duration-fast);
+        }
+
+        .back-to-projects:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent-warm);
+            color: var(--accent-warm);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-item.full,
+            .gallery-item.wide,
+            .gallery-item.medium,
+            .gallery-item.small,
+            .gallery-item.tall {
+                grid-column: span 1;
+                aspect-ratio: 4/3;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 2;
+                aspect-ratio: 16/9;
+            }
+
+            .project-info-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-2xl);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 70vh;
+            }
+
+            .hero-title {
+                font-size: var(--text-3xl);
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item.full,
+            .gallery-item.wide,
+            .gallery-item.medium,
+            .gallery-item.small,
+            .gallery-item.tall,
+            .gallery-item:first-child {
+                grid-column: span 1;
+                aspect-ratio: 4/3;
+            }
+
+            .lightbox-nav {
+                width: 44px;
+                height: 44px;
+            }
+
+            .lightbox-prev {
+                left: var(--space-sm);
+            }
+
+            .lightbox-next {
+                right: var(--space-sm);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content > * {
+            animation: fadeInUp 0.8s var(--ease-out) backwards;
+        }
+
+        .hero-meta { animation-delay: 0.1s; }
+        .hero-title { animation-delay: 0.2s; }
+        .hero-description { animation-delay: 0.3s; }
+
+        .gallery-item {
+            animation: fadeInUp 0.6s var(--ease-out) backwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">
+                <span class="logo-text">w33s3</span>
+            </a>
+            <a href="/index.html#projects" class="nav-back">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back to Projects
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero with Featured Image -->
+    <section class="hero">
+        <div class="hero-image">
+            <img src="/assets/Rrrrr/edittransform_this_maritime_phot_11.png" alt="Salvage Operation - Commercial Towing">
+        </div>
+        <div class="hero-content">
+            <div class="hero-meta">
+                <span class="hero-tag">Documentary Photography</span>
+                <span class="hero-date">2023 - 2025</span>
+            </div>
+            <h1 class="hero-title pirate-title">
+                <span class="r r1">r</span><span class="r r2">r</span><span class="r r3">R</span><span class="r r4">R</span><span class="r r5">R</span><span class="r r6">R</span><span class="r r7">R</span><span class="r r8">r</span><span class="r r9">r</span>
+            </h1>
+            <p class="hero-description">
+                Shenanigans on the high seas. A photographic collection from commercial towing life,
+                documenting the moments between jobs, the copious alone-time,
+                and the unexpected beauty of working maritime.
+            </p>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="gallery-section">
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <span class="gallery-count"><span>38</span> Images</span>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Image 1: Captain selfie on tow -->
+                <div class="gallery-item wide" data-index="0">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot.png" alt="Captain on the ICW">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Captain on the ICW</h4>
+                        <div class="gallery-item-meta">
+                            <span>Intracoastal Waterway</span>
+                            <span>Summer 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 2: Sunrise at sea -->
+                <div class="gallery-item small" data-index="1">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_1.png" alt="Dawn Watch">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Dawn Watch</h4>
+                        <div class="gallery-item-meta">
+                            <span>Gulf Stream</span>
+                            <span>Summer 2023</span>
+                            <span>26.63°N 79.13°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 3: Tank cars on bridge -->
+                <div class="gallery-item small" data-index="2">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_2.png" alt="Rail Bridge Crossing">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Rail Bridge Crossing</h4>
+                        <div class="gallery-item-meta">
+                            <span>Stuart, FL</span>
+                            <span>Spring 2025</span>
+                            <span>27.20°N 80.26°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 4: Work vessel at anchor -->
+                <div class="gallery-item small" data-index="3">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_3.png" alt="At Anchor">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">At Anchor</h4>
+                        <div class="gallery-item-meta">
+                            <span>Palm Beach</span>
+                            <span>Spring 2024</span>
+                            <span>26.72°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 5: Sunset over water -->
+                <div class="gallery-item small" data-index="4">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_4.png" alt="End of Watch">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">End of Watch</h4>
+                        <div class="gallery-item-meta">
+                            <span>Atlantic Ocean</span>
+                            <span>Summer 2025</span>
+                            <span>26.54°N 76.96°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 6: Open sea dramatic sky -->
+                <div class="gallery-item medium" data-index="5">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_5.png" alt="Weather Building">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Weather Building</h4>
+                        <div class="gallery-item-meta">
+                            <span>Offshore</span>
+                            <span>Spring 2025</span>
+                            <span>26.90°N 78.41°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 7: Lighthouse and dock -->
+                <div class="gallery-item medium" data-index="6">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_6.png" alt="Hopetown Light">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Hopetown Light</h4>
+                        <div class="gallery-item-meta">
+                            <span>Bahamas</span>
+                            <span>Fall 2025</span>
+                            <span>24.22°N 77.60°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 8: Bridge at dusk -->
+                <div class="gallery-item full" data-index="7">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_7.png" alt="Under the Bridge">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Under the Bridge</h4>
+                        <div class="gallery-item-meta">
+                            <span>Jupiter, FL</span>
+                            <span>Summer 2024</span>
+                            <span>26.95°N 80.09°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 9: Megayacht at night -->
+                <div class="gallery-item small" data-index="8">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_8.png" alt="Night Shift">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Night Shift</h4>
+                        <div class="gallery-item-meta">
+                            <span>Fort Lauderdale</span>
+                            <span>Winter 2024</span>
+                            <span>26.12°N 80.11°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 10: Channel markers -->
+                <div class="gallery-item wide" data-index="9">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_9.png" alt="Marked Channel">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Marked Channel</h4>
+                        <div class="gallery-item-meta">
+                            <span>Lake Worth</span>
+                            <span>Summer 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 11: Center console -->
+                <div class="gallery-item medium" data-index="10">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_10.png" alt="Sunday Traffic">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Sunday Traffic</h4>
+                        <div class="gallery-item-meta">
+                            <span>Palm Beach</span>
+                            <span>Spring 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 12: Boat salvage -->
+                <div class="gallery-item medium" data-index="11">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_11.png" alt="Salvage Operation">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Salvage Operation</h4>
+                        <div class="gallery-item-meta">
+                            <span>St. Lucie River</span>
+                            <span>Spring 2024</span>
+                            <span>27.12°N 80.25°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 13: Storm clouds -->
+                <div class="gallery-item small" data-index="12">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_12.png" alt="Squall Line">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Squall Line</h4>
+                        <div class="gallery-item-meta">
+                            <span>Atlantic Ocean</span>
+                            <span>Summer 2025</span>
+                            <span>27.06°N 78.14°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 14: Cypress bayou -->
+                <div class="gallery-item small" data-index="13">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_13.png" alt="Cypress Waters">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Cypress Waters</h4>
+                        <div class="gallery-item-meta">
+                            <span>Okeechobee</span>
+                            <span>Summer 2024</span>
+                            <span>26.83°N 81.07°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 15: Boat ramp -->
+                <div class="gallery-item small" data-index="14">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_14.png" alt="Low Tide">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Low Tide</h4>
+                        <div class="gallery-item-meta">
+                            <span>Bahamas</span>
+                            <span>Fall 2025</span>
+                            <span>24.03°N 77.83°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 16: Bridge construction -->
+                <div class="gallery-item wide" data-index="15">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_15.png" alt="Bridge Work">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Bridge Work</h4>
+                        <div class="gallery-item-meta">
+                            <span>Port St. Lucie</span>
+                            <span>Spring 2025</span>
+                            <span>27.12°N 80.15°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 17: Wheelhouse view -->
+                <div class="gallery-item small" data-index="16">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_16.png" alt="Helm View">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Helm View</h4>
+                        <div class="gallery-item-meta">
+                            <span>Offshore</span>
+                            <span>Summer 2024</span>
+                            <span>26.91°N 77.56°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 18: Lock approach -->
+                <div class="gallery-item small" data-index="17">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_17.png" alt="Lock Approach">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Lock Approach</h4>
+                        <div class="gallery-item-meta">
+                            <span>Okeechobee Waterway</span>
+                            <span>Summer 2024</span>
+                            <span>26.95°N 80.09°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 19: Cruise ship -->
+                <div class="gallery-item small" data-index="18">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_18.png" alt="Port Day">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Port Day</h4>
+                        <div class="gallery-item-meta">
+                            <span>Port of Palm Beach</span>
+                            <span>Spring 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 20: Miami skyline -->
+                <div class="gallery-item small" data-index="19">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_19.png" alt="Miami Approach">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Miami Approach</h4>
+                        <div class="gallery-item-meta">
+                            <span>Biscayne Bay</span>
+                            <span>Fall 2024</span>
+                            <span>25.77°N 80.16°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 21: Cargo ship stern -->
+                <div class="gallery-item medium" data-index="20">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_20.png" alt="Following the Freighter">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Following the Freighter</h4>
+                        <div class="gallery-item-meta">
+                            <span>Atlantic Ocean</span>
+                            <span>Fall 2025</span>
+                            <span>27.06°N 78.14°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 22: Container port -->
+                <div class="gallery-item medium" data-index="21">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_21.png" alt="Container Operations">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Container Operations</h4>
+                        <div class="gallery-item-meta">
+                            <span>Port of Palm Beach</span>
+                            <span>Summer 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 23: Tanker ballast -->
+                <div class="gallery-item full" data-index="22">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_22.png" alt="Ballast Operations">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Ballast Operations</h4>
+                        <div class="gallery-item-meta">
+                            <span>Offshore</span>
+                            <span>Summer 2025</span>
+                            <span>27.18°N 80.20°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 24: Oil platform -->
+                <div class="gallery-item small" data-index="23">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_23.png" alt="Platform Weather">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Platform Weather</h4>
+                        <div class="gallery-item-meta">
+                            <span>Gulf Stream</span>
+                            <span>Spring 2024</span>
+                            <span>27.23°N 80.22°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 25: Panoramic bow -->
+                <div class="gallery-item wide" data-index="24" data-focus="center">
+                    <img src="/assets/Rrrrr/edittransform_this_maritime_phot_24.png" alt="Heading Out">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Heading Out</h4>
+                        <div class="gallery-item-meta">
+                            <span>Atlantic Ocean</span>
+                            <span>Fall 2025</span>
+                            <span>26.52°N 78.77°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 26: Towing at sea -->
+                <div class="gallery-item medium" data-index="25">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto.png" alt="On the Hawser">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">On the Hawser</h4>
+                        <div class="gallery-item-meta">
+                            <span>Atlantic Ocean</span>
+                            <span>Fall 2025</span>
+                            <span>26.53°N 78.81°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 27: Superyacht with helicopter -->
+                <div class="gallery-item medium" data-index="26">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_1.png" alt="Megayacht Detail">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Megayacht Detail</h4>
+                        <div class="gallery-item-meta">
+                            <span>Fort Lauderdale</span>
+                            <span>Winter 2024</span>
+                            <span>26.12°N 80.11°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 28: Golden sunset -->
+                <div class="gallery-item small" data-index="27">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_2.png" alt="Golden Hour">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Golden Hour</h4>
+                        <div class="gallery-item-meta">
+                            <span>Lake Worth Inlet</span>
+                            <span>Summer 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 29: Night waterfront -->
+                <div class="gallery-item small" data-index="28">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_3.png" alt="Night Transit">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Night Transit</h4>
+                        <div class="gallery-item-meta">
+                            <span>ICW</span>
+                            <span>Fall 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 30: Storm debris -->
+                <div class="gallery-item small" data-index="29">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_4.png" alt="After the Storm">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">After the Storm</h4>
+                        <div class="gallery-item-meta">
+                            <span>Stuart, FL</span>
+                            <span>Fall 2024</span>
+                            <span>27.21°N 80.19°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 31: Open ocean clouds -->
+                <div class="gallery-item wide" data-index="30">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_5.png" alt="Trade Wind Clouds">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Trade Wind Clouds</h4>
+                        <div class="gallery-item-meta">
+                            <span>Bahamas</span>
+                            <span>Fall 2025</span>
+                            <span>24.21°N 77.63°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 32: Jellyfish -->
+                <div class="gallery-item small" data-index="31">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_6.png" alt="Moon Jelly">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Moon Jelly</h4>
+                        <div class="gallery-item-meta">
+                            <span>Lake Worth</span>
+                            <span>Summer 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 33: Supply vessel -->
+                <div class="gallery-item medium" data-index="32">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_7.png" alt="Supply Run">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Supply Run</h4>
+                        <div class="gallery-item-meta">
+                            <span>Nassau</span>
+                            <span>Fall 2025</span>
+                            <span>24.22°N 77.60°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 34: Cargo ship at port -->
+                <div class="gallery-item medium" data-index="33">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_8.png" alt="Loading Day">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Loading Day</h4>
+                        <div class="gallery-item-meta">
+                            <span>Port of Palm Beach</span>
+                            <span>Summer 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 35: Boat interior repair -->
+                <div class="gallery-item small" data-index="34">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_9.png" alt="Refit Work">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Refit Work</h4>
+                        <div class="gallery-item-meta">
+                            <span>Riviera Beach</span>
+                            <span>Spring 2024</span>
+                            <span>26.77°N 80.05°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 36: Cargo ship stern warm -->
+                <div class="gallery-item small" data-index="35">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_10.png" alt="Escort Duty">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Escort Duty</h4>
+                        <div class="gallery-item-meta">
+                            <span>Atlantic Ocean</span>
+                            <span>Fall 2025</span>
+                            <span>27.06°N 78.11°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 37: Aerial coastal town -->
+                <div class="gallery-item small" data-index="36">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_11.png" alt="Coastal Florida">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Coastal Florida</h4>
+                        <div class="gallery-item-meta">
+                            <span>Stuart, FL</span>
+                            <span>Fall 2024</span>
+                            <span>27.20°N 80.25°W</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 38: Beach panoramic -->
+                <div class="gallery-item full" data-index="37">
+                    <img src="/assets/Rrrrr/edittransform_this_into_a_warmto_12.png" alt="Shore Leave">
+                    <div class="view-icon">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </div>
+                    <div class="gallery-item-info">
+                        <h4 class="gallery-item-title">Shore Leave</h4>
+                        <div class="gallery-item-meta">
+                            <span>Palm Beach</span>
+                            <span>Spring 2024</span>
+                            <span>26.70°N 80.03°W</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Info -->
+    <section class="project-info">
+        <div class="project-info-container">
+            <div class="project-details">
+                <h2>About This Collection</h2>
+                <p>
+                    In 2018, I started captaining boats part-time, balancing it with enterprise healthcare work.
+                    Over the years, the water kept calling. By late 2023, I was picking up more and more jobs
+                    on tow-boats. In 2024, I leaned into it fully, splitting my time between commercial towing
+                    and rediscovering my love for hands-on work.
+                </p>
+                <p>
+                    In 2025, I worked 62 commission jobs—about half of those solo. I didn't track the
+                    non-commission work, but there was plenty of that too. These images document the journey:
+                    the early morning watches, the copious alone-time, the unexpected beauty
+                    of industrial maritime operations, and the constant reminder that the ocean doesn't care
+                    about your schedule.
+                </p>
+                <p>
+                    When I first thought about including this work on my portfolio, I wasn't sure it would fit.
+                    A tech career and commercial towing feel like different worlds. But looking at it now,
+                    I'm glad I made the effort. This has been a big part of my life the last couple years,
+                    and it fits just fine.
+                </p>
+            </div>
+
+            <div class="project-specs">
+                <h3>Collection Details</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Period</span>
+                    <span class="spec-value">2023 - 2025</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Locations</span>
+                    <span class="spec-value">South Florida, Bahamas, Atlantic</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Equipment</span>
+                    <span class="spec-value">iPhone 14 Pro</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Processing</span>
+                    <span class="spec-value">Photoshop, Gemini-CLI</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Category</span>
+                    <span class="spec-value highlight">Documentary</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="gallery-footer">
+        <a href="/index.html#projects" class="back-to-projects">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Return to All Projects
+        </a>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <button class="lightbox-nav lightbox-prev">
+            <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button class="lightbox-nav lightbox-next">
+            <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-image">
+        </div>
+        <div class="lightbox-counter">
+            <span id="lightbox-current">1</span> / <span id="lightbox-total">38</span>
+        </div>
+    </div>
+
+    <script>
+        // Gallery data
+        const images = [
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot.png', title: 'Captain on the ICW', meta: 'Intracoastal Waterway' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_1.png', title: 'Dawn Watch', meta: 'Gulf Stream' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_2.png', title: 'Rail Bridge Crossing', meta: 'Stuart, FL' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_3.png', title: 'At Anchor', meta: 'Palm Beach' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_4.png', title: 'End of Watch', meta: 'Atlantic Ocean' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_5.png', title: 'Weather Building', meta: 'Offshore' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_6.png', title: 'Hopetown Light', meta: 'Bahamas' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_7.png', title: 'Under the Bridge', meta: 'Jupiter, FL' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_8.png', title: 'Night Shift', meta: 'Fort Lauderdale' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_9.png', title: 'Marked Channel', meta: 'Lake Worth' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_10.png', title: 'Sunday Traffic', meta: 'Palm Beach' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_11.png', title: 'Salvage Operation', meta: 'St. Lucie River' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_12.png', title: 'Squall Line', meta: 'Atlantic Ocean' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_13.png', title: 'Cypress Waters', meta: 'Okeechobee' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_14.png', title: 'Low Tide', meta: 'Bahamas' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_15.png', title: 'Bridge Work', meta: 'Port St. Lucie' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_16.png', title: 'Helm View', meta: 'Offshore' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_17.png', title: 'Lock Approach', meta: 'Okeechobee Waterway' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_18.png', title: 'Port Day', meta: 'Port of Palm Beach' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_19.png', title: 'Miami Approach', meta: 'Biscayne Bay' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_20.png', title: 'Following the Freighter', meta: 'Atlantic Ocean' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_21.png', title: 'Container Operations', meta: 'Port of Palm Beach' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_22.png', title: 'Ballast Operations', meta: 'Offshore' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_23.png', title: 'Platform Weather', meta: 'Gulf Stream' },
+            { src: '/assets/Rrrrr/edittransform_this_maritime_phot_24.png', title: 'Heading Out', meta: 'Atlantic Ocean' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto.png', title: 'On the Hawser', meta: 'Atlantic Ocean' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_1.png', title: 'Megayacht Detail', meta: 'Fort Lauderdale' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_2.png', title: 'Golden Hour', meta: 'Lake Worth Inlet' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_3.png', title: 'Night Transit', meta: 'ICW' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_4.png', title: 'After the Storm', meta: 'Stuart, FL' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_5.png', title: 'Trade Wind Clouds', meta: 'Bahamas' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_6.png', title: 'Moon Jelly', meta: 'Lake Worth' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_7.png', title: 'Supply Run', meta: 'Andros' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_8.png', title: 'Loading Day', meta: 'Port of Palm Beach' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_9.png', title: 'Refit Work', meta: 'Riviera Beach' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_10.png', title: 'Escort Duty', meta: 'Atlantic Ocean' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_11.png', title: 'Coastal Florida', meta: 'Hobe Sound, FL' },
+            { src: '/assets/Rrrrr/edittransform_this_into_a_warmto_12.png', title: 'Shore Leave', meta: 'Palm Beach' }
+        ];
+
+        let currentIndex = 0;
+
+        // DOM elements
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxCurrent = document.getElementById('lightbox-current');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        // Open lightbox
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                updateLightbox();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close lightbox
+        document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Navigation
+        document.querySelector('.lightbox-prev').addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateLightbox();
+        });
+
+        document.querySelector('.lightbox-next').addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            updateLightbox();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateLightbox();
+            }
+            if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateLightbox();
+            }
+        });
+
+        function updateLightbox() {
+            lightboxImage.src = images[currentIndex].src;
+            lightboxImage.alt = images[currentIndex].title;
+            lightboxCurrent.textContent = currentIndex + 1;
+        }
+
+        // Stagger animation delays
+        galleryItems.forEach((item, index) => {
+            item.style.animationDelay = `${0.4 + (index * 0.05)}s`;
+        });
+    </script>
+</body>
+</html>

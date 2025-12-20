@@ -128,6 +128,10 @@ body {
     font-weight: 400;
 }
 
+p {
+    text-wrap: pretty;
+}
+
 /* Selection */
 ::selection {
     background: var(--accent);
@@ -1224,6 +1228,27 @@ body {
     font-weight: 600;
     color: var(--ink);
 }
+
+/* Pirate "rolling R" title effect */
+.project-header h3.pirate-title {
+    display: flex;
+    align-items: baseline;
+    letter-spacing: -0.02em;
+}
+
+.pirate-title .r {
+    display: inline-block;
+}
+
+.pirate-title .r1 { font-size: 0.5em; }
+.pirate-title .r2 { font-size: 0.65em; }
+.pirate-title .r3 { font-size: 0.8em; }
+.pirate-title .r4 { font-size: 0.95em; }
+.pirate-title .r5 { font-size: 1em; }
+.pirate-title .r6 { font-size: 0.95em; }
+.pirate-title .r7 { font-size: 0.8em; }
+.pirate-title .r8 { font-size: 0.65em; }
+.pirate-title .r9 { font-size: 0.5em; }
 
 .project-status {
     font-family: var(--font-mono);
