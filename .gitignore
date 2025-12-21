@@ -3,9 +3,9 @@ node_modules/
 dist/
 mockups/
 
-# Workspace directories (excluded from git)
-assets/
-images/
+# Workspace directories in root only (excluded from git)
+/assets/
+/images/
 
 # Exclude large source video files only
 *.mov
