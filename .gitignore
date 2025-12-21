@@ -1,6 +1,11 @@
 node_modules/
 .DS_Store
 dist/
-*.mp4
-*.mov
 mockups/
+
+# Workspace directories (excluded from git)
+assets/
+images/
+
+# Exclude large source video files only
+*.mov
