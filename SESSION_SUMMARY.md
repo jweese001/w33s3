@@ -1,4 +1,4 @@
-# Session Summary - December 20, 2025
+# Session Summary - December 21, 2025
 
 ## Current State
 - **Branch:** `main`
@@ -7,7 +7,49 @@
 
 ---
 
-## What We Did This Session (Dec 20 - Evening)
+## What We Did This Session (Dec 21)
+
+### Fixed Rrrrr Gallery Layout Issues
+- **Problem:** 6 images had black bars at bottom - containers were shorter than row neighbors
+- **Root Cause:** `gallery-item small` (aspect-ratio: 1, square) paired with `gallery-item wide` (aspect-ratio: 16/9) in same row creates height mismatch
+- **Fix:** Added inline `style="aspect-ratio: 16/18.43;"` to match 429px row height
+- **Images Fixed:** Dawn Watch, Night Shift, Helm View, Moon Jelly, Platform Weather
+
+### Fixed Tab Title
+- Changed `<title>Arrrrrr | w33s3</title>` → `<title>rrrrr | w33s3</title>`
+
+### Updated 17 Location Corrections (GPS Coordinates)
+| Image | New Location | Coordinates |
+|-------|--------------|-------------|
+| At Anchor | Hobe Sound, FL | 27.11°N 80.14°W |
+| End of Watch | Treasure Cay, Bahamas | 26.54°N 76.96°W |
+| Under the Bridge | Jensen Beach, FL | 27.21°N 80.19°W |
+| Night Shift | Lake Worth, FL | 26.75°N 80.05°W |
+| Marked Channel | Jensen Beach, FL | 27.23°N 80.22°W |
+| Bridge Work | Jupiter, FL | 27.21°N 80.19°W |
+| Container Operations | Nassau, Bahamas | 25.08°N 77.34°W |
+| Sunday Traffic | Loxahatchee, FL | 26.93°N 80.15°W |
+| Shore Leave | Nassau, Bahamas | 25.05°N 77.51°W |
+| Inferno (was Refit Work) | Fort Lauderdale | 26.13°N 80.11°W |
+| Supply Run | Mangrove Cay, Bahamas | 24.22°N 77.62°W |
+| Golden Hour | Marsh Harbor, Bahamas | 26.63°N 77.02°W |
+| Platform Weather | Gold Cay, Bahamas | 24.66°N 78.52°W |
+| Ballast Operations | Freeport, Bahamas | 26.60°N 78.70°W |
+| Following the Freighter | Freeport, Bahamas | 26.60°N 78.70°W |
+| Locked (was Lock Approach) | St Lucie, FL | 27.11°N 80.28°W |
+| Helm View | South Bight, Bahamas | 24.04°N 77.76°W |
+
+- **Commit:** `acea4d2`
+
+### Technical Note: CSS Grid Row Height Fix
+When a span-4 `small` item (1:1) sits next to a span-8 `wide` item (16:9), calculate matching aspect-ratio:
+- Wide item: 763px width × 9/16 = 429px height
+- Small item: 372px width, needs 429px height
+- Required aspect-ratio: 372/429 ≈ 16/18.43
+
+---
+
+## What We Did Last Session (Dec 20 - Evening)
 
 ### Fixed Gallery Images Not Loading in Production
 - **Problem:** All three galleries (Rrrrr, IMAGEN, Arch Viz) had broken images on live site
@@ -21,10 +63,9 @@
 
 **Note:** This bug existed since the galleries were first added - they only appeared to work because Vite dev server serves all files locally.
 
-### Known Issue: Rrrrr Gallery GPS Coordinates
-- Many image locations (lat/long) are incorrect - some off by 60-100 miles
-- Need to review and fix each image's coordinates
-- Priority for next session
+### ~~Known Issue: Rrrrr Gallery GPS Coordinates~~ RESOLVED Dec 21
+- ~~Many image locations (lat/long) are incorrect - some off by 60-100 miles~~
+- Fixed 17 locations with correct coordinates in Dec 21 session
 
 ---
 
