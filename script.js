@@ -8,54 +8,6 @@ window.addEventListener('beforeunload', () => {
 // Immediate scroll to top
 window.scrollTo(0, 0);
 
-// Video Preview Toggle for Project Cards
-window.toggleVideoPreview = function(button) {
-    const card = button.closest('.project-card');
-    const video = card.querySelector('.video-panel video');
-    const isOpen = card.classList.toggle('video-open');
-
-    if (isOpen) {
-        // Update button to "Close Tiny Preview" with stop icon
-        button.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                <rect x="6" y="6" width="12" height="12"></rect>
-            </svg>
-            Close Tiny Preview
-        `;
-
-        // Start video immediately
-        setTimeout(() => {
-            video.play().catch(() => {});
-        }, 100);
-        // Wait for panel transition to complete, then scroll
-        setTimeout(() => {
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 250);
-
-        // Auto-close when video ends
-        video.onended = function() {
-            closeVideoPreview(card, button, video);
-        };
-    } else {
-        closeVideoPreview(card, button, video);
-    }
-}
-
-function closeVideoPreview(card, button, video) {
-    card.classList.remove('video-open');
-    video.pause();
-    video.currentTime = 0;
-    video.onended = null;
-
-    // Reset button to "Watch Tiny Preview" with play icon
-    button.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-        </svg>
-        Watch Tiny Preview
-    `;
-}
-
 // Mobile Navigation Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');

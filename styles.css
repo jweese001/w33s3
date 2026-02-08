@@ -1173,7 +1173,6 @@ p {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-xl);
-    align-items: start;
 }
 
 .project-card {
@@ -1185,8 +1184,6 @@ p {
     gap: var(--space-md);
     transition: all var(--duration-normal) var(--ease-out);
     position: relative;
-    overflow: hidden;
-    min-height: 340px;
 }
 
 .project-card::before {
@@ -1283,53 +1280,6 @@ p {
     background: var(--accent-teal);
     color: var(--ink);
     letter-spacing: 0.02em;
-}
-
-/* Video Preview */
-.video-trigger {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    padding: var(--space-sm) var(--space-md);
-    background: transparent;
-    border: 1px solid var(--paper-subtle);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all var(--duration-fast) var(--ease-out);
-}
-
-.video-trigger:hover {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-}
-
-.video-trigger svg {
-    width: 14px;
-    height: 14px;
-}
-
-.video-panel {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height var(--duration-normal) var(--ease-out);
-    background: #000;
-    margin: 0 calc(var(--space-2xl) * -1) calc(var(--space-2xl) * -1);
-}
-
-.project-card.video-open .video-panel {
-    max-height: 600px;
-}
-
-.project-card.video-open {
-    overflow: visible;
-}
-
-.video-panel video {
-    width: 100%;
-    display: block;
 }
 
 .project-links {
