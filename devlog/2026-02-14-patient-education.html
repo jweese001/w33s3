@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Education Viewer: Modernizing Medical Content | Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Patient Education Viewer: Modernizing Medical Content</h1>
+            <time datetime="2026-02-14">February 14, 2026</time>
+        </header>
+
+        <img src="../public/images/devlog/patient-education.jpg" alt="Medical education interface showing anatomical illustrations synced with narration" class="hero-image">
+
+        <section class="content">
+            <p>During my decade at Bioscape Digital, we built over 200 patient education modules covering orthopedic procedures. The content was solid—physician-reviewed scripts, professional narration, detailed animations. The problem was the delivery: Flash-based players that stopped working when browsers killed Flash. This project is my exploration of what modern patient education could look like.</p>
+
+            <h2>What It Is</h2>
+
+            <p>The Patient Education Viewer is a React-based system for presenting medical educational content. Audio narration plays while the screen shows synchronized illustrations. Each slide contains multiple "moments"—specific points in the narration where the visual changes. The patient sees exactly what the narrator is describing, when they're describing it.</p>
+
+            <p>The key difference from a video is interactivity. You can pause, rewind to any moment, switch between slides non-linearly. The timing is metadata, not baked into a video file. This means content can be updated—fix an illustration, change timing, add a slide—without re-rendering anything.</p>
+
+            <h2>The Architecture</h2>
+
+            <p>Content is defined in JSON timing manifests. Each slide has an audio file and a list of moments, where each moment specifies a timestamp and an image. The viewer loads the manifest, preloads assets, and tracks playback position to swap images at the right times.</p>
+
+            <p>Image generation uses FlowBoard workflows. I define a scene description for each moment, run it through Gemini, and get an illustration. The workflow is saved as JSON, so I can regenerate any image by tweaking the prompt. This makes iteration fast—change a scene description, re-run the workflow, see the new image in context.</p>
+
+            <p>Auto-advance mode plays through slides automatically, useful for waiting room displays. Manual mode lets patients control their pace, pausing and rewinding as needed. Both modes maintain audio-visual sync.</p>
+
+            <h2>The Art Direction Challenge</h2>
+
+            <p>The hardest part wasn't the code—it was the images. Early attempts used generic prompts: "knee surgery illustration." The results were medical clip-art: sanitized, vague, unhelpful. A patient about to get knee surgery doesn't need to see a generic knee. They need to see what their surgeon will see.</p>
+
+            <p>The solution was specific anatomical prompts matched to narration. When the narrator says "a torn ACL looks like a frayed rope," the image shows exactly that—not a healthy knee, not a diagram, but a visualization of the pathology being described. This required writing detailed scene descriptions for every moment, referencing the transcript.</p>
+
+            <p>AI image generation handles medical content surprisingly well. Gemini produces anatomical cross-sections, surgical views, pathology visualizations. The limitation is accuracy—sometimes the anatomy has errors (extra fingers, impossible joint angles) that require manual correction or prompt refinement.</p>
+
+            <h2>Pros and Cons</h2>
+
+            <p><strong>What works well:</strong></p>
+            <ul>
+                <li>Audio-visual sync is precise and responsive</li>
+                <li>Content updates are metadata changes, not video re-renders</li>
+                <li>AI image generation scales to hundreds of modules</li>
+                <li>Runs on any modern browser, including mobile</li>
+            </ul>
+
+            <p><strong>What's still rough:</strong></p>
+            <ul>
+                <li>AI-generated anatomy occasionally has errors that need manual review</li>
+                <li>No accessibility features yet (captions, audio descriptions)</li>
+                <li>Content authoring still requires technical knowledge (JSON editing)</li>
+                <li>No analytics on patient engagement or comprehension</li>
+            </ul>
+
+            <h2>The Bigger Picture</h2>
+
+            <p>This project is a proof-of-concept for a larger idea: AI-assisted content creation at scale. The pattern—timing manifests, scene descriptions, automated generation—could apply to any narrated visual content. Training videos, product explanations, educational courses. The specific domain is orthopedic surgery, but the system is general.</p>
+
+            <p>The 200+ modules from Bioscape represent years of work by physicians, script writers, and animators. Most of that work was the content itself—the knowledge, the scripts, the structure. With modern tools, the visual generation can be largely automated, which means legacy content can be modernized without re-doing all the expert work.</p>
+
+            <h2>What's Next</h2>
+
+            <p>Immediate priority is refining the knee surgery module—fixing anatomy errors, improving timing sync, polishing the art direction. Once that's solid, I'll apply the same workflow to the remaining modules. The goal is a complete modernized library that can be licensed to healthcare providers.</p>
+
+            <p>Longer term, I want to build an authoring tool. Right now, creating a module requires editing JSON and running Python scripts. A visual editor would let content authors work without technical knowledge, which is necessary for this to scale beyond my personal projects.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>

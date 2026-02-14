@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khora Engine: Procedural Galaxy Generation | Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Khora Engine: Procedural Galaxy Generation</h1>
+            <time datetime="2026-02-14">February 14, 2026</time>
+        </header>
+
+        <img src="../public/images/devlog/khora-engine.jpg" alt="Procedurally generated star system with planets orbiting a central star" class="hero-image">
+
+        <section class="content">
+            <p>Khora Engine started as an obsession with procedural generation. I wanted to build star systems—not model them by hand, but generate them from seeds. Type a number, get a unique solar system with physically plausible orbital mechanics. Every seed produces a different configuration of stars, planets, moons, and asteroid belts.</p>
+
+            <h2>What It Is</h2>
+
+            <p>Khora Engine is a browser-based procedural star system generator. You give it a seed value, it gives you a complete solar system: a star (or binary pair), planets with varied compositions, moons, rings, asteroid belts. The generation is deterministic—same seed always produces the same system—which means you can share systems by sharing numbers.</p>
+
+            <p>The renderer is Three.js with custom shaders for atmospheric scattering, ring systems, and stellar coronas. You can orbit around the system, click on any body to inspect its generated properties, and explore the composition data that the procedural algorithms created.</p>
+
+            <h2>The Generation Algorithm</h2>
+
+            <p>Generation happens in layers. First, the seed determines the star type—spectral class, mass, luminosity, temperature. This isn't random; the distribution follows real stellar population statistics. Most seeds produce red dwarfs because most real stars are red dwarfs.</p>
+
+            <p>The star's properties then constrain planet formation. The habitable zone calculation is based on actual stellar luminosity models. Inner planets tend rocky, outer planets tend gaseous. Each planet seeds its own sub-generator for moons, rings, and surface features.</p>
+
+            <p>The key insight was chaining random number generators. The master seed spawns child seeds for each body. Those child seeds are deterministic but independent. This means you can regenerate just one planet without affecting its neighbors—useful for iteration.</p>
+
+            <h2>Technical Stack</h2>
+
+            <p>The engine runs on React 18 with TypeScript and Three.js for rendering. State management is Zustand—much simpler than Redux for this use case. The build tool is Vite, which keeps hot reload fast even with the heavy Three.js dependency.</p>
+
+            <p>Rendering performance was the main challenge. A typical system might have 50+ objects, each with its own orbital animation. The solution was aggressive LOD (level of detail): distant bodies render as point sprites, medium-distance bodies get simplified geometry, only nearby objects get full shader treatment.</p>
+
+            <p>The procedural algorithms run in the main thread but are chunked to avoid blocking. A full system generates in about 2 seconds, but rendering starts as soon as the star is ready. Planets pop in as they're calculated.</p>
+
+            <h2>Pros and Cons</h2>
+
+            <p><strong>What works well:</strong></p>
+            <ul>
+                <li>Infinite variety from a single integer seed</li>
+                <li>Physically plausible systems (orbital mechanics, habitable zones, composition)</li>
+                <li>Deterministic generation enables sharing and reproducibility</li>
+                <li>Real-time 3D exploration in any modern browser</li>
+            </ul>
+
+            <p><strong>What's still rough:</strong></p>
+            <ul>
+                <li>No persistence—close the tab, lose the system (unless you saved the seed)</li>
+                <li>Binary star systems don't have proper gravitational interaction</li>
+                <li>Surface detail on planets is placeholder (no procedural terrain yet)</li>
+                <li>Performance degrades with very complex systems (many moons)</li>
+            </ul>
+
+            <h2>Use Cases</h2>
+
+            <p>I originally built this for worldbuilding. Instead of inventing solar systems for fiction, I generate them. The constraints of the procedural model produce systems that feel real because they follow real astrophysics.</p>
+
+            <p>It's also turned out to be a decent teaching tool. The generated data includes things like orbital period, surface gravity, escape velocity—all calculated from first principles. You can see how changing a planet's mass affects its moons.</p>
+
+            <h2>What's Next</h2>
+
+            <p>Phase 2 is galaxy-scale generation. Right now Khora generates individual star systems. The plan is to generate fields of stars, each with its own system, navigable as a 3D space. Click a star, dive into its system, back out, fly to the next.</p>
+
+            <p>The longer-term vision is integration with narrative tools. Generate a galaxy, then layer stories onto it—factions, trade routes, history. The procedural foundation provides the setting; everything else builds on top.</p>
+
+            <p><a href="https://jweese001.github.io/khora-engine/" target="_blank">Try Khora Engine →</a></p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>

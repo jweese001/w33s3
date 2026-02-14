@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeaBorne: Maritime Operations Planning | Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>SeaBorne: Maritime Operations Planning</h1>
+            <time datetime="2026-02-14">February 14, 2026</time>
+        </header>
+
+        <img src="../public/images/devlog/seaborne.jpg" alt="Maritime navigation interface with charts, coordinates, and vessel tracking" class="hero-image">
+
+        <section class="content">
+            <p>SeaBorne grew out of real operations. I hold a USCG Master of Towing Vessels license, and I've done enough commercial maritime work to know that the planning side is mostly spreadsheets, paper charts, and manual calculations. SeaBorne is my attempt to build the tools I wished existed—mission planning, cost estimation, and fleet management in a single application.</p>
+
+            <h2>What It Is</h2>
+
+            <p>SeaBorne is a Progressive Web App for maritime commercial operations. The core features are mission planning (calculate fuel, time, cost for a towing job), fleet management (track vessel specs and operational costs), and financial tools (profit margin analysis, asset tracking). It's designed for the small-to-medium operators who don't have enterprise software but need more than notebooks.</p>
+
+            <p>The interface is mobile-first—you're often on a vessel or at a dock, not at a desk. Everything works offline thanks to service workers. Enter your data, plan your mission, get your numbers without needing cell service.</p>
+
+            <h2>The Mission Planner</h2>
+
+            <p>The mission planner is the centerpiece. You input origin and destination coordinates, vessel selection, tow specifications (weight, draft, etc.), and it calculates everything: distance, estimated time, fuel consumption, crew costs, total job cost, and suggested bid price with your margin built in.</p>
+
+            <p>Coordinate handling was surprisingly tricky. Maritime coordinates come in multiple formats—decimal degrees, degrees-decimal-minutes, degrees-minutes-seconds. The app includes a converter that handles all of them bidirectionally. Paste in whatever format you have, get whatever format you need.</p>
+
+            <p>The cost model is configurable per vessel. Fuel burn rates vary by speed and load. Crew costs vary by operation type. Insurance and wear factors differ by vessel age. All of this feeds into the calculation, so your estimates reflect your actual fleet, not generic industry averages.</p>
+
+            <h2>Technical Stack</h2>
+
+            <p>React 18 with TypeScript, using Redux Toolkit for state management. The state complexity justified Redux here—mission plans, fleet data, financial records all interact, and the time-travel debugging has been invaluable. Material-UI provides the component library.</p>
+
+            <p>Build is Vite, producing a ~315KB main bundle (93KB compressed). The PWA configuration includes a service worker for offline capability and an app manifest for installation. It works as a home-screen app on iOS and Android.</p>
+
+            <p>No backend. All data stays on-device in localStorage and IndexedDB. This was a deliberate choice—maritime operators are often privacy-conscious about their operational data, and many work areas have poor connectivity. Local-first eliminates both concerns.</p>
+
+            <h2>Pros and Cons</h2>
+
+            <p><strong>What works well:</strong></p>
+            <ul>
+                <li>Offline-first design matches real maritime operating conditions</li>
+                <li>Cost calculations use your actual vessel data, not generic estimates</li>
+                <li>Mobile-friendly interface works on deck or dock</li>
+                <li>No account required, no data leaves your device</li>
+            </ul>
+
+            <p><strong>What's still rough:</strong></p>
+            <ul>
+                <li>No chart integration yet (coordinates only, no visual plotting)</li>
+                <li>Weather data would improve time estimates significantly</li>
+                <li>Multi-device sync would require a backend I've avoided building</li>
+                <li>Limited to towing operations; other maritime verticals need different models</li>
+            </ul>
+
+            <h2>Domain Knowledge Matters</h2>
+
+            <p>This project reinforced something I already knew: domain expertise shapes software design. The features in SeaBorne exist because I've done the work and felt the pain points. The coordinate converter exists because I've fumbled with format mismatches. The offline mode exists because I've been on vessels with no signal.</p>
+
+            <p>It also means the tool has opinions. The cost models assume commercial towing operations. The terminology is industry-specific. This makes it more useful for the target audience but less general-purpose. That's the right trade-off for a tool like this.</p>
+
+            <h2>What's Next</h2>
+
+            <p>Chart integration is the obvious next step. Plotting routes visually, calculating distances along coastlines rather than great circles, showing hazards and traffic separation zones. The data exists in open sources; the work is in the rendering and interaction design.</p>
+
+            <p>Longer term, I'm interested in AIS integration—pulling in real-time vessel traffic data. But that requires a backend service, which changes the architecture significantly. For now, SeaBorne stays local-first.</p>
+
+            <p><a href="https://jweese001.github.io/seaborne-alpha/" target="_blank">Try SeaBorne →</a></p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
