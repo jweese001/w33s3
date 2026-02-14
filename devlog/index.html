@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .devlog-index {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .devlog-index h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        .devlog-index .subtitle {
+            color: #888;
+            margin-bottom: 3rem;
+        }
+        .devlog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .devlog-card {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1.5rem;
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .devlog-card:hover {
+            transform: translateY(-2px);
+        }
+        .devlog-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .devlog-card-content {
+            padding: 1.5rem 1.5rem 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .devlog-card h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            margin: 0 0 0.5rem 0;
+        }
+        .devlog-card h2 a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .devlog-card h2 a:hover {
+            color: #7dd3fc;
+        }
+        .devlog-card time {
+            color: #666;
+            font-size: 0.875rem;
+        }
+        .devlog-card p {
+            color: #aaa;
+            margin: 0.75rem 0 0 0;
+            line-height: 1.5;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #7dd3fc;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 700px) {
+            .devlog-card {
+                grid-template-columns: 1fr;
+            }
+            .devlog-card-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="devlog-index">
+        <a href="/" class="back-link">← Back to Portfolio</a>
+        <h1>Devlog</h1>
+        <p class="subtitle">Technical deep-dives into projects, tools, and experiments.</p>
+
+        <div class="devlog-list">
+            <article class="devlog-card">
+                <img src="../public/images/devlog/flowboard.jpg" alt="FlowBoard">
+                <div class="devlog-card-content">
+                    <h2><a href="2026-02-14-flowboard.html">FlowBoard: Visual Workflows for AI Image Generation</a></h2>
+                    <time datetime="2026-02-14">February 14, 2026</time>
+                    <p>Node-based tool for building AI image generation pipelines. Save prompts, reuse components, see your reasoning.</p>
+                </div>
+            </article>
+
+            <article class="devlog-card">
+                <img src="../public/images/devlog/threejs-ide.jpg" alt="Three.js IDE">
+                <div class="devlog-card-content">
+                    <h2><a href="2026-02-14-threejs-ide.html">Three.js IDE: A Browser-Based 3D Scene Editor</a></h2>
+                    <time datetime="2026-02-14">February 14, 2026</time>
+                    <p>Live code-to-viewport feedback loop. Edit shaders and geometry, see changes instantly.</p>
+                </div>
+            </article>
+
+            <article class="devlog-card">
+                <img src="../public/images/devlog/khora-engine.jpg" alt="Khora Engine">
+                <div class="devlog-card-content">
+                    <h2><a href="2026-02-14-khora-engine.html">Khora Engine: Procedural Galaxy Generation</a></h2>
+                    <time datetime="2026-02-14">February 14, 2026</time>
+                    <p>Generate infinite star systems from integer seeds. Physically plausible orbital mechanics.</p>
+                </div>
+            </article>
+
+            <article class="devlog-card">
+                <img src="../public/images/devlog/seaborne.jpg" alt="SeaBorne">
+                <div class="devlog-card-content">
+                    <h2><a href="2026-02-14-seaborne.html">SeaBorne: Maritime Operations Planning</a></h2>
+                    <time datetime="2026-02-14">February 14, 2026</time>
+                    <p>Mission planning, cost estimation, and fleet management for commercial maritime operations.</p>
+                </div>
+            </article>
+
+            <article class="devlog-card">
+                <img src="../public/images/devlog/patient-education.jpg" alt="Patient Education">
+                <div class="devlog-card-content">
+                    <h2><a href="2026-02-14-patient-education.html">Patient Education Viewer: Modernizing Medical Content</a></h2>
+                    <time datetime="2026-02-14">February 14, 2026</time>
+                    <p>React-based system for synchronized medical education. AI-generated anatomical illustrations.</p>
+                </div>
+            </article>
+
+            <article class="devlog-card">
+                <img src="../public/images/devlog/lemmys-mic.jpg" alt="Lemmy's Mic">
+                <div class="devlog-card-content">
+                    <h2><a href="2026-02-14-lemmys-mic.html">Lemmy's Mic: An AI-Powered Enthusiast Blog</a></h2>
+                    <time datetime="2026-02-14">February 14, 2026</time>
+                    <p>Daily AI-generated posts about indie games, e-bikes, punk music, and kava culture.</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</body>
+</html>
