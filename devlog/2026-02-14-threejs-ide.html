@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js IDE: A Browser-Based 3D Scene Editor | Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Three.js IDE: A Browser-Based 3D Scene Editor</h1>
+            <time datetime="2026-02-14">February 14, 2026</time>
+        </header>
+
+        <img src="../public/images/devlog/threejs-ide.jpg" alt="Three.js IDE interface with 3D viewport, code panel, and scene hierarchy" class="hero-image">
+
+        <section class="content">
+            <p>I've been working with Three.js for years, and the iteration loop always bothered me. Write code, refresh browser, check result, repeat. The feedback cycle was slow enough to break flow. So I built an IDE that puts the 3D viewport and the code editor in the same window, with live updates as you type.</p>
+
+            <h2>What It Is</h2>
+
+            <p>The Three.js IDE is a browser-based development environment for building 3D scenes. The left panel is a Monaco code editor (the same engine VS Code uses). The right panel is a live Three.js viewport. As you edit code, the scene updates in real-time—no manual refresh needed.</p>
+
+            <p>It's not trying to replace Blender or Unity. It's a focused tool for the specific workflow of writing Three.js code: prototyping shaders, testing animations, building procedural geometry, experimenting with materials. The kind of work where you want to see changes instantly.</p>
+
+            <h2>The Core Loop</h2>
+
+            <p>The magic is hot module replacement without the typical HMR complexity. When you edit code, the IDE parses it, identifies what changed, and patches the running scene. Change a material color? The existing mesh updates. Modify a geometry function? The mesh rebuilds. Add a new light? It appears.</p>
+
+            <p>This required some architectural constraints. Scene code has to follow certain patterns so the IDE can safely patch it. But those patterns also make the code more maintainable—separation of concerns between geometry, materials, and scene setup. The constraints push you toward better structure.</p>
+
+            <h2>Technical Details</h2>
+
+            <p>The frontend is React with TypeScript. The code editor is Monaco, configured for JavaScript/TypeScript with Three.js type hints. The 3D viewport is a standard Three.js WebGL renderer with orbit controls.</p>
+
+            <p>The tricky part was the live update system. The IDE maintains a scene graph that it can diff against new code. When you edit, it compiles the code in a Web Worker, compares the resulting scene description to the current scene, and applies minimal patches. Object identity is preserved when possible—this matters for things like animation state.</p>
+
+            <p>Scenes export as standalone HTML files. The generated code doesn't depend on the IDE; it's vanilla Three.js that runs anywhere. You develop in the IDE, export when ready, deploy wherever.</p>
+
+            <h2>Pros and Cons</h2>
+
+            <p><strong>What works well:</strong></p>
+            <ul>
+                <li>Instant visual feedback transforms how you think about the code</li>
+                <li>No build step, no webpack config, no node_modules—just open and code</li>
+                <li>Exported code is clean and dependency-free</li>
+                <li>Great for teaching and prototyping</li>
+            </ul>
+
+            <p><strong>What's still rough:</strong></p>
+            <ul>
+                <li>Complex projects with many files are awkward—it's really a single-file tool</li>
+                <li>No asset pipeline for models, textures (you reference external URLs)</li>
+                <li>The hot reload can't handle every code change pattern; sometimes you need to refresh</li>
+                <li>Performance profiling tools are minimal</li>
+            </ul>
+
+            <h2>Use Cases</h2>
+
+            <p>I use the IDE constantly for shader development. Writing GLSL in isolation is painful—you need to see what the code does. With the IDE, I edit the shader string and watch the material update. Same for procedural geometry: tweak a parameter, see the mesh morph.</p>
+
+            <p>It's also become my go-to for client demos. I can build a quick scene, export it, drop it on a static host, and share a link. No deployment complexity, no server costs. Just HTML that runs in any browser.</p>
+
+            <h2>What's Next</h2>
+
+            <p>The big recent addition is integration with FlowBoard. There's now a capture protocol that lets FlowBoard grab the current viewport as an image. This means I can use the IDE for 3D scene composition, then pull those scenes into AI image generation workflows. Build a scene, capture it, use it as a reference for Gemini.</p>
+
+            <p>Next up is the reverse direction: pushing textures from FlowBoard into the IDE's material system. Generate a texture with AI, apply it to a 3D model, all without leaving the browser.</p>
+
+            <p><a href="https://jweese001.github.io/threejs-ide-react/" target="_blank">Try the Three.js IDE →</a></p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
