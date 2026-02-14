@@ -4,154 +4,586 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devlog | Jeff Weese</title>
-    <link rel="stylesheet" href="../styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        .devlog-index {
-            max-width: 900px;
+        /* Lemmy's Mic / w33s3 Design System */
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-5xl: clamp(3rem, 2rem + 5vw, 6rem);
+            --text-4xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+            --text-3xl: clamp(2rem, 1.5rem + 2.5vw, 3rem);
+            --text-2xl: clamp(1.5rem, 1.25rem + 1.25vw, 2rem);
+            --text-xl: clamp(1.25rem, 1.1rem + .75vw, 1.5rem);
+            --text-lg: clamp(1.1rem, 1rem + .5vw, 1.25rem);
+            --text-base: clamp(.95rem, .9rem + .25vw, 1.05rem);
+            --text-sm: clamp(.8rem, .75rem + .25vw, .9rem);
+            --text-xs: clamp(.7rem, .65rem + .25vw, .8rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .7);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-muted: #b46aba;
+            --accent-teal: #9dd9d9;
+            --accent-glow: rgba(199, 125, 205, .15);
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+            --border-dark-muted: rgba(255, 255, 255, .15);
+
+            --space-xs: .25rem;
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --space-4xl: 6rem;
+
+            --content-width: 900px;
+            --nav-height: 72px;
+
+            --shadow-lg: 0 12px 40px rgba(0,0,0,.4);
+            --shadow-glow: 0 0 40px var(--accent-glow);
+
+            --duration-fast: .15s;
+            --duration-normal: .3s;
+            --duration-slow: .5s;
+            --ease-out: cubic-bezier(.22, 1, .36, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-weight: 400;
+            background-color: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .site-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dark-subtle);
+            height: var(--nav-height);
+        }
+
+        .nav-container {
+            max-width: var(--content-width);
             margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-        .devlog-index h1 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-        .devlog-index .subtitle {
-            color: #888;
-            margin-bottom: 3rem;
-        }
-        .devlog-list {
+            padding: 0 var(--space-xl);
+            height: 100%;
             display: flex;
-            flex-direction: column;
-            gap: 2rem;
+            align-items: center;
+            justify-content: space-between;
         }
-        .devlog-card {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 1.5rem;
-            background: #111;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.2s;
+
+        .site-logo {
+            text-decoration: none;
         }
-        .devlog-card:hover {
-            transform: translateY(-2px);
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: var(--text-xl);
+            color: var(--text-on-dark);
+            letter-spacing: -0.02em;
         }
-        .devlog-card img {
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+        }
+
+        .nav-link {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color var(--duration-fast) var(--ease-out);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent-teal);
+        }
+
+        .site-main {
+            flex: 1;
             width: 100%;
-            height: 180px;
-            object-fit: cover;
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
         }
-        .devlog-card-content {
-            padding: 1.5rem 1.5rem 1.5rem 0;
+
+        .home-header {
+            text-align: center;
+            padding: var(--space-4xl) 0;
+            border-bottom: 1px solid var(--border-dark-subtle);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .home-title {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+            line-height: 1;
+        }
+
+        .home-subtitle {
+            font-family: var(--font-body);
+            font-size: var(--text-lg);
+            color: var(--text-on-dark-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Featured Post */
+        .featured-section {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .featured-card {
+            background: var(--bg-dark-card);
+            border: 1px solid var(--border-dark-subtle);
+            overflow: hidden;
+            transition: all var(--duration-normal) var(--ease-out);
+        }
+
+        .featured-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .featured-card:hover .featured-image {
+            transform: scale(1.02);
+        }
+
+        .featured-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, var(--bg-dark-elevated) 0%, var(--bg-dark-card) 100%);
+            transition: transform var(--duration-slow) var(--ease-out);
+        }
+
+        .featured-content {
+            padding: var(--space-md) var(--space-xl) var(--space-lg);
+        }
+
+        .featured-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-xs);
+        }
+
+        .featured-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .post-date {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-on-dark-subtle);
+        }
+
+        .featured-title {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            color: var(--text-on-dark);
+            line-height: 1.2;
+            margin-bottom: var(--space-xs);
+            transition: color var(--duration-fast);
+        }
+
+        .featured-card:hover .featured-title {
+            color: var(--accent);
+        }
+
+        .featured-excerpt {
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-muted);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+
+        .featured-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            background: transparent;
+            color: var(--accent-teal);
+            padding: 2px 8px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .read-more {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .read-more::after {
+            content: "→";
+            display: inline-block;
+            transition: transform var(--duration-fast) var(--ease-out);
+        }
+
+        .post-link:hover .read-more::after {
+            transform: translateX(4px);
+        }
+
+        .post-link {
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Post Grid */
+        .posts-section {
+            border-top: 1px solid var(--border-dark-subtle);
+            padding-top: var(--space-3xl);
+        }
+
+        .section-title {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .post-grid {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xl);
+        }
+
+        .post-item {
+            margin-bottom: 0;
+        }
+
+        .post-card {
+            background: var(--bg-dark-card);
+            border: 1px solid var(--border-dark-subtle);
+            overflow: hidden;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            transition: all var(--duration-normal) var(--ease-out);
         }
-        .devlog-card h2 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.5rem;
-            margin: 0 0 0.5rem 0;
+
+        .post-card:hover {
+            border-color: var(--border-dark-muted);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
         }
-        .devlog-card h2 a {
-            color: #fff;
+
+        .post-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--bg-dark-elevated) 0%, var(--bg-dark-card) 100%);
+        }
+
+        .post-content {
+            padding: var(--space-xl);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-title {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-sm);
+            line-height: 1.2;
+        }
+
+        .post-card:hover .post-title {
+            color: var(--accent);
+        }
+
+        .post-excerpt {
+            font-size: var(--text-base);
+            color: var(--text-on-dark-muted);
+            margin-bottom: auto;
+            padding-bottom: var(--space-lg);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            margin-bottom: var(--space-md);
+        }
+
+        /* Footer */
+        .site-footer {
+            border-top: 1px solid var(--border-dark-subtle);
+            padding: var(--space-2xl) var(--space-xl);
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+        }
+
+        .site-footer a {
+            color: var(--accent);
             text-decoration: none;
         }
-        .devlog-card h2 a:hover {
-            color: #7dd3fc;
+
+        .site-footer a:hover {
+            color: var(--accent-muted);
         }
-        .devlog-card time {
-            color: #666;
-            font-size: 0.875rem;
-        }
-        .devlog-card p {
-            color: #aaa;
-            margin: 0.75rem 0 0 0;
-            line-height: 1.5;
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: #7dd3fc;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 700px) {
-            .devlog-card {
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .site-main {
+                padding: var(--space-xl) var(--space-md);
+            }
+
+            .nav-container {
+                padding: 0 var(--space-md);
+            }
+
+            .home-header {
+                padding: var(--space-2xl) 0;
+            }
+
+            .post-grid {
                 grid-template-columns: 1fr;
             }
-            .devlog-card-content {
-                padding: 1.5rem;
+
+            .featured-title {
+                font-size: var(--text-2xl);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="devlog-index">
-        <a href="/" class="back-link">← Back to Portfolio</a>
-        <h1>Devlog</h1>
-        <p class="subtitle">Technical deep-dives into projects, tools, and experiments.</p>
-
-        <div class="devlog-list">
-            <article class="devlog-card">
-                <img src="../images/devlog/flowboard.jpg" alt="FlowBoard">
-                <div class="devlog-card-content">
-                    <h2><a href="2026-02-14-flowboard.html">FlowBoard: Visual Workflows for AI Image Generation</a></h2>
-                    <time datetime="2026-02-14">February 14, 2026</time>
-                    <p>Node-based tool for building AI image generation pipelines. Save prompts, reuse components, see your reasoning.</p>
+    <div class="site-wrapper">
+        <header class="site-header">
+            <nav class="nav-container">
+                <a href="/" class="site-logo">
+                    <span class="logo-text">w33s3</span>
+                </a>
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Portfolio</a>
+                    <a href="/devlog/" class="nav-link active">Devlog</a>
                 </div>
-            </article>
+            </nav>
+        </header>
 
-            <article class="devlog-card">
-                <img src="../images/devlog/threejs-ide.jpg" alt="Three.js IDE">
-                <div class="devlog-card-content">
-                    <h2><a href="2026-02-14-threejs-ide.html">Three.js IDE: A Browser-Based 3D Scene Editor</a></h2>
-                    <time datetime="2026-02-14">February 14, 2026</time>
-                    <p>Live code-to-viewport feedback loop. Edit shaders and geometry, see changes instantly.</p>
-                </div>
-            </article>
+        <main class="site-main">
+            <div class="home-header">
+                <h1 class="home-title">Devlog</h1>
+                <p class="home-subtitle">Technical deep-dives into projects, tools, and experiments.</p>
+            </div>
 
-            <article class="devlog-card">
-                <img src="../images/devlog/khora-engine.jpg" alt="Khora Engine">
-                <div class="devlog-card-content">
-                    <h2><a href="2026-02-14-khora-engine.html">Khora Engine: Procedural Galaxy Generation</a></h2>
-                    <time datetime="2026-02-14">February 14, 2026</time>
-                    <p>Generate infinite star systems from integer seeds. Physically plausible orbital mechanics.</p>
-                </div>
-            </article>
+            <!-- Featured Post -->
+            <section class="featured-section">
+                <a href="2026-02-14-flowboard.html" class="post-link">
+                    <article class="featured-card">
+                        <img src="../images/devlog/flowboard.jpg" alt="FlowBoard" class="featured-image">
+                        <div class="featured-content">
+                            <div class="featured-header">
+                                <span class="featured-label">Latest</span>
+                                <span class="post-date">Feb 14, 2026</span>
+                            </div>
+                            <h2 class="featured-title">FlowBoard: Visual Workflows for AI Image Generation</h2>
+                            <p class="featured-excerpt">Node-based tool for building AI image generation pipelines. Save prompts, reuse components, see your reasoning. The iteration loop that doesn't lose context.</p>
+                            <div class="featured-footer">
+                                <div class="post-tags">
+                                    <span class="tag">react</span>
+                                    <span class="tag">ai</span>
+                                </div>
+                                <span class="read-more">Continue reading</span>
+                            </div>
+                        </div>
+                    </article>
+                </a>
+            </section>
 
-            <article class="devlog-card">
-                <img src="../images/devlog/seaborne.jpg" alt="SeaBorne">
-                <div class="devlog-card-content">
-                    <h2><a href="2026-02-14-seaborne.html">SeaBorne: Maritime Operations Planning</a></h2>
-                    <time datetime="2026-02-14">February 14, 2026</time>
-                    <p>Mission planning, cost estimation, and fleet management for commercial maritime operations.</p>
-                </div>
-            </article>
+            <!-- More Posts -->
+            <section class="posts-section">
+                <h2 class="section-title">More Posts</h2>
+                <ul class="post-grid">
+                    <li class="post-item">
+                        <a href="2026-02-14-threejs-ide.html" class="post-link">
+                            <article class="post-card">
+                                <img src="../images/devlog/threejs-ide.jpg" alt="Three.js IDE" class="post-image">
+                                <div class="post-content">
+                                    <h3 class="post-title">Three.js IDE: A Browser-Based 3D Scene Editor</h3>
+                                    <p class="post-excerpt">Live code-to-viewport feedback loop. Edit shaders and geometry, see changes instantly. No refresh required.</p>
+                                    <div class="post-meta">
+                                        <span class="post-date">Feb 14, 2026</span>
+                                        <div class="post-tags">
+                                            <span class="tag">three.js</span>
+                                        </div>
+                                    </div>
+                                    <span class="read-more">Continue reading</span>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
 
-            <article class="devlog-card">
-                <img src="../images/devlog/patient-education.jpg" alt="Patient Education">
-                <div class="devlog-card-content">
-                    <h2><a href="2026-02-14-patient-education.html">Patient Education Viewer: Modernizing Medical Content</a></h2>
-                    <time datetime="2026-02-14">February 14, 2026</time>
-                    <p>React-based system for synchronized medical education. AI-generated anatomical illustrations.</p>
-                </div>
-            </article>
+                    <li class="post-item">
+                        <a href="2026-02-14-khora-engine.html" class="post-link">
+                            <article class="post-card">
+                                <img src="../images/devlog/khora-engine.jpg" alt="Khora Engine" class="post-image">
+                                <div class="post-content">
+                                    <h3 class="post-title">Khora Engine: Procedural Galaxy Generation</h3>
+                                    <p class="post-excerpt">Generate infinite star systems from integer seeds. Physically plausible orbital mechanics and stellar populations.</p>
+                                    <div class="post-meta">
+                                        <span class="post-date">Feb 14, 2026</span>
+                                        <div class="post-tags">
+                                            <span class="tag">procedural</span>
+                                        </div>
+                                    </div>
+                                    <span class="read-more">Continue reading</span>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
 
-            <article class="devlog-card">
-                <img src="../images/devlog/lemmys-mic.jpg" alt="Lemmy's Mic">
-                <div class="devlog-card-content">
-                    <h2><a href="2026-02-14-lemmys-mic.html">Lemmy's Mic: An AI-Powered Enthusiast Blog</a></h2>
-                    <time datetime="2026-02-14">February 14, 2026</time>
-                    <p>Daily AI-generated posts about indie games, e-bikes, punk music, and kava culture.</p>
-                </div>
-            </article>
-        </div>
+                    <li class="post-item">
+                        <a href="2026-02-14-seaborne.html" class="post-link">
+                            <article class="post-card">
+                                <img src="../images/devlog/seaborne.jpg" alt="SeaBorne" class="post-image">
+                                <div class="post-content">
+                                    <h3 class="post-title">SeaBorne: Maritime Operations Planning</h3>
+                                    <p class="post-excerpt">Mission planning, cost estimation, and fleet management for commercial maritime operations. Offline-first PWA.</p>
+                                    <div class="post-meta">
+                                        <span class="post-date">Feb 14, 2026</span>
+                                        <div class="post-tags">
+                                            <span class="tag">pwa</span>
+                                        </div>
+                                    </div>
+                                    <span class="read-more">Continue reading</span>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
+
+                    <li class="post-item">
+                        <a href="2026-02-14-patient-education.html" class="post-link">
+                            <article class="post-card">
+                                <img src="../images/devlog/patient-education.jpg" alt="Patient Education" class="post-image">
+                                <div class="post-content">
+                                    <h3 class="post-title">Patient Education Viewer: Modernizing Medical Content</h3>
+                                    <p class="post-excerpt">React-based system for synchronized medical education. AI-generated anatomical illustrations matched to narration.</p>
+                                    <div class="post-meta">
+                                        <span class="post-date">Feb 14, 2026</span>
+                                        <div class="post-tags">
+                                            <span class="tag">healthcare</span>
+                                        </div>
+                                    </div>
+                                    <span class="read-more">Continue reading</span>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
+
+                    <li class="post-item">
+                        <a href="2026-02-14-lemmys-mic.html" class="post-link">
+                            <article class="post-card">
+                                <img src="../images/devlog/lemmys-mic.jpg" alt="Lemmy's Mic" class="post-image">
+                                <div class="post-content">
+                                    <h3 class="post-title">Lemmy's Mic: An AI-Powered Enthusiast Blog</h3>
+                                    <p class="post-excerpt">Daily AI-generated posts about indie games, e-bikes, punk music, and kava culture. Zero-effort publishing pipeline.</p>
+                                    <div class="post-meta">
+                                        <span class="post-date">Feb 14, 2026</span>
+                                        <div class="post-tags">
+                                            <span class="tag">ai</span>
+                                        </div>
+                                    </div>
+                                    <span class="read-more">Continue reading</span>
+                                </div>
+                            </article>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>© 2026 <a href="/">Jeff Weese</a></p>
+        </footer>
     </div>
 </body>
 </html>
