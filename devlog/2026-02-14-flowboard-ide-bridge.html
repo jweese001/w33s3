@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting FlowBoard to the Three.js IDE | Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Connecting FlowBoard to the Three.js IDE</h1>
+            <time datetime="2026-02-14">February 14, 2026</time>
+        </header>
+
+        <img src="../public/images/devlog/flowboard-ide-bridge.jpg" alt="Split screen showing FlowBoard node graph on left connected to Three.js IDE viewport on right" class="hero-image">
+
+        <section class="content">
+            <p>This week I shipped something I've been thinking about for months: a live bridge between FlowBoard and my Three.js IDE. Two separate tools that now talk to each other.</p>
+
+            <h2>The Problem</h2>
+
+            <p>FlowBoard is great for AI image generation workflows — you build node graphs, tweak prompts, connect outputs. But what happens when you want those generated images in a 3D scene? You'd export, switch apps, import, position, repeat. Death by a thousand context switches.</p>
+
+            <p>Meanwhile, the Three.js IDE can build and preview 3D scenes in the browser, but it has no concept of generative workflows. It's a destination, not a pipeline.</p>
+
+            <h2>The Bridge</h2>
+
+            <p>The solution was adding a new node type to FlowBoard: the <strong>Scene node</strong>. It doesn't generate anything — it captures. Point it at a running Three.js IDE instance, and it grabs the current viewport as a snapshot. That snapshot becomes just another node output, ready to feed into whatever comes next.</p>
+
+            <p>The technical challenge was cross-origin communication. FlowBoard runs on GitHub Pages. The Three.js IDE runs on a different subdomain. Browsers don't like that. The fix was a simple postMessage protocol — the IDE listens for capture requests, serializes the canvas, and sends it back. About 50 lines of code on each side.</p>
+
+            <h2>Why This Matters</h2>
+
+            <p>The real unlock is round-tripping. Generate a texture in FlowBoard, apply it to a 3D model in the IDE, capture the result, feed it back into FlowBoard for another generation pass. Each tool does what it's good at. The bridge handles the handoff.</p>
+
+            <p>I've been using this for the Patient Education project — generating anatomical illustrations, compositing them into educational slides, capturing the final layouts. What used to be export-import-export is now just... nodes connected to nodes.</p>
+
+            <h2>What's Next</h2>
+
+            <p>Phase 1 is done: capture works, images flow between apps. Phase 2 is about going the other direction — pushing generated textures from FlowBoard directly into the IDE's material system. No more saving to disk.</p>
+
+            <p>The bigger picture is treating all my creative tools as nodes in a larger graph. The IDE is one node. FlowBoard is another. Why stop there?</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
