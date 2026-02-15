@@ -4,76 +4,337 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Three.js IDE: A Browser-Based 3D Scene Editor | Devlog | Jeff Weese</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-weight: 400;
+            background-color: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .site-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dark-subtle);
+            height: var(--nav-height);
+        }
+
+        .nav-container {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-logo {
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            color: var(--text-on-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-link {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-teal);
+        }
+
+        .site-main {
+            flex: 1;
+            width: 100%;
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+
+        .post-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .post-title {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            color: var(--text-on-dark);
+            line-height: 1.15;
+            margin-bottom: var(--space-md);
+        }
+
+        .post-meta {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 0;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .post-content h2 {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: var(--space-3xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .post-content p {
+            font-size: var(--text-base);
+            margin-bottom: var(--space-lg);
+            color: var(--text-on-dark-muted);
+        }
+
+        .post-content strong {
+            color: var(--text-on-dark);
+            font-weight: 600;
+        }
+
+        .post-content a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .post-content a:hover {
+            text-decoration: underline;
+        }
+
+        .post-content ul, .post-content ol {
+            margin: var(--space-lg) 0;
+            padding-left: var(--space-xl);
+            color: var(--text-on-dark-muted);
+        }
+
+        .post-content li {
+            margin-bottom: var(--space-sm);
+            font-size: var(--text-base);
+        }
+
+        .post-content li::marker {
+            color: var(--accent);
+        }
+
+        .post-footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        .back-link {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .site-footer {
+            border-top: 1px solid var(--border-dark-subtle);
+            padding: var(--space-xl) var(--space-lg);
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+        }
+
+        .site-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                gap: var(--space-md);
+            }
+            
+            .site-main {
+                padding: var(--space-xl) var(--space-md);
+            }
+
+            .nav-container {
+                padding: 0 var(--space-md);
+            }
+        }
+    </style>
 </head>
 <body>
-    <article class="devlog-post">
-        <header>
-            <h1>Three.js IDE: A Browser-Based 3D Scene Editor</h1>
-            <time datetime="2026-02-14">February 14, 2026</time>
+    <div class="site-wrapper">
+        <header class="site-header">
+            <nav class="nav-container">
+                <a href="/" class="site-logo">
+                    <span class="logo-text">w33s3</span>
+                </a>
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Portfolio</a>
+                    <a href="/devlog/" class="nav-link active">Devlog</a>
+                </div>
+            </nav>
         </header>
 
-        <img src="../images/devlog/threejs-ide.jpg" alt="Three.js IDE interface with 3D viewport, code panel, and scene hierarchy" class="hero-image">
+        <main class="site-main">
+            <article>
+                <header class="post-header">
+                    <h1 class="post-title">Three.js IDE: A Browser-Based 3D Scene Editor</h1>
+                    <div class="post-meta">
+                        <time datetime="2026-02-14">February 14, 2026</time>
+                    </div>
+                </header>
 
-        <section class="content">
-            <p>I've been working with Three.js for years, and the iteration loop always bothered me. Write code, refresh browser, check result, repeat. The feedback cycle was slow enough to break flow. So I built an IDE that puts the 3D viewport and the code editor in the same window, with live updates as you type.</p>
+                <img src="../images/devlog/threejs-ide.jpg" alt="Three.js IDE interface with 3D viewport, code panel, and scene hierarchy" class="hero-image">
 
-            <h2>What It Is</h2>
+                <div class="post-content">
+                    <p>I've been working with Three.js for years, and the iteration loop always bothered me. Write code, refresh browser, check result, repeat. The feedback cycle was slow enough to break flow. So I built an IDE that puts the 3D viewport and the code editor in the same window, with live updates as you type.</p>
 
-            <p>The Three.js IDE is a browser-based development environment for building 3D scenes. The left panel is a Monaco code editor (the same engine VS Code uses). The right panel is a live Three.js viewport. As you edit code, the scene updates in real-time—no manual refresh needed.</p>
+                    <h2>What It Is</h2>
 
-            <p>It's not trying to replace Blender or Unity. It's a focused tool for the specific workflow of writing Three.js code: prototyping shaders, testing animations, building procedural geometry, experimenting with materials. The kind of work where you want to see changes instantly.</p>
+                    <p>The Three.js IDE is a browser-based development environment for building 3D scenes. The left panel is a Monaco code editor (the same engine VS Code uses). The right panel is a live Three.js viewport. As you edit code, the scene updates in real-time—no manual refresh needed.</p>
 
-            <h2>The Core Loop</h2>
+                    <p>It's not trying to replace Blender or Unity. It's a focused tool for the specific workflow of writing Three.js code: prototyping shaders, testing animations, building procedural geometry, experimenting with materials. The kind of work where you want to see changes instantly.</p>
 
-            <p>The magic is hot module replacement without the typical HMR complexity. When you edit code, the IDE parses it, identifies what changed, and patches the running scene. Change a material color? The existing mesh updates. Modify a geometry function? The mesh rebuilds. Add a new light? It appears.</p>
+                    <h2>The Core Loop</h2>
 
-            <p>This required some architectural constraints. Scene code has to follow certain patterns so the IDE can safely patch it. But those patterns also make the code more maintainable—separation of concerns between geometry, materials, and scene setup. The constraints push you toward better structure.</p>
+                    <p>The magic is hot module replacement without the typical HMR complexity. When you edit code, the IDE parses it, identifies what changed, and patches the running scene. Change a material color? The existing mesh updates. Modify a geometry function? The mesh rebuilds. Add a new light? It appears.</p>
 
-            <h2>Technical Details</h2>
+                    <p>This required some architectural constraints. Scene code has to follow certain patterns so the IDE can safely patch it. But those patterns also make the code more maintainable—separation of concerns between geometry, materials, and scene setup. The constraints push you toward better structure.</p>
 
-            <p>The frontend is React with TypeScript. The code editor is Monaco, configured for JavaScript/TypeScript with Three.js type hints. The 3D viewport is a standard Three.js WebGL renderer with orbit controls.</p>
+                    <h2>Technical Details</h2>
 
-            <p>The tricky part was the live update system. The IDE maintains a scene graph that it can diff against new code. When you edit, it compiles the code in a Web Worker, compares the resulting scene description to the current scene, and applies minimal patches. Object identity is preserved when possible—this matters for things like animation state.</p>
+                    <p>The frontend is React with TypeScript. The code editor is Monaco, configured for JavaScript/TypeScript with Three.js type hints. The 3D viewport is a standard Three.js WebGL renderer with orbit controls.</p>
 
-            <p>Scenes export as standalone HTML files. The generated code doesn't depend on the IDE; it's vanilla Three.js that runs anywhere. You develop in the IDE, export when ready, deploy wherever.</p>
+                    <p>The tricky part was the live update system. The IDE maintains a scene graph that it can diff against new code. When you edit, it compiles the code in a Web Worker, compares the resulting scene description to the current scene, and applies minimal patches. Object identity is preserved when possible—this matters for things like animation state.</p>
 
-            <h2>Pros and Cons</h2>
+                    <p>Scenes export as standalone HTML files. The generated code doesn't depend on the IDE; it's vanilla Three.js that runs anywhere. You develop in the IDE, export when ready, deploy wherever.</p>
 
-            <p><strong>What works well:</strong></p>
-            <ul>
-                <li>Instant visual feedback transforms how you think about the code</li>
-                <li>No build step, no webpack config, no node_modules—just open and code</li>
-                <li>Exported code is clean and dependency-free</li>
-                <li>Great for teaching and prototyping</li>
-            </ul>
+                    <h2>Pros and Cons</h2>
 
-            <p><strong>What's still rough:</strong></p>
-            <ul>
-                <li>Complex projects with many files are awkward—it's really a single-file tool</li>
-                <li>No asset pipeline for models, textures (you reference external URLs)</li>
-                <li>The hot reload can't handle every code change pattern; sometimes you need to refresh</li>
-                <li>Performance profiling tools are minimal</li>
-            </ul>
+                    <p><strong>What works well:</strong></p>
+                    <ul>
+                    <li>Instant visual feedback transforms how you think about the code</li>
+                    <li>No build step, no webpack config, no node_modules—just open and code</li>
+                    <li>Exported code is clean and dependency-free</li>
+                    <li>Great for teaching and prototyping</li>
+                    </ul>
 
-            <h2>Use Cases</h2>
+                    <p><strong>What's still rough:</strong></p>
+                    <ul>
+                    <li>Complex projects with many files are awkward—it's really a single-file tool</li>
+                    <li>No asset pipeline for models, textures (you reference external URLs)</li>
+                    <li>The hot reload can't handle every code change pattern; sometimes you need to refresh</li>
+                    <li>Performance profiling tools are minimal</li>
+                    </ul>
 
-            <p>I use the IDE constantly for shader development. Writing GLSL in isolation is painful—you need to see what the code does. With the IDE, I edit the shader string and watch the material update. Same for procedural geometry: tweak a parameter, see the mesh morph.</p>
+                    <h2>Use Cases</h2>
 
-            <p>It's also become my go-to for client demos. I can build a quick scene, export it, drop it on a static host, and share a link. No deployment complexity, no server costs. Just HTML that runs in any browser.</p>
+                    <p>I use the IDE constantly for shader development. Writing GLSL in isolation is painful—you need to see what the code does. With the IDE, I edit the shader string and watch the material update. Same for procedural geometry: tweak a parameter, see the mesh morph.</p>
 
-            <h2>What's Next</h2>
+                    <p>It's also become my go-to for client demos. I can build a quick scene, export it, drop it on a static host, and share a link. No deployment complexity, no server costs. Just HTML that runs in any browser.</p>
 
-            <p>The big recent addition is integration with FlowBoard. There's now a capture protocol that lets FlowBoard grab the current viewport as an image. This means I can use the IDE for 3D scene composition, then pull those scenes into AI image generation workflows. Build a scene, capture it, use it as a reference for Gemini.</p>
+                    <h2>What's Next</h2>
 
-            <p>Next up is the reverse direction: pushing textures from FlowBoard into the IDE's material system. Generate a texture with AI, apply it to a 3D model, all without leaving the browser.</p>
+                    <p>The big recent addition is integration with FlowBoard. There's now a capture protocol that lets FlowBoard grab the current viewport as an image. This means I can use the IDE for 3D scene composition, then pull those scenes into AI image generation workflows. Build a scene, capture it, use it as a reference for Gemini.</p>
 
-            <p><a href="https://jweese001.github.io/threejs-ide-react/" target="_blank">Try the Three.js IDE →</a></p>
-        </section>
+                    <p>Next up is the reverse direction: pushing textures from FlowBoard into the IDE's material system. Generate a texture with AI, apply it to a 3D model, all without leaving the browser.</p>
 
-        <footer>
-            <a href="/">← Back to Portfolio</a>
+                    <p><a href="https://jweese001.github.io/threejs-ide-react/" target="_blank">Try the Three.js IDE →</a></p>
+                </div>
+
+                <footer class="post-footer">
+                    <a href="/devlog/" class="back-link">← Back to Devlog</a>
+                </footer>
+            </article>
+        </main>
+
+        <footer class="site-footer">
+            <p>© 2026 <a href="/">Jeff Weese</a></p>
         </footer>
-    </article>
+    </div>
 </body>
 </html>

@@ -4,74 +4,335 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlowBoard: Visual Workflows for AI Image Generation | Devlog | Jeff Weese</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-weight: 400;
+            background-color: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .site-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dark-subtle);
+            height: var(--nav-height);
+        }
+
+        .nav-container {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-logo {
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            color: var(--text-on-dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .nav-link {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-teal);
+        }
+
+        .site-main {
+            flex: 1;
+            width: 100%;
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+        }
+
+        .post-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .post-title {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            color: var(--text-on-dark);
+            line-height: 1.15;
+            margin-bottom: var(--space-md);
+        }
+
+        .post-meta {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 0;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .post-content h2 {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: var(--space-3xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .post-content p {
+            font-size: var(--text-base);
+            margin-bottom: var(--space-lg);
+            color: var(--text-on-dark-muted);
+        }
+
+        .post-content strong {
+            color: var(--text-on-dark);
+            font-weight: 600;
+        }
+
+        .post-content a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .post-content a:hover {
+            text-decoration: underline;
+        }
+
+        .post-content ul, .post-content ol {
+            margin: var(--space-lg) 0;
+            padding-left: var(--space-xl);
+            color: var(--text-on-dark-muted);
+        }
+
+        .post-content li {
+            margin-bottom: var(--space-sm);
+            font-size: var(--text-base);
+        }
+
+        .post-content li::marker {
+            color: var(--accent);
+        }
+
+        .post-footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        .back-link {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .site-footer {
+            border-top: 1px solid var(--border-dark-subtle);
+            padding: var(--space-xl) var(--space-lg);
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+        }
+
+        .site-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                gap: var(--space-md);
+            }
+            
+            .site-main {
+                padding: var(--space-xl) var(--space-md);
+            }
+
+            .nav-container {
+                padding: 0 var(--space-md);
+            }
+        }
+    </style>
 </head>
 <body>
-    <article class="devlog-post">
-        <header>
-            <h1>FlowBoard: Visual Workflows for AI Image Generation</h1>
-            <time datetime="2026-02-14">February 14, 2026</time>
+    <div class="site-wrapper">
+        <header class="site-header">
+            <nav class="nav-container">
+                <a href="/" class="site-logo">
+                    <span class="logo-text">w33s3</span>
+                </a>
+                <div class="nav-links">
+                    <a href="/" class="nav-link">Portfolio</a>
+                    <a href="/devlog/" class="nav-link active">Devlog</a>
+                </div>
+            </nav>
         </header>
 
-        <img src="../images/devlog/flowboard.jpg" alt="FlowBoard interface showing connected nodes for AI image generation workflow" class="hero-image">
+        <main class="site-main">
+            <article>
+                <header class="post-header">
+                    <h1 class="post-title">FlowBoard: Visual Workflows for AI Image Generation</h1>
+                    <div class="post-meta">
+                        <time datetime="2026-02-14">February 14, 2026</time>
+                    </div>
+                </header>
 
-        <section class="content">
-            <p>I built FlowBoard because I got tired of losing my best prompts. Every time I generated a good image, the context that made it work—the prompt variations, the negative prompts, the parameter tweaks—lived in chat history that scrolled away. FlowBoard is my answer: a visual node graph where AI image workflows become reusable, shareable, and composable.</p>
+                <img src="../images/devlog/flowboard.jpg" alt="FlowBoard interface showing connected nodes for AI image generation workflow" class="hero-image">
 
-            <h2>What It Is</h2>
+                <div class="post-content">
+                    <p>I built FlowBoard because I got tired of losing my best prompts. Every time I generated a good image, the context that made it work—the prompt variations, the negative prompts, the parameter tweaks—lived in chat history that scrolled away. FlowBoard is my answer: a visual node graph where AI image workflows become reusable, shareable, and composable.</p>
 
-            <p>FlowBoard is a browser-based tool for building AI image generation pipelines. Instead of typing prompts into a chat box and hoping for the best, you construct a graph of connected nodes. Each node does one thing: generate an image, apply a style, add negative prompts, set parameters. Connect them together and you've got a workflow you can save, tweak, and run again.</p>
+                    <h2>What It Is</h2>
 
-            <p>The interface is React + TypeScript, rendered in a canvas with pan/zoom navigation. Nodes snap to a grid. Connections are drag-and-drop. It feels like a visual programming environment because that's essentially what it is—but for images instead of code.</p>
+                    <p>FlowBoard is a browser-based tool for building AI image generation pipelines. Instead of typing prompts into a chat box and hoping for the best, you construct a graph of connected nodes. Each node does one thing: generate an image, apply a style, add negative prompts, set parameters. Connect them together and you've got a workflow you can save, tweak, and run again.</p>
 
-            <h2>Why Nodes?</h2>
+                    <p>The interface is React + TypeScript, rendered in a canvas with pan/zoom navigation. Nodes snap to a grid. Connections are drag-and-drop. It feels like a visual programming environment because that's essentially what it is—but for images instead of code.</p>
 
-            <p>The node-based approach solves three problems I kept hitting:</p>
+                    <h2>Why Nodes?</h2>
 
-            <p><strong>Iteration without loss.</strong> When you're refining a prompt, you want to try variations without losing what worked. With nodes, I fork a connection, try a different style node, and compare outputs side by side. The working version stays intact.</p>
+                    <p>The node-based approach solves three problems I kept hitting:</p>
 
-            <p><strong>Reusable components.</strong> I've got a "noir comic style" node that I've dialed in over dozens of iterations. Now I just drop it into any workflow. Same with my negative prompt node for avoiding AI artifacts. Build once, use everywhere.</p>
+                    <p><strong>Iteration without loss.</strong> When you're refining a prompt, you want to try variations without losing what worked. With nodes, I fork a connection, try a different style node, and compare outputs side by side. The working version stays intact.</p>
 
-            <p><strong>Visible reasoning.</strong> When I look at a FlowBoard workflow, I can see exactly how an image was made. Which prompt fed into which style, what parameters were used, what got filtered out. Chat history is linear and lossy. Graphs are spatial and complete.</p>
+                    <p><strong>Reusable components.</strong> I've got a "noir comic style" node that I've dialed in over dozens of iterations. Now I just drop it into any workflow. Same with my negative prompt node for avoiding AI artifacts. Build once, use everywhere.</p>
 
-            <h2>The Technical Stack</h2>
+                    <p><strong>Visible reasoning.</strong> When I look at a FlowBoard workflow, I can see exactly how an image was made. Which prompt fed into which style, what parameters were used, what got filtered out. Chat history is linear and lossy. Graphs are spatial and complete.</p>
 
-            <p>FlowBoard runs entirely in the browser. The frontend is React 18 with TypeScript, using a custom canvas renderer for the node graph. State management is vanilla React—no Redux, no Zustand. The node connections are managed as a directed acyclic graph with cycle detection.</p>
+                    <h2>The Technical Stack</h2>
 
-            <p>Image generation happens via API calls to Gemini, though the architecture is provider-agnostic. Nodes produce JSON that describes what they want; the execution engine figures out how to make it happen. Adding a new AI backend is just implementing an adapter.</p>
+                    <p>FlowBoard runs entirely in the browser. The frontend is React 18 with TypeScript, using a custom canvas renderer for the node graph. State management is vanilla React—no Redux, no Zustand. The node connections are managed as a directed acyclic graph with cycle detection.</p>
 
-            <p>Workflows serialize to JSON. A typical workflow is 20-50KB—small enough to paste into a GitHub gist, share in Discord, or store in local storage. No database, no accounts, no server-side state.</p>
+                    <p>Image generation happens via API calls to Gemini, though the architecture is provider-agnostic. Nodes produce JSON that describes what they want; the execution engine figures out how to make it happen. Adding a new AI backend is just implementing an adapter.</p>
 
-            <h2>Pros and Cons</h2>
+                    <p>Workflows serialize to JSON. A typical workflow is 20-50KB—small enough to paste into a GitHub gist, share in Discord, or store in local storage. No database, no accounts, no server-side state.</p>
 
-            <p><strong>What works well:</strong></p>
-            <ul>
-                <li>Complex multi-step generations are way easier to manage than chat-based iteration</li>
-                <li>Workflows are portable—JSON files that work anywhere</li>
-                <li>Visual debugging: you can see exactly where a pipeline is producing bad outputs</li>
-                <li>Zero setup: runs in any modern browser</li>
-            </ul>
+                    <h2>Pros and Cons</h2>
 
-            <p><strong>What's still rough:</strong></p>
-            <ul>
-                <li>Learning curve—node-based UIs aren't intuitive for everyone</li>
-                <li>No collaborative features yet (that's on the roadmap)</li>
-                <li>Mobile experience is limited; this is really a desktop tool</li>
-                <li>Node library is still small; I'm adding new types as I need them</li>
-            </ul>
+                    <p><strong>What works well:</strong></p>
+                    <ul>
+                        <li>Complex multi-step generations are way easier to manage than chat-based iteration</li>
+                        <li>Workflows are portable—JSON files that work anywhere</li>
+                        <li>Visual debugging: you can see exactly where a pipeline is producing bad outputs</li>
+                        <li>Zero setup: runs in any modern browser</li>
+                    </ul>
 
-            <h2>What's Next</h2>
+                    <p><strong>What's still rough:</strong></p>
+                    <ul>
+                        <li>Learning curve—node-based UIs aren't intuitive for everyone</li>
+                        <li>No collaborative features yet (that's on the roadmap)</li>
+                        <li>Mobile experience is limited; this is really a desktop tool</li>
+                        <li>Node library is still small; I'm adding new types as I need them</li>
+                    </ul>
 
-            <p>The immediate focus is integration with other tools. FlowBoard shouldn't be an island—it should connect to whatever else is in your creative pipeline. I just shipped a Scene node that captures from my Three.js IDE. Next up: pushing generated images directly into other applications.</p>
+                    <h2>What's Next</h2>
 
-            <p>Longer term, I want FlowBoard to support any generative workflow, not just images. Text generation, code generation, audio—anything that can be described as "inputs in, outputs out" should be composable in the same graph. The node model scales.</p>
+                    <p>The immediate focus is integration with other tools. FlowBoard shouldn't be an island—it should connect to whatever else is in your creative pipeline. I just shipped a Scene node that captures from my Three.js IDE. Next up: pushing generated images directly into other applications.</p>
 
-            <p><a href="https://jweese001.github.io/flow-board/" target="_blank">Try FlowBoard →</a></p>
-        </section>
+                    <p>Longer term, I want FlowBoard to support any generative workflow, not just images. Text generation, code generation, audio—anything that can be described as "inputs in, outputs out" should be composable in the same graph. The node model scales.</p>
 
-        <footer>
-            <a href="/">← Back to Portfolio</a>
+                    <p><a href="https://jweese001.github.io/flow-board/" target="_blank">Try FlowBoard →</a></p>
+                </div>
+
+                <footer class="post-footer">
+                    <a href="/devlog/" class="back-link">← Back to Devlog</a>
+                </footer>
+            </article>
+        </main>
+
+        <footer class="site-footer">
+            <p>© 2026 <a href="/">Jeff Weese</a></p>
         </footer>
-    </article>
+    </div>
 </body>
 </html>
