@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDE Bridge Phase 2: When Your 3D Scene Talks Back | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.ch" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>IDE Bridge Phase 2: When Your 3D Scene Talks Back</h1>
+            <time datetime="2026-02-15">February 15, 2026</time>
+        </header>
+
+        <img src="../images/devlog/ide-bridge-phase-2.jpg" alt="Developer at a command center connecting a 3D viewport to a visual workflow editor, data streams flowing between screens" class="hero-image">
+
+        <section class="content">
+            <p>There's a moment when you're building tools that feels like magic — when two systems that were designed independently suddenly start communicating, and the whole becomes dramatically greater than its parts. This week I hit that moment with FlowBoard and the Three.js IDE.</p>
+
+            <h2>The Problem with Creative Iteration</h2>
+
+            <p>Here's the workflow I was stuck with: capture a scene in the Three.js IDE, save the screenshot somewhere, open FlowBoard, manually create a new workflow, paste in the image path, write a prompt, generate, look at the result, tweak the prompt, regenerate... you get it. Friction everywhere. Each step broke my creative flow.</p>
+
+            <p>The Three.js IDE is a real-time 3D scene editor — you build environments, set up cameras, adjust lighting. FlowBoard is a visual workflow tool for AI image generation with multiple providers (Gemini, fal.ai, OpenAI). Both powerful. Neither knew the other existed.</p>
+
+            <h2>Building the Bridge</h2>
+
+            <p>Phase 1 was basic: get the IDE to capture its viewport and send it somewhere. Simple message passing over <code>postMessage</code>, a capture button, done. Proof of concept that made me hungry for more.</p>
+
+            <p>Phase 2 is where it got interesting. This week I added:</p>
+
+            <p><strong>Resolution capture.</strong> When FlowBoard requests a scene, the IDE now reports back its actual viewport dimensions. No more guessing. FlowBoard's img2img workflows automatically inherit the correct aspect ratio.</p>
+
+            <p><strong>Camera presets.</strong> The IDE broadcasts its current camera preset — orbital, first-person, cinematic. FlowBoard knows whether it's getting a top-down strategic view or an immersive ground-level shot, and can tune prompts accordingly.</p>
+
+            <p><strong>Description editing.</strong> This was the big one. The IDE now maintains a scene description that FlowBoard can read. But more than that — FlowBoard can push edits back. Change the prompt in FlowBoard, and the IDE updates its internal description. The source of truth stays synchronized.</p>
+
+            <p><strong>Image-to-image support.</strong> With the fal.ai provider, I added img2img mode. Capture your 3D scene, send it as a reference, and the AI enhances it while preserving the composition. There's a strength parameter to control how much the AI deviates from your original. At 0.3, you get subtle atmosphere enhancements. At 0.7, it's taking your geometry and running with it.</p>
+
+            <h2>The Ping-Pong Protocol</h2>
+
+            <p>Getting two browser contexts to reliably communicate sounds trivial until you try it. The IDE might load before FlowBoard. FlowBoard might reload while the IDE is mid-operation. Either could be in a different iframe context.</p>
+
+            <p>I ended up with a simple ping-pong handshake. When the IDE loads, it pings. FlowBoard pongs back with its capabilities. When FlowBoard requests a capture, it sends a structured message. The IDE responds with the image data, resolution, camera info, and current description. Both sides maintain state about whether the other is available.</p>
+
+            <p>It's not fancy. It's robust. That matters more.</p>
+
+            <h2>Where This Goes</h2>
+
+            <p>Right now I'm using this for the Patient Education project — capturing anatomical scenes and enhancing them with Gemini for medical illustrations. But the architecture is generic. Any 3D editor could implement the same protocol. Any AI workflow tool could consume these messages.</p>
+
+            <p>Next up: I want FlowBoard to push mesh modifications back to the IDE. Imagine generating a texture variation and having it automatically applied to your scene. Or prompting for "add fog" and watching the IDE's post-processing update in real-time.</p>
+
+            <p>The tools are finally talking to each other. Now I just need to figure out what to tell them.</p>
+        </section>
+
+        <footer>
+            <a href="/devlog/">← Back to Devlog</a>
+        </footer>
+    </article>
+</body>
+</html>
