@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building an AI Storyboard Pipeline with FlowBoard | Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .devlog-post {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .devlog-post header {
+            margin-bottom: 2rem;
+        }
+        .devlog-post h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .devlog-post time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .devlog-post .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .devlog-post .content {
+            line-height: 1.8;
+        }
+        .devlog-post h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .devlog-post p {
+            margin-bottom: 1.5rem;
+        }
+        .devlog-post img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .devlog-post .image-row {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .devlog-post .image-row img {
+            flex: 1;
+            object-fit: cover;
+            margin: 0;
+        }
+        .devlog-post .image-caption {
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+        .devlog-post code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .devlog-post pre {
+            background: #1a1a2e;
+            color: #eee;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        .devlog-post pre code {
+            background: none;
+            padding: 0;
+        }
+        .devlog-post blockquote {
+            border-left: 4px solid #e63946;
+            margin: 1.5rem 0;
+            padding-left: 1rem;
+            color: #555;
+        }
+        .devlog-post footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+        .devlog-post .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .devlog-post .pros-cons h3 {
+            margin-bottom: 0.5rem;
+        }
+        .devlog-post .pros-cons ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+        @media (max-width: 600px) {
+            .devlog-post .image-row {
+                flex-direction: column;
+            }
+            .devlog-post .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Building an AI Storyboard Pipeline with FlowBoard</h1>
+            <time datetime="2026-02-20">February 20, 2026</time>
+        </header>
+
+        <img src="../images/devlog/flowboard-pipeline-hero.jpg" alt="Noir comic style storyboard panels emerging from a visual node graph" class="hero-image">
+
+        <section class="content">
+            <p>Over the past two weeks, I have been building a pipeline that turns screenplay markdown into illustrated storyboards using AI image generation. The goal: create visual stories with consistent characters across dozens of shots, without losing my mind in the process.</p>
+
+            <p>The result? <strong>226 generated images across 4 different stories, 34 scenes total</strong>. More importantly, a repeatable workflow that handles the hardest part of AI image generation: consistency.</p>
+
+            <h2>The Problem with AI Image Generation</h2>
+
+            <p>If you have used DALL-E, Midjourney, or Gemini for anything beyond single images, you have hit the wall: there is no memory. Generate a character in scene 1, and by scene 5 they have changed hair color, lost their jacket, and aged ten years. Every image is an island.</p>
+
+            <p>For storyboards, this is a dealbreaker. A graphic novel needs Mason to look like Mason in every panel. The courtroom needs to look like the same courtroom whether we are shooting from the judge's bench or the gallery.</p>
+
+            <h2>The Solution: FlowBoard + Reference Images</h2>
+
+            <p>FlowBoard is a visual node-based tool I have been developing for exactly this problem. Instead of writing prompts from scratch each time, you build reusable components—characters, settings, styles, camera setups—and wire them together into shots.</p>
+
+            <p>But the real breakthrough came from the <strong>portrait reference system</strong>. Before generating any story shots, I generate character portraits. These become the visual anchor for everything that follows.</p>
+
+            <div class="image-row">
+                <img src="../images/devlog/portrait-mason.jpg" alt="Character portrait of Mason, adult, in business casual attire">
+                <img src="../images/devlog/portrait-damon.jpg" alt="Character portrait of Damon, wild-eyed with matted hair">
+            </div>
+            <p class="image-caption">Character portraits for "Damon and the Shotgun" — Mason (left) and Damon (right). These reference images get wired to every scene they appear in.</p>
+
+            <p>When generating a scene, the portrait goes to Gemini as a reference image alongside the prompt. The key discovery: <strong>wire the portrait to both the character node AND the output node</strong>. This ensures Gemini actually uses it rather than inventing its own interpretation.</p>
+
+            <h2>The Workflow</h2>
+
+            <p>Here is how a screenplay becomes a storyboard:</p>
+
+            <pre><code>Screenplay (.md)
+  → Master FlowBoard (.flowboard.json)
+    → Scene Builder Script (Python)
+      → Per-Scene FlowBoard Files
+        → Wire Portraits (character refs)
+          → First Pass Generation (Gemini API)
+            → Contact Sheet Review
+              → Shot Corrections (iterative)
+                → Final Export</code></pre>
+
+            <p>The Python scripts handle the heavy lifting: parsing markdown, generating FlowBoard JSON, wiring character portraits to the right outputs, and batching API calls to Gemini.</p>
+
+            <img src="../images/devlog/scene-damon-entrance.jpg" alt="Damon standing in office doorway holding a shotgun">
+            <p class="image-caption">"Damon and the Shotgun" — The inciting incident. Damon enters the Indigo Records office. The portrait reference keeps his wild-eyed appearance consistent across all 49 shots.</p>
+
+            <h2>Cross-Story Character Development</h2>
+
+            <p>One of the more interesting challenges: the same character appearing at different ages across different stories. Mason appears as a 7-year-old in "Red Ferrari Night," a teenager in "Accidental Frontman," and a 23-year-old professional in "Damon and the Shotgun."</p>
+
+            <p>Each version gets its own portrait. The teenage Mason needed different clothes (band tee, ripped jeans) while maintaining recognizable features. The portrait system handles this naturally—each story simply references its own character sheet.</p>
+
+            <img src="../images/devlog/portrait-mason-teen.jpg" alt="Character portrait of teenage Mason with spiky hair and band t-shirt" style="max-width: 300px; margin: 0 auto; display: block;">
+            <p class="image-caption">Teenage Mason for "Accidental Frontman" — same character, different era, different wardrobe.</p>
+
+            <h2>The Pros and Cons</h2>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>What Works Well</h3>
+                    <ul>
+                        <li><strong>First pass is fast</strong> — 49 shots in ~35 minutes</li>
+                        <li><strong>Character consistency</strong> — portraits solve 80% of the problem</li>
+                        <li><strong>Iterative workflow</strong> — easy to fix individual shots</li>
+                        <li><strong>Style coherence</strong> — noir look maintained across 200+ images</li>
+                        <li><strong>Reusable components</strong> — same settings, props, styles across scenes</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>What Does Not</h3>
+                    <ul>
+                        <li><strong>Spatial reasoning</strong> — same room looks different from different angles</li>
+                        <li><strong>Prop bleeding</strong> — dominant props (shotgun) leak into wrong scenes</li>
+                        <li><strong>Expression calibration</strong> — "nervous" becomes "existential panic"</li>
+                        <li><strong>Multi-character scenes</strong> — 4+ people at distance = chaos</li>
+                        <li><strong>Corrections are expensive</strong> — some shots take 8 iterations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>The Killer Technique: Cross-Scene Reference Editing</h2>
+
+            <p>The most powerful correction technique I discovered: using an image from one scene as a reference to fix another. When shot D8-2 had the perfect prop setup (cloth under the shotgun, scattered shells), I could propagate that detail to D8-1 and D9-3 by sending D8-2 as a reference image with the fix prompt.</p>
+
+            <img src="../images/devlog/scene-conference-room.jpg" alt="Conference room scene with shotgun on table atop cloth with shells">
+            <p class="image-caption">The "source of truth" shot — once I got this one right, I used it as a reference to fix continuity in related shots.</p>
+
+            <p>This is essentially teaching Gemini by example rather than description. "Make this shot look like that shot" works better than "add a cloth under the shotgun and scatter some shells around it."</p>
+
+            <h2>What Is Next: Setting References</h2>
+
+            <p>The next evolution of the pipeline: <strong>setting references</strong>. Just like character portraits give Gemini a visual anchor for people, pre-generated establishing shots could do the same for locations.</p>
+
+            <p>The idea: before running the first pass, generate 2-3 reference views of each setting from different angles. Wire those to all shots in that scene. This should solve the spatial consistency problem—the courtroom should look like the same courtroom whether we are shooting from the judge's bench or the gallery.</p>
+
+            <img src="../images/devlog/scene-courtroom.jpg" alt="Courtroom wide shot with judge, attorneys, and gallery">
+            <p class="image-caption">"Courtroom Collapse" — maintaining courtroom consistency across 48 shots is the test case for setting references.</p>
+
+            <h2>The Bottom Line</h2>
+
+            <p>Is this production-ready? Not quite. The correction pass still takes longer than the initial generation, and multi-character wide shots remain unreliable. But for rapid prototyping of visual stories—testing whether a scene works, exploring composition options, building pitch materials—this pipeline delivers.</p>
+
+            <p>226 images across 4 stories in two weeks, with consistent characters and a coherent visual style. That is not nothing.</p>
+
+            <img src="../images/devlog/scene-backstage.jpg" alt="Band members backstage after a show">
+            <p class="image-caption">"Accidental Frontman" — backstage after the show. Four characters, consistent outfits, correct instruments. One of the harder shots to get right.</p>
+
+            <p>The code is still evolving, but the core insight is simple: <strong>AI image generation needs the same discipline as any other production pipeline</strong>. Reference images, consistent naming, iterative review, documented processes. The magic is not in the AI—it is in the system you build around it.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
