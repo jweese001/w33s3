@@ -4,111 +4,256 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Building an AI Storyboard Pipeline with FlowBoard | Devlog | Jeff Weese</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        .devlog-post {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
         }
-        .devlog-post header {
-            margin-bottom: 2rem;
-        }
-        .devlog-post h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .devlog-post time {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .devlog-post .hero-image {
-            width: 100%;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-        }
-        .devlog-post .content {
-            line-height: 1.8;
-        }
-        .devlog-post h2 {
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-        .devlog-post p {
-            margin-bottom: 1.5rem;
-        }
-        .devlog-post img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-        }
-        .devlog-post .image-row {
-            display: flex;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-        .devlog-post .image-row img {
-            flex: 1;
-            object-fit: cover;
+
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
-        }
-        .devlog-post .image-caption {
-            font-size: 0.85rem;
-            color: #666;
-            text-align: center;
-            margin-top: -1rem;
-            margin-bottom: 1.5rem;
-        }
-        .devlog-post code {
-            background: #f4f4f4;
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-        .devlog-post pre {
-            background: #1a1a2e;
-            color: #eee;
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-        }
-        .devlog-post pre code {
-            background: none;
             padding: 0;
         }
-        .devlog-post blockquote {
-            border-left: 4px solid #e63946;
-            margin: 1.5rem 0;
-            padding-left: 1rem;
-            color: #555;
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        .devlog-post footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #eee;
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
         }
-        .devlog-post .pros-cons {
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content .image-row {
+            display: flex;
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+
+        .content .image-row img {
+            flex: 1;
+            margin: 0;
+            object-fit: cover;
+        }
+
+        .content .image-caption {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            text-align: center;
+            margin-top: calc(-1 * var(--space-md));
+            margin-bottom: var(--space-lg);
+        }
+
+        .content .portrait-single {
+            max-width: 280px;
+            margin: var(--space-lg) auto;
+            display: block;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        .pros-cons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+            gap: var(--space-xl);
+            margin: var(--space-xl) 0;
         }
-        .devlog-post .pros-cons h3 {
-            margin-bottom: 0.5rem;
+
+        .pros-cons h3 {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            margin-bottom: var(--space-md);
         }
-        .devlog-post .pros-cons ul {
+
+        .pros-cons ul {
+            list-style: none;
+            padding: 0;
             margin: 0;
-            padding-left: 1.25rem;
         }
+
+        .pros-cons li {
+            font-size: var(--text-sm);
+            padding-left: var(--space-lg);
+            position: relative;
+            margin-bottom: var(--space-sm);
+        }
+
+        .pros-cons li::before {
+            position: absolute;
+            left: 0;
+        }
+
+        .pros li::before {
+            content: "+";
+            color: var(--accent-teal);
+        }
+
+        .cons li::before {
+            content: "−";
+            color: var(--accent);
+        }
+
         @media (max-width: 600px) {
-            .devlog-post .image-row {
+            .content .image-row {
                 flex-direction: column;
             }
-            .devlog-post .pros-cons {
+            .pros-cons {
                 grid-template-columns: 1fr;
             }
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
         }
     </style>
 </head>
@@ -119,12 +264,12 @@
             <time datetime="2026-02-20">February 20, 2026</time>
         </header>
 
-        <img src="../images/devlog/flowboard-pipeline-hero.jpg" alt="Noir comic style storyboard panels emerging from a visual node graph" class="hero-image">
+        <img src="../images/devlog/flowboard-pipeline-hero.jpg" alt="Visual node graph connecting to illustrated storyboard panels in noir style" class="hero-image">
 
         <section class="content">
             <p>Over the past two weeks, I have been building a pipeline that turns screenplay markdown into illustrated storyboards using AI image generation. The goal: create visual stories with consistent characters across dozens of shots, without losing my mind in the process.</p>
 
-            <p>The result? <strong>226 generated images across 4 different stories, 34 scenes total</strong>. More importantly, a repeatable workflow that handles the hardest part of AI image generation: consistency.</p>
+            <p>The result? <strong>226 generated images across 4 different stories, 34 scenes total.</strong> More importantly, a repeatable workflow that handles the hardest part of AI image generation: consistency.</p>
 
             <h2>The Problem with AI Image Generation</h2>
 
@@ -134,7 +279,7 @@
 
             <h2>The Solution: FlowBoard + Reference Images</h2>
 
-            <p>FlowBoard is a visual node-based tool I have been developing for exactly this problem. Instead of writing prompts from scratch each time, you build reusable components—characters, settings, styles, camera setups—and wire them together into shots.</p>
+            <p>FlowBoard is a visual node-based tool I have been developing for exactly this problem. Instead of writing prompts from scratch each time, you build reusable components — characters, settings, styles, camera setups — and wire them together into shots.</p>
 
             <p>But the real breakthrough came from the <strong>portrait reference system</strong>. Before generating any story shots, I generate character portraits. These become the visual anchor for everything that follows.</p>
 
@@ -150,7 +295,7 @@
 
             <p>Here is how a screenplay becomes a storyboard:</p>
 
-            <pre><code>Screenplay (.md)
+<pre><code>Screenplay (.md)
   → Master FlowBoard (.flowboard.json)
     → Scene Builder Script (Python)
       → Per-Scene FlowBoard Files
@@ -163,18 +308,18 @@
             <p>The Python scripts handle the heavy lifting: parsing markdown, generating FlowBoard JSON, wiring character portraits to the right outputs, and batching API calls to Gemini.</p>
 
             <img src="../images/devlog/scene-damon-entrance.jpg" alt="Damon standing in office doorway holding a shotgun">
-            <p class="image-caption">"Damon and the Shotgun" — The inciting incident. Damon enters the Indigo Records office. The portrait reference keeps his wild-eyed appearance consistent across all 49 shots.</p>
+            <p class="image-caption">"Damon and the Shotgun" — The inciting incident. The portrait reference keeps his wild-eyed appearance consistent across all 49 shots.</p>
 
             <h2>Cross-Story Character Development</h2>
 
             <p>One of the more interesting challenges: the same character appearing at different ages across different stories. Mason appears as a 7-year-old in "Red Ferrari Night," a teenager in "Accidental Frontman," and a 23-year-old professional in "Damon and the Shotgun."</p>
 
-            <p>Each version gets its own portrait. The teenage Mason needed different clothes (band tee, ripped jeans) while maintaining recognizable features. The portrait system handles this naturally—each story simply references its own character sheet.</p>
+            <p>Each version gets its own portrait. The teenage Mason needed different clothes (band tee, ripped jeans) while maintaining recognizable features. The portrait system handles this naturally — each story simply references its own character sheet.</p>
 
-            <img src="../images/devlog/portrait-mason-teen.jpg" alt="Character portrait of teenage Mason with spiky hair and band t-shirt" style="max-width: 300px; margin: 0 auto; display: block;">
+            <img src="../images/devlog/portrait-mason-teen.jpg" alt="Character portrait of teenage Mason with spiky hair and band t-shirt" class="portrait-single">
             <p class="image-caption">Teenage Mason for "Accidental Frontman" — same character, different era, different wardrobe.</p>
 
-            <h2>The Pros and Cons</h2>
+            <h2>What Works, What Does Not</h2>
 
             <div class="pros-cons">
                 <div class="pros">
@@ -184,7 +329,7 @@
                         <li><strong>Character consistency</strong> — portraits solve 80% of the problem</li>
                         <li><strong>Iterative workflow</strong> — easy to fix individual shots</li>
                         <li><strong>Style coherence</strong> — noir look maintained across 200+ images</li>
-                        <li><strong>Reusable components</strong> — same settings, props, styles across scenes</li>
+                        <li><strong>Reusable components</strong> — settings, props, styles work across scenes</li>
                     </ul>
                 </div>
                 <div class="cons">
@@ -212,25 +357,25 @@
 
             <p>The next evolution of the pipeline: <strong>setting references</strong>. Just like character portraits give Gemini a visual anchor for people, pre-generated establishing shots could do the same for locations.</p>
 
-            <p>The idea: before running the first pass, generate 2-3 reference views of each setting from different angles. Wire those to all shots in that scene. This should solve the spatial consistency problem—the courtroom should look like the same courtroom whether we are shooting from the judge's bench or the gallery.</p>
+            <p>The idea: before running the first pass, generate 2-3 reference views of each setting from different angles. Wire those to all shots in that scene. This should solve the spatial consistency problem — the courtroom should look like the same courtroom whether we are shooting from the judge's bench or the gallery.</p>
 
             <img src="../images/devlog/scene-courtroom.jpg" alt="Courtroom wide shot with judge, attorneys, and gallery">
             <p class="image-caption">"Courtroom Collapse" — maintaining courtroom consistency across 48 shots is the test case for setting references.</p>
 
             <h2>The Bottom Line</h2>
 
-            <p>Is this production-ready? Not quite. The correction pass still takes longer than the initial generation, and multi-character wide shots remain unreliable. But for rapid prototyping of visual stories—testing whether a scene works, exploring composition options, building pitch materials—this pipeline delivers.</p>
+            <p>Is this production-ready? Not quite. The correction pass still takes longer than the initial generation, and multi-character wide shots remain unreliable. But for rapid prototyping of visual stories — testing whether a scene works, exploring composition options, building pitch materials — this pipeline delivers.</p>
 
             <p>226 images across 4 stories in two weeks, with consistent characters and a coherent visual style. That is not nothing.</p>
 
             <img src="../images/devlog/scene-backstage.jpg" alt="Band members backstage after a show">
-            <p class="image-caption">"Accidental Frontman" — backstage after the show. Four characters, consistent outfits, correct instruments. One of the harder shots to get right.</p>
+            <p class="image-caption">"Accidental Frontman" — backstage after the show. Four characters, consistent outfits, correct instruments.</p>
 
-            <p>The code is still evolving, but the core insight is simple: <strong>AI image generation needs the same discipline as any other production pipeline</strong>. Reference images, consistent naming, iterative review, documented processes. The magic is not in the AI—it is in the system you build around it.</p>
+            <p>The code is still evolving, but the core insight is simple: <strong>AI image generation needs the same discipline as any other production pipeline.</strong> Reference images, consistent naming, iterative review, documented processes. The magic is not in the AI — it is in the system you build around it.</p>
         </section>
 
         <footer>
-            <a href="/">← Back to Portfolio</a>
+            <a href="/devlog/">← Back to Devlog</a>
         </footer>
     </article>
 </body>
