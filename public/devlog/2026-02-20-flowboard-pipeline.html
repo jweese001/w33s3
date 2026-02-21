@@ -267,7 +267,7 @@
         <img src="../images/devlog/flowboard-pipeline-hero.jpg" alt="Visual node graph connecting to illustrated storyboard panels in noir style" class="hero-image">
 
         <section class="content">
-            <p>For several months, I have been building <a href="https://jweese001.github.io/flowboard-demo/" target="_blank" rel="noopener noreferrer">FlowBoard</a> — a node-based tool for managing AI image generation workflows. Over the past two weeks, I pushed four complete stories through it — 226 images total — to stress-test the system and figure out what features to build next.</p>
+            <p>For a few months, I have been building <a href="https://jweese001.github.io/flowboard-demo/" target="_blank" rel="noopener noreferrer">FlowBoard</a> — a node-based tool for managing AI image generation workflows. Over the past two weeks, I pushed four complete stories through it — 226 images total — to stress-test the system and figure out what features to build next.</p>
 
             <p>The core problem FlowBoard addresses is consistency. AI image generators have no memory between calls. Your character in scene 1 bears little resemblance to the same character in scene 5. The same room looks completely different from two camera angles. Everyone generating sequences of related images knows this.</p>
 
@@ -288,7 +288,7 @@
             → Corrections
               → Export</code></pre>
 
-            <p>Before generating any story shots, I generate character portraits. These become the visual anchor. When a character appears in a scene, their portrait gets sent to Gemini as a reference image alongside the assembled prompt.</p>
+            <p>Before generating any story shots, I generate character portraits. These become the visual anchor. When a character appears in a scene, their portrait gets sent to the image generation API as a reference image alongside the assembled prompt. FlowBoard supports multiple providers — Gemini, fal.ai, and Stability AI — though this testing focused on the Gemini adapter.</p>
 
             <div class="image-row">
                 <img src="../images/devlog/portrait-mason.jpg" alt="Character portrait of Mason, adult, in business casual attire">
