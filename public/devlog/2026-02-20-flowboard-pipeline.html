@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exploring Consistency in AI Image Generation | Devlog | Jeff Weese</title>
+    <title>FlowBoard and the Consistency Problem | Devlog | Jeff Weese</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -260,49 +260,56 @@
 <body>
     <article class="devlog-post">
         <header>
-            <h1>Exploring Consistency in AI Image Generation</h1>
+            <h1>FlowBoard and the Consistency Problem</h1>
             <time datetime="2026-02-20">February 20, 2026</time>
         </header>
 
         <img src="../images/devlog/flowboard-pipeline-hero.jpg" alt="Visual node graph connecting to illustrated storyboard panels in noir style" class="hero-image">
 
         <section class="content">
-            <p>For several months now, I have been working on a pipeline that generates illustrated storyboards from screenplays. Over the past two weeks, I pushed through four complete stories — 226 images total — to stress-test the workflow and figure out where it breaks.</p>
+            <p>For several months, I have been building <a href="https://jweese001.github.io/flowboard-demo/" target="_blank" rel="noopener noreferrer">FlowBoard</a> — a node-based tool for managing AI image generation workflows. Over the past two weeks, I pushed four complete stories through it — 226 images total — to stress-test the system and figure out what features to build next.</p>
 
-            <p>The question I keep returning to: <strong>can reference images, used systematically, reduce the manual correction burden?</strong> Not eliminate it. Just make it manageable enough that generating a 50-shot story feels like work rather than punishment.</p>
+            <p>The core problem FlowBoard addresses is consistency. AI image generators have no memory between calls. Your character in scene 1 bears little resemblance to the same character in scene 5. The same room looks completely different from two camera angles. Everyone generating sequences of related images knows this.</p>
 
-            <h2>The Consistency Problem</h2>
+            <p>FlowBoard's approach: make the intent explicit and reusable. You build a graph of components — characters, settings, styles, camera setups — and wire them together into shots. You can see why a shot looks the way it does by tracing the graph. You change a character portrait once, and it propagates everywhere that character appears.</p>
 
-            <p>This is well-trodden ground. AI image generators have no memory between calls. Your character in scene 1 bears little resemblance to the same character in scene 5. The same room looks completely different from two camera angles. Everyone who has tried to generate a sequence of related images knows this.</p>
+            <p>The question I keep working on: <strong>what features would shift the ratio from correction toward generation?</strong></p>
 
-            <p>Reference images are the standard mitigation — you pass in an example image alongside your prompt, and the model uses it as a guide. Nothing novel there. What I have been testing is whether a systematic approach to reference management, built into a repeatable workflow, changes the economics of correction.</p>
+            <h2>How the Pipeline Works</h2>
 
-            <h2>The Setup</h2>
+            <p>The workflow has evolved into this:</p>
 
-            <p><a href="https://jweese001.github.io/flowboard-demo/" target="_blank" rel="noopener noreferrer">FlowBoard</a> is a node-based tool I have been building for this. You wire together reusable components — characters, settings, styles, camera setups — into shot definitions. The tool assembles prompts from the graph and handles the API calls to Gemini.</p>
+<pre><code>Screenplay (.md)
+  → Master FlowBoard file
+    → Character portrait generation
+      → Scene files with portraits wired in
+        → First-pass image generation
+          → Contact sheet review
+            → Corrections
+              → Export</code></pre>
 
-            <p>Before generating any story shots, I generate character portraits. These become the visual anchor. When a character appears in a scene, their portrait gets sent to Gemini as a reference image.</p>
+            <p>Before generating any story shots, I generate character portraits. These become the visual anchor. When a character appears in a scene, their portrait gets sent to Gemini as a reference image alongside the assembled prompt.</p>
 
             <div class="image-row">
                 <img src="../images/devlog/portrait-mason.jpg" alt="Character portrait of Mason, adult, in business casual attire">
                 <img src="../images/devlog/portrait-damon.jpg" alt="Character portrait of Damon, wild-eyed with matted hair">
             </div>
-            <p class="image-caption">Character portraits for "Damon and the Shotgun." These get wired to every scene where the character appears.</p>
+            <p class="image-caption">Character portraits for "Damon and the Shotgun." FlowBoard wires these to every scene where the character appears.</p>
 
-            <p>One detail that seemed to matter: wiring the portrait to both the character node and the output node. Without the second connection, Gemini often ignores the reference and invents its own interpretation. With it, the model pays more attention. I cannot say why — just that it produced noticeably better results in my testing.</p>
+            <p>One detail that emerged from testing: wiring the portrait to both the character node and the output node produces better results than wiring it only to the character. Without the second connection, Gemini often ignores the reference. I do not have a theory for why — just an observation from 200+ shots.</p>
 
-            <h2>What I Noticed</h2>
+            <h2>What the Data Shows</h2>
 
-            <p>After 226 images across four stories, some patterns emerged.</p>
+            <p>After 226 images across four stories:</p>
 
-            <p><strong>Character consistency improved significantly.</strong> Not perfect — Gemini still drifts, especially in wide shots with multiple characters — but the portraits reduced the most egregious mismatches. Mason looks recognizably like Mason across most shots. That was not true before I started using reference images systematically.</p>
+            <p><strong>Character consistency improved significantly.</strong> Not perfect — Gemini still drifts in wide shots with multiple characters — but the portraits reduced the most egregious mismatches. Mason looks recognizably like Mason across most shots.</p>
 
-            <p><strong>First-pass generation is fast.</strong> 49 shots in about 35 minutes. The workflow removes the friction of writing prompts from scratch each time. Whether that speed is worth the setup cost depends on how many images you are generating.</p>
+            <p><strong>First-pass generation is fast.</strong> 49 shots in about 35 minutes. FlowBoard removes the friction of writing prompts from scratch. Whether that speed justifies the setup depends on volume.</p>
 
-            <p><strong>Corrections are still the real work.</strong> The first pass gets you maybe 70% of the way there. The remaining 30% — fixing expressions, removing props that bled into wrong scenes, adjusting spatial relationships — takes longer than the initial generation. Some shots took 8 iterations to get right.</p>
+            <p><strong>Corrections remain the bottleneck.</strong> First pass gets maybe 70% of shots to an acceptable state. The remaining 30% — expressions, prop bleeding, spatial relationships — takes longer than initial generation. Some shots needed 8 iterations.</p>
 
             <img src="../images/devlog/scene-damon-entrance.jpg" alt="Damon standing in office doorway holding a shotgun">
-            <p class="image-caption">"Damon and the Shotgun" — the inciting incident. Portrait reference kept his appearance consistent, but the shotgun bled into unrelated scenes throughout the story.</p>
+            <p class="image-caption">"Damon and the Shotgun" — the inciting incident. The shotgun bled into unrelated scenes throughout the story, requiring manual fixes.</p>
 
             <h2>What Works, What Does Not</h2>
 
@@ -310,73 +317,81 @@
                 <div class="pros">
                     <h3>What Seems to Help</h3>
                     <ul>
-                        <li><strong>Portrait references</strong> — character faces and clothing stay more consistent</li>
-                        <li><strong>Minimal text descriptions</strong> — "use the reference image" works better than detailed descriptions that contradict the portrait</li>
-                        <li><strong>Negative prompts</strong> — blocking text, logos, and speech bubbles prevents most unwanted additions</li>
-                        <li><strong>Cross-scene editing</strong> — using a good shot as reference to fix a bad one</li>
-                        <li><strong>Contact sheets for review</strong> — seeing all shots at once makes problems obvious</li>
+                        <li><strong>Portrait references</strong> — faces and clothing stay more consistent</li>
+                        <li><strong>Minimal text descriptions</strong> — "use the reference image" beats detailed text that contradicts the portrait</li>
+                        <li><strong>Negative prompts</strong> — blocking text, logos, speech bubbles prevents most unwanted additions</li>
+                        <li><strong>Cross-scene editing</strong> — using a correct shot as reference to fix an incorrect one</li>
+                        <li><strong>Contact sheets</strong> — seeing all shots together makes problems obvious</li>
                     </ul>
                 </div>
                 <div class="cons">
                     <h3>What Remains Difficult</h3>
                     <ul>
                         <li><strong>Spatial consistency</strong> — the same room looks different from different angles</li>
-                        <li><strong>Prop bleeding</strong> — dominant props (a shotgun, in one story) leak into unrelated scenes</li>
+                        <li><strong>Prop bleeding</strong> — dominant props leak into unrelated scenes</li>
                         <li><strong>Expression calibration</strong> — Gemini interprets emotions at maximum intensity</li>
                         <li><strong>Multi-character wide shots</strong> — 4+ people at distance rarely comes out right</li>
-                        <li><strong>Precise positioning</strong> — placing an element at a specific size and angle is tedious</li>
+                        <li><strong>Precise positioning</strong> — placing elements at specific sizes and angles is tedious</li>
                     </ul>
                 </div>
             </div>
 
-            <h2>The Most Useful Correction Pattern</h2>
+            <h2>Cross-Scene Reference Editing</h2>
 
-            <p>When a shot needed fixing, the most effective technique was using another shot as reference. If D8-2 had the right prop setup (cloth under the shotgun, scattered shells), I could fix D8-1 by sending D8-2 as reference with the instruction "add the cloth and shells from the second image."</p>
+            <p>The most useful correction pattern: using a shot from one scene as reference to fix another. When D8-2 had the right prop setup (cloth under the shotgun, scattered shells), I could fix D8-1 by sending D8-2 as reference with the instruction "add the cloth and shells from the second image."</p>
 
             <img src="../images/devlog/scene-conference-room.jpg" alt="Conference room scene with shotgun on table atop cloth with shells">
             <p class="image-caption">This shot became the "source of truth" for prop continuity in related scenes.</p>
 
-            <p>Teaching by example works better than teaching by description. "Make this look like that" is more reliable than "add a cloth under the shotgun and scatter some shells around it." This observation led me to wonder: what if I generated reference images specifically for this purpose, before starting the first pass?</p>
+            <p>Teaching by example works better than teaching by description. "Make this look like that" is more reliable than trying to describe the desired state in text.</p>
 
-            <h2>The Current Experiment: Setting References</h2>
+            <p>This observation led to the next feature.</p>
 
-            <p>If character portraits help with people, maybe location references would help with spaces. The hypothesis: pre-generating establishing shots of each setting — empty rooms with key props and architectural details — and wiring them to all shots in that scene might reduce the spatial inconsistency problem.</p>
+            <h2>The New Feature: Setting References</h2>
+
+            <p>If character portraits help with people, maybe location references would help with spaces. Today I added setting reference support to FlowBoard.</p>
+
+            <p>The idea: generate establishing shots of each setting before the first pass — empty rooms with key props and architectural details — and wire them to all shots in that scene. The pipeline now looks like:</p>
+
+<pre><code>Character Sheets → Setting References → Wire Both → Generate → Corrections</code></pre>
+
+            <p>I tested it on a conference room scene from "Damon and the Shotgun" — glass walls, a table with props, specific lighting. Generated two clean setting references (wide establishing shot from the doorway, lower angle from the table) and wired them to a couple test shots.</p>
 
             <img src="../images/devlog/scene-courtroom.jpg" alt="Courtroom wide shot with judge, attorneys, and gallery">
-            <p class="image-caption">"Courtroom Collapse" — 48 shots in the same courtroom. Does Gemini understand it is the same room from different angles?</p>
+            <p class="image-caption">"Courtroom Collapse" — 48 shots in the same courtroom. The next test case for setting references.</p>
 
-            <p>I ran an initial test today with a conference room scene. Generated two clean setting references — one wide establishing shot from the doorway, one lower angle from the table — and wired them to a couple of test shots. Early results suggest it helps. The room maintained its glass walls and general layout across different camera angles.</p>
+            <p><strong>Initial results:</strong> The room maintained its glass walls and general layout across different camera angles. Props in the setting reference (the cloth, shells, coffee cup) propagated without separate prop refs. Clean refs without people work better than using an existing scene shot — no character bleed into unrelated shots.</p>
 
-            <p>But there are open questions:</p>
+            <h2>Open Questions</h2>
+
+            <p>The setting reference work is new. Things I do not know yet:</p>
 
             <ul>
-                <li><strong>Does Gemini reason about spatial relationships, or just blend?</strong> When I give it two angles of the same room, does it understand they show the same space from different positions? Or does it average them into something incoherent?</li>
-                <li><strong>How many setting references are too many?</strong> The API accepts up to 14 reference images. Character portraits already consume some of that budget. At what point does adding more references degrade rather than improve results?</li>
-                <li><strong>What should setting references contain?</strong> My initial tests used empty rooms with props. But maybe including a character in one reference helps establish scale. I do not know yet.</li>
+                <li><strong>Does Gemini reason about spatial relationships, or just blend?</strong> When given two angles of the same room, does it understand they show the same space? Or does it average them into something incoherent?</li>
+                <li><strong>How many references are too many?</strong> The API accepts up to 14 reference images. Character portraits already consume some of that budget. At what point does adding more references degrade results?</li>
+                <li><strong>What should setting references contain?</strong> My initial tests used empty rooms with props. Maybe including a character in one helps establish scale. I have not tested enough to know.</li>
             </ul>
 
-            <p>The test case is the courtroom from "Courtroom Collapse" — 48 shots in a single location with well-defined architectural features. If setting references can maintain consistency there, the technique is probably worth the setup cost. If the courtroom still looks different in every shot, I will need to rethink the approach.</p>
+            <p>The test case is the courtroom from "Courtroom Collapse" — 48 shots with well-defined architectural features. If setting references can maintain consistency there, the technique is worth the setup. If the courtroom still looks different in every shot, I need to rethink the approach.</p>
 
-            <h2>What Would Success Look Like?</h2>
+            <h2>What Success Would Look Like</h2>
 
-            <p>I am not trying to eliminate corrections entirely. That seems unrealistic given the current state of the technology. The goal is to shift the ratio — less time fixing, more time generating.</p>
+            <p>I am not trying to eliminate corrections. That seems unrealistic. The goal is to shift the ratio.</p>
 
-            <p>Concretely: if I can get a first pass where 80-85% of shots are usable with minor tweaks, and only 15-20% need significant rework, that feels sustainable for longer projects. Right now I am closer to 70/30, which is workable but tedious.</p>
+            <p>Concretely: if first-pass usability goes from 70% to 80-85%, that is meaningful at scale. Right now, 30% of shots need significant rework. Cutting that to 15-20% changes the economics of longer projects.</p>
 
-            <p>The other success criterion is consistency across shots that are supposed to match. A character's outfit should not change between scenes. A room should be recognizable from multiple angles. These are the failures that break the illusion of a coherent visual story.</p>
+            <p>The other criterion: shots that are supposed to match should match. A character's outfit should not change between scenes. A room should be recognizable from multiple angles. These are the failures that break the illusion of a coherent visual story.</p>
 
             <img src="../images/devlog/scene-backstage.jpg" alt="Band members backstage after a show">
             <p class="image-caption">"Accidental Frontman" — four characters, consistent outfits, correct instruments. One of the harder shots to get right.</p>
 
             <h2>What I Expect to Be Hard</h2>
 
-            <p>Multi-character wide shots will probably remain difficult. Gemini struggles with complex spatial arrangements — who is standing where, which direction they face, what instruments they hold. Portrait references help with faces but do not solve positioning.</p>
+            <p>Multi-character wide shots will probably remain difficult. Gemini struggles with complex spatial arrangements — who stands where, which direction they face, what instruments they hold. Portrait references help with faces but do not solve positioning.</p>
 
-            <p>I also expect diminishing returns from adding more references. At some point, the model has too much conflicting information and produces worse results than with fewer constraints. Finding that threshold will take more experimentation.</p>
+            <p>I also expect diminishing returns from adding references. At some point, the model has too much conflicting information and produces worse results than with fewer constraints. Finding that threshold will take more testing.</p>
 
-            <p>The deeper issue is that these models do not have a persistent understanding of the world they are depicting. Each generation is stateless. References are a workaround, not a solution. Until that changes at the model level, we are working around a fundamental limitation.</p>
-
-            <p>But workarounds that reduce the correction burden by even 20-30% make a meaningful difference when you are generating hundreds of images. That is what I am trying to find.</p>
+            <p>The deeper issue is that these models have no persistent understanding of the world they are depicting. Each generation is stateless. FlowBoard's job is to compensate — to carry context across calls that the model cannot carry itself. That works up to a point. Finding where that point is, and building features that extend it, is the ongoing work.</p>
         </section>
 
         <footer>
