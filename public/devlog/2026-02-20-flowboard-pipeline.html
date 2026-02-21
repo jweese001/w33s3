@@ -231,14 +231,7 @@
             color: var(--accent);
         }
 
-        @media (max-width: 600px) {
-            .content .image-row {
-                flex-direction: column;
-            }
-            .pros-cons {
-                grid-template-columns: 1fr;
-            }
-        }
+        
 
         footer {
             margin-top: var(--space-3xl);
@@ -255,6 +248,77 @@
         footer a:hover {
             color: var(--accent);
         }
+    
+        /* Responsive - Tablet */
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            
+            .content .image-row {
+                flex-direction: column;
+            }
+            
+            .pros-cons {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+            
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+        
+        /* Responsive - Mobile */
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+            
+            .content img {
+                margin-left: calc(-1 * var(--space-md));
+                margin-right: calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+            
+            .content .image-row {
+                margin-left: calc(-1 * var(--space-md));
+                margin-right: calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+            }
+            
+            .content .image-row img {
+                border-radius: 0;
+            }
+            
+            .content .portrait-single {
+                max-width: 200px;
+                margin-left: auto;
+                margin-right: auto;
+                width: auto;
+            }
+        }
+
     </style>
 </head>
 <body>
