@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Setting Reference Pipeline for AI Scene Generation | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Building a Setting Reference Pipeline for AI Scene Generation</h1>
+            <time datetime="2026-02-22">February 22, 2026</time>
+        </header>
+
+        <img src="../images/devlog/setting-reference-pipeline.jpg" alt="Empty conference room establishing shot, noir style with dramatic lighting through doorway" class="hero-image">
+
+        <section class="content">
+            <p>This week I tackled one of the more subtle but frustrating problems in AI-assisted visual storytelling: <strong>spatial consistency</strong>. When you're generating a sequence of images for a screenplay, the same conference room shouldn't look completely different between shots. The table shouldn't jump from the left side to the right. The doorway shouldn't vanish between scene 2 and scene 4.</p>
+
+            <p>I've been building FlowBoard, a node-based editor for screenplay-to-image generation, and we already had a character portrait reference system working. Feed the AI an image of your protagonist, and it'll keep them looking consistent across scenes. But settings? Those were still the wild west.</p>
+
+            <h2>The Problem with Scene-as-Reference</h2>
+
+            <p>My first instinct was simple: just use a generated scene as the reference for other scenes in the same location. Scene 1 of the conference room becomes the reference for scenes 2, 4, and 5. Makes sense, right?</p>
+
+            <p>It kind of worked. The spatial layout stayed more consistent. But there was <strong>character bleed</strong>—the people in the reference image kept leaking into new scenes where they didn't belong. A character who should have left the room would show up as a ghost in the background, or the AI would try to maintain their position even when the new prompt described different characters.</p>
+
+            <h2>Clean Room, Clean References</h2>
+
+            <p>The fix was counterintuitive but effective: generate empty room references. No characters. Just the space itself, with all its props, furniture, and incidental details (like that cloth draped over the chair that establishes this is definitely the same room).</p>
+
+            <p>I built this into the pipeline as <code>find_references_for_setting()</code>—it looks for images in the <code>SettingSheets/Output/</code> directory with filenames matching the setting ID. Wire up a setting reference, and the generator now tells the AI: "This is what the room looks like. Match this spatial layout."</p>
+
+<pre><code># Example: wire_setting_refs() discovers and links setting references
+def find_setting_images(settings_dir: Path) -> dict[str, list[Path]]:
+    """Find all setting reference images organized by setting ID."""
+    refs = {}
+    for img in settings_dir.glob("*.png"):
+        # Extract setting ID from filename like "conferenceroom_wide.png"
+        setting_id = img.stem.split("_")[0].lower()
+        refs.setdefault(setting_id, []).append(img)
+    return refs</code></pre>
+
+            <h2>Multi-Angle References</h2>
+
+            <p>The system also supports multiple reference angles per setting. For the conference room, I generated both a wide establishing shot (through the doorway) and a table-level angle. The idea is that Gemini can reason about the spatial relationships—if it sees the room from two perspectives, it builds a stronger mental model of the space.</p>
+
+            <p>Early tests are promising. The images feel more grounded, like they're happening in a real place rather than a series of similar-but-not-identical AI hallucinations.</p>
+
+            <h2>The Bugfix That Embarrassed Me</h2>
+
+            <p>While implementing this, I discovered a bug that had been there for weeks: the <code>Location/Setting:</code> line was being collected from scene data but never actually added to the prompt text. Settings were being tracked internally but never communicated to the image model.</p>
+
+            <p>Which means all my careful setting descriptions were doing exactly nothing. Sometimes the simplest bugs are the ones that hide the longest.</p>
+
+            <h2>What's Next</h2>
+
+            <p>The pipeline works end-to-end now—CLI and FlowBoard UI both support setting references. Next steps are to run a full test on the complete D8 scene (5 shots in a conference room) and then tackle the B3 Courtroom from another project, which has 6 different settings to test against.</p>
+
+            <p>The goal is making AI-generated visual sequences feel less like a slideshow and more like a coherent visual space. One empty room at a time.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
