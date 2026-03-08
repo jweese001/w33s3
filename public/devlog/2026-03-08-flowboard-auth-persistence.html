@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowBoard: When Auth State Fights React State | Devlog | Jeff Weese</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>FlowBoard: When Auth State Fights React State</h1>
+            <time datetime="2026-03-08">March 8, 2026</time>
+        </header>
+
+        <img src="../images/devlog/flowboard-auth-persistence.jpg" alt="A developer hunched over a laptop in a dim room, lines of code reflected in their glasses, debugging state management" class="hero-image">
+
+        <section class="content">
+            <p>This week on FlowBoard was a masterclass in why authentication state and React state don't always play nice together. I implemented the password recovery flow for our SaaS version, and what seemed like a straightforward feature turned into a deep dive into Supabase's auth event system and React's rendering lifecycle.</p>
+
+            <h2>The Problem</h2>
+
+            <p>The password reset flow looked simple on paper: user clicks "Forgot password," receives an email, clicks the link, enters a new password, done. But the reset page kept getting stuck on "Updating password..." indefinitely. No error, no timeout, just an eternal spinner mocking my confidence.</p>
+
+            <h2>The Root Cause</h2>
+
+            <p>Supabase's <code>updateUser()</code> triggers authentication state changes that interfere with React's state updates. When you call <code>await updateUser({ password })</code>, Supabase fires auth events that React tries to process, but the component is in the middle of a state transition. The promise never resolves because the auth state change causes React to re-render, which disrupts the async operation.</p>
+
+            <p>Classic state management collision.</p>
+
+            <h2>The Solution: Fire and Forget</h2>
+
+            <p>The fix was counterintuitive: don't await the password update. Fire it off and immediately redirect:</p>
+
+            <pre><code>// Don't await - Supabase auth events fight React state
+supabase.auth.updateUser({ password: newPassword });
+
+// Redirect after brief delay
+setTimeout(() => {
+    window.location.href = '/login?reset=success';
+}, 500);</code></pre>
+
+            <p>Using <code>window.location.href</code> instead of React Router's <code>navigate()</code> was key. It completely escapes React's state management, giving the browser a clean slate. The password update completes in the background while the user sees a success message on the login page.</p>
+
+            <h2>Bonus Bug: Flash of Stale Content</h2>
+
+            <p>While debugging auth, I also tracked down a project persistence bug. When loading cloud projects, users would briefly see demo nodes flash on screen before their actual project appeared. The cause? FlowBoard's store initialized with demo data, and the async project load hadn't completed yet.</p>
+
+            <p>The fix involved three changes:</p>
+
+            <ul>
+                <li>Initialize the flow store with empty arrays instead of demo nodes</li>
+                <li>Add an <code>isProjectLoaded</code> flag to prevent auto-save from overwriting data</li>
+                <li>Clear the canvas synchronously before starting the async load</li>
+            </ul>
+
+            <p>State management in cloud-synced applications is a different beast than local-only apps. Every operation needs guards against race conditions.</p>
+
+            <h2>What's Next</h2>
+
+            <p>With password recovery working, the auth system is nearly complete. Next up: Google OAuth sign-in and Stripe billing integration. FlowBoard is getting closer to its SaaS launch, one state management bug at a time.</p>
+
+            <p>The lesson this week: when auth state fights React state, sometimes the answer is to step outside React entirely. Not every problem needs a React solution.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
