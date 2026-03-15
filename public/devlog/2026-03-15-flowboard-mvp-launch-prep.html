@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Last 10% Is 90% of the Work | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>The Last 10% Is 90% of the Work</h1>
+            <time datetime="2026-03-15">March 15, 2026</time>
+        </header>
+
+        <img src="../images/devlog/flowboard-mvp-prep.jpg" alt="Developer fixing subtle bugs before launch - wires and connections becoming cleaner" class="hero-image">
+
+        <section class="content">
+            <p>You know that moment when you think you're done? When the features work, the demo looks good, and you're ready to ship? That's when the real work begins.</p>
+
+            <p>This week I dove into FlowBoard's pre-launch polish phase, and it reminded me why the "last 10%" is such a notorious time sink. Not because the bugs are hard to understand—they're often embarrassingly simple—but because they only reveal themselves under real usage patterns that your test harness never imagined.</p>
+
+            <h2>The Supabase Query Problem</h2>
+
+            <p>FlowBoard syncs to the cloud via Supabase, and the architecture seemed solid. Every time the user switches projects, we refresh the project list. Every time they save, we refresh again. Comprehensive, right?</p>
+
+            <p>Turns out "comprehensive" is another word for "hammering your database." Users were hitting timeout errors, and the culprit was death by a thousand queries. The fix was almost embarrassing:</p>
+
+<pre><code>// Before: paranoid refreshing
+async function loadProject(id: string) {
+  await refreshProjectList(); // why?
+  const project = await getProject(id);
+  await refreshProjectList(); // seriously, why?
+  return project;
+}
+
+// After: trust your data
+async function loadProject(id: string) {
+  const project = await getProject(id);
+  if (!projectInLocalList(project)) {
+    updateLocalList(project); // only if needed
+  }
+  return project;
+}</code></pre>
+
+            <p>This pattern—updating local state instead of re-fetching—cut our Supabase calls by about 60%. Sometimes the best optimization is just... doing less.</p>
+
+            <h2>The "Untitled Project" Mystery</h2>
+
+            <p>Here's one that took longer to diagnose than to fix. Users would hard-refresh the page, and their carefully named project would suddenly become "Untitled Project." The kind of bug that makes you question your sanity.</p>
+
+            <p>The culprit was a race condition. After a hard refresh, the local project list is empty while we fetch from the cloud. Meanwhile, the auto-save function fires, sees an empty list, and defaults to "Untitled Project." That default then overwrites the real name in the cloud.</p>
+
+            <p>The fix: before defaulting, check if the project exists in the cloud first. If it does, use that name. Only default if the project genuinely doesn't exist anywhere.</p>
+
+            <h2>Rendering During Render</h2>
+
+            <p>React has this rule: don't cause side effects during render. It's a good rule. I broke it.</p>
+
+            <p>The login page had what seemed like a reasonable check: if the user is already authenticated, redirect them to the dashboard. But calling <code>navigate()</code> directly in the component body triggers React's "bad state update" warnings and, worse, occasionally causes blank pages.</p>
+
+<pre><code>// Before: navigating during render
+function LoginPage() {
+  const { user } = useAuth();
+  if (user) {
+    navigate('/dashboard'); // don't do this
+  }
+  return &lt;LoginForm /&gt;;
+}
+
+// After: useEffect for side effects
+function LoginPage() {
+  const { user } = useAuth();
+  useEffect(() => {
+    if (user) navigate('/dashboard');
+  }, [user]);
+  return &lt;LoginForm /&gt;;
+}</code></pre>
+
+            <p>I also added an ErrorBoundary wrapper to catch any rendering errors and show a recovery UI instead of a blank page. Belt and suspenders.</p>
+
+            <h2>The Honesty Update</h2>
+
+            <p>One small UX fix I'm proud of: the delete confirmation dialog. For cloud users, deleting a project is permanent—there's no undo. But the old dialog said "Remove this project from browser storage?" which implies you could get it back.</p>
+
+            <p>Now it says: "Permanently delete this project? This cannot be undone."</p>
+
+            <p>Sometimes the most important code change is just... being honest with users about what's going to happen.</p>
+
+            <h2>What's Next</h2>
+
+            <p>With these fixes in place, FlowBoard is genuinely ready for its MVP launch. The core features—visual project boards, cloud sync, responsive design—have been solid for a while. But these subtle bugs? They're the difference between "this seems buggy" and "this just works."</p>
+
+            <p>Next up: finalizing the pricing model (Indie tier at $8/month, Studio at $19) and setting up the payment infrastructure. The fun administrative stuff.</p>
+
+            <p>Sometimes shipping isn't about adding features. It's about making sure the features you have actually work when real humans use them in ways you never expected.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
