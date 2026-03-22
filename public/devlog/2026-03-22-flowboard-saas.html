@@ -264,7 +264,6 @@ Deno.serve(async (req) => {
 
             <p>Stripe webhooks are where payment flows get interesting. The happy path is simple: user completes checkout, Stripe fires <code>checkout.session.completed</code>, your webhook updates their subscription status. But production reality includes: webhook signature validation (crucial for security), idempotency (webhooks can fire multiple times), database transactions (what if the update partially fails?), and logging (when something goes wrong at 3am, you need breadcrumbs).</p>
 
-            <p>One gotcha specific to Supabase edge functions: you need to deploy with <code>--no-verify-jwt</code> for webhook endpoints since Stripe doesn't send your auth tokens. Obvious once you know it, maddening until you do.</p>
 
             <h2>Promo Codes and Launch Prep</h2>
 
