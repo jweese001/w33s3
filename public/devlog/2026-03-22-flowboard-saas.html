@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Tool to Product: Implementing FlowBoard's SaaS Foundation | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>From Tool to Product: Implementing FlowBoard's SaaS Foundation</h1>
+            <time datetime="2026-03-22">March 22, 2026</time>
+        </header>
+
+        <img src="../images/devlog/flowboard-saas.jpg" alt="Developer hunched over laptop, Stripe dashboard glowing on screen, payment flow diagrams scattered on desk" class="hero-image">
+
+        <section class="content">
+            <p>This week I shipped the unglamorous but critical infrastructure that turns FlowBoard from a local tool into a monetizable product: user authentication, subscription management, and payment processing. The kind of work that doesn't make for exciting demos but determines whether you have a business or a hobby project.</p>
+
+            <h2>The User Journey Problem</h2>
+
+            <p>Before this week, FlowBoard had a working node-based editor. You could build image generation pipelines, save projects, and export prompts. But there was no account system—just local storage. No way to limit features, track usage, or accept money. The fundamental pieces you need to actually <em>sell</em> software as a service.</p>
+
+            <p>I tackled the full signup-to-payment flow: user creates account, confirms email, logs in to dashboard, sees their trial status, hits the paywall when trial expires, upgrades via Stripe checkout, and has their account updated via webhook. Each step had its own surprises.</p>
+
+            <h2>Edge Functions and the Deno Runtime Shift</h2>
+
+            <p>The first wall I hit was Supabase edge functions. I'd written them months ago, and in the interim Supabase updated their Deno runtime. My existing webhook code that had worked fine suddenly failed with cryptic import errors.</p>
+
+            <p>The fix required updating to Stripe SDK v14 with the Deno-compatible fetch client, switching from deprecated <code>std/http/serve</code> imports to native <code>Deno.serve()</code>, and using <code>constructEventAsync</code> for webhook signature verification instead of the synchronous version. None of this was documented in one place—I pieced it together from GitHub issues and the Stripe Deno SDK readme.</p>
+
+<pre><code>// Old approach (broken)
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
+
+// New approach (working)
+Deno.serve(async (req) => {
+  const event = await stripe.webhooks.constructEventAsync(
+    body,
+    signature,
+    webhookSecret,
+    undefined,
+    Stripe.createSubtleCryptoProvider()
+  )
+  // ...
+})</code></pre>
+
+            <h2>The Stale Session Trap</h2>
+
+            <p>After fixing the edge functions, I had a more subtle bug: users would sign up, confirm their email, and get redirected back to the app—but still see the login page instead of their dashboard. The problem? Supabase auth state wasn't refreshing after email confirmation.</p>
+
+            <p>The solution was adding a dedicated "check your email" screen that polls for session changes. When the user confirms and returns, the app catches the new session and routes to dashboard. It sounds obvious in retrospect, but email confirmation flows create this timing gap where your client-side auth state and server-side reality diverge.</p>
+
+            <h2>Gating Features Without Breaking UX</h2>
+
+            <p>With auth working, I needed to actually <em>limit</em> things for trial users. FlowBoard has "pro" node types—Scene nodes for 3D integration, FX nodes for post-processing, and so on. After trial expiration, these should be locked.</p>
+
+            <p>I built a <code>useProGate</code> hook that checks subscription status and trial expiry. Pro nodes render with a lock icon and disabled state. Clicking them opens the upgrade modal instead of adding them to the canvas. The dashboard shows trial users their project count ("3 of 6 projects") and disables "New Project" when they hit the limit.</p>
+
+            <p>The key decision: be explicit about limits rather than hiding features entirely. Users should <em>see</em> what they're missing so they understand the value proposition.</p>
+
+            <h2>The Webhook Dance</h2>
+
+            <p>Stripe webhooks are where payment flows get interesting. The happy path is simple: user completes checkout, Stripe fires <code>checkout.session.completed</code>, your webhook updates their subscription status. But production reality includes: webhook signature validation (crucial for security), idempotency (webhooks can fire multiple times), database transactions (what if the update partially fails?), and logging (when something goes wrong at 3am, you need breadcrumbs).</p>
+
+            <p>One gotcha specific to Supabase edge functions: you need to deploy with <code>--no-verify-jwt</code> for webhook endpoints since Stripe doesn't send your auth tokens. Obvious once you know it, maddening until you do.</p>
+
+            <h2>Promo Codes and Launch Prep</h2>
+
+            <p>The final piece was enabling Stripe promotion codes. One line of config (<code>allow_promotion_codes: true</code>) opens up discount strategies—LAUNCH50 for early adopters, partnership codes for potential college collaborations, whatever makes sense. The infrastructure is there now.</p>
+
+            <p>I also locked down the trial period at 3 days. Long enough to evaluate the tool seriously, short enough to create urgency. The trial-expired state shows clearly in the UI and funnels users toward checkout.</p>
+
+            <h2>What's Next</h2>
+
+            <p>FlowBoard's SaaS bones are solid now. The immediate next steps are pre-launch: marketing site polish, landing page graphics, and a thorough testing pass on the payment flow with real cards. Then it's time to put it in front of actual users and see what breaks.</p>
+
+            <p>Building payment infrastructure is the kind of work that separates "I made a thing" from "I'm selling a thing." Not glamorous, but necessary. And now it's done.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
