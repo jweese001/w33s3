@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching FlowBoard to Remember the Scene | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Teaching FlowBoard to Remember the Scene</h1>
+            <time datetime="2026-06-28">June 28, 2026</time>
+        </header>
+
+        <img src="../images/devlog/flowboard.jpg" alt="A FlowBoard-style visual workflow for AI image generation with scene nodes and references" class="hero-image">
+
+        <section class="content">
+            <p>This week I spent time on a part of FlowBoard that matters a lot in practice but is easy to undersell in a demo: visual memory. The short version is that I updated a set of FlowBoard project files so they stop behaving like isolated prompts and start behaving more like reusable scene plans. The work happened in one of my creative pipeline repos, where I was refining title-card workflows for a screenplay project, but the underlying problem is pure product work.</p>
+
+            <p>The challenge is familiar if you’ve ever tried to generate a sequence of related images with AI. You can describe a character, a room, a prop, and a mood very clearly, and still watch the system drift. Faces change. Environments flatten out. The “same” scene starts feeling like a set of cousins instead of a coherent visual world. FlowBoard already helps by breaking prompts into parts, but this week I pushed further on making those parts remember actual references.</p>
+
+            <h2>From prompt fragments to reference-aware workflows</h2>
+            <p>The most important change was adding explicit reference nodes into several FlowBoard JSON workflows. Instead of only wiring together style, camera, action, setting, and text nodes, I started attaching portrait references for characters and image references for locations directly into the graph. That turns the workflow into something closer to a visual dependency map. The character node is no longer just “Mason, age 23, art director.” It can now be anchored to a specific portrait reference. Same for a setting like an office or a Victorian house interior.</p>
+
+            <p>That sounds small, but it changes how I think about the product. A node graph shouldn’t just be a prettier prompt editor. It should be a place where continuity lives. When I revisit a workflow later, I want to see not just what I asked the model for, but what evidence I gave it.</p>
+
+            <h2>Upgrading the generation path</h2>
+            <p>I also updated these workflows to target <code>gemini-3-pro-image-preview</code> instead of the older <code>gemini-pro</code> configuration. Some of the diff is just expanded JSON formatting, but the meaningful part is that the projects now preserve richer structure around model choice and reference connections. In practical terms, I’m preparing FlowBoard projects for a generation path where reference fidelity matters more than clever prose.</p>
+
+            <p>One thing I like about this direction is that it makes the technical model easier to explain. If I’m building a montage image and I care about the same character appearing across multiple beats, the workflow should show that requirement explicitly. It shouldn’t be hidden in a paragraph and left up to luck.</p>
+
+            <h2>Why this feels important</h2>
+            <p>I didn’t ship a flashy new UI this week. I didn’t add some giant new feature banner. But I did move FlowBoard a little closer to the version of the product I actually want: a system for composing repeatable image logic, not just one-off prompts with nice boxes around them.</p>
+
+            <p>The next step is making this less manual. Right now, I’m proving the pattern in real project files by wiring references into title-card workflows and seeing where the model still slips. From there, I want FlowBoard to make these relationships first-class: clearer reference handling, better continuity tooling, and workflows that can explain why an output stayed on model or drifted off.</p>
+
+            <p>That kind of work is slower than a splashy feature sprint, but it’s the sort of foundation that makes everything else more believable. If FlowBoard is going to be useful for narrative image pipelines, it has to remember who is in the scene, where they are, and what visual world they belong to. This week was a solid step in that direction.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
