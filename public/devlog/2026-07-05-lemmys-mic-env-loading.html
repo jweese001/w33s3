@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Making Lemmy's Mic Automation Find Bluesky Credentials | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Making Lemmy's Mic Automation Find Bluesky Credentials</h1>
+            <time datetime="2026-07-05">July 5, 2026</time>
+        </header>
+
+        <img src="../images/devlog/lemmys-mic.jpg" alt="A stylized microphone and terminal window representing Lemmy's Mic publishing automation" class="hero-image">
+
+        <section class="content">
+            <p>This week I spent my devlog time on a small fix that mattered more than its diff size suggested. The project was <strong>Lemmy's Mic</strong>, specifically the automation that takes the latest post and shares it to Bluesky on a delay. I had already built the sharing script and the scheduling around it earlier, but this week I ran into a very real automation problem: the script worked in one environment and then quietly depended on credentials being available somewhere else.</p>
+
+            <p>That kind of issue is easy to miss when you are testing locally. If your shell already has the right environment variables, everything looks healthy. The trouble starts when the script runs from a scheduler or another machine where the process environment is thinner and less forgiving. In my case, I wanted the Lemmy's Mic share flow to be portable and predictable, not something that only succeeded when launched from the “right” terminal session.</p>
+
+            <h2>The actual fix</h2>
+            <p>The core change was in <code>share_latest_to_bluesky.py</code>. Before this update, the credential loader checked live environment variables first and then fell back to a global credentials file under <code>~/.config</code>. That meant repo-local configuration in <code>.env</code> was being ignored, even though that is exactly where this project already keeps other deployment-specific settings.</p>
+
+            <p>I added a lightweight <code>load_env_file()</code> helper and changed the credential lookup order so the script now does three sensible things in sequence: check process environment variables, check the repo's <code>.env</code>, and only then fall back to the external credentials file. That sounds boring, but it is the difference between an automation script that is convenient in development and one that is dependable in production.</p>
+
+            <p>I also wired the blog root through the credential-loading path instead of hard-coding assumptions about where the script was launched from. That keeps the script grounded in the repository it belongs to. When a workflow depends on local content, images, frontmatter, and social credentials, I want the repository to behave more like a complete application boundary and less like a loose collection of files.</p>
+
+            <h2>Why I cared enough to test it</h2>
+            <p>Any time I touch automation that posts publicly, I want regression coverage. So I added a test that explicitly clears the relevant environment variables, writes a temporary <code>.env</code>, and verifies that the loader still returns valid Bluesky credentials. That test is important because the bug only appears when the obvious happy path is missing. If I only test with real env vars present, I never exercise the branch that failed in the first place.</p>
+
+            <p>This is one of those cases where the lesson is broader than the specific script. A lot of publishing tooling breaks not because the main logic is wrong, but because configuration resolution is fuzzy. The script knows how to find the latest post, parse frontmatter, honor the one-day delay, attach the hero image, and avoid duplicate shares. None of that helps if it cannot reliably answer the basic question, “where are my credentials?”</p>
+
+            <h2>What&apos;s next</h2>
+            <p>I consider this a follow-up hardening pass rather than a new feature, but I like this kind of work because it makes the whole pipeline more trustworthy. The next thing I want to keep watching is the full post-to-share handoff over time: new article lands, the delay rule triggers correctly, the Bluesky post publishes once, and the ledger prevents repeats. This week was about removing one more “works on my machine” assumption from that chain.</p>
+
+            <p>It is not the flashiest progress report, but it is honest engineering work. Small operational fixes like this are what let creative systems keep running after the fun part of writing the script is over.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
