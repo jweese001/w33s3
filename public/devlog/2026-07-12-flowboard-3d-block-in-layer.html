@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding a 3D Block-In Layer to FlowBoard | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Adding a 3D Block-In Layer to FlowBoard</h1>
+            <time datetime="2026-07-12">July 12, 2026</time>
+        </header>
+
+        <img src="../images/devlog/threejs-ide.jpg" alt="A browser-based Three.js scene editor connected to FlowBoard shot planning" class="hero-image">
+
+        <section class="content">
+            <p>This week I worked on <strong>FlowBoard</strong>, but not on the part most people would notice first. Instead of a flashy front-end change, I spent my time adding a new skill to the FlowBoard toolchain: <code>flowboard-3d-fx</code>. The goal is to make it much easier to build rough Three.js scene block-ins that can feed FlowBoard&apos;s Scene and FX nodes as visual reference.</p>
+
+            <p>The bigger idea here is that AI image workflows usually get more reliable when I can stop describing every shot in pure text. Sometimes I do not want to jump straight from screenplay language to image generation and hope the composition lands. I want a lightweight 3D staging layer first: camera placement, silhouette, lighting direction, and spatial relationships. This week was about turning that into a repeatable skill instead of an ad hoc manual process.</p>
+
+            <h2>The hard part was not Three.js</h2>
+            <p>The interesting technical problem was not “can I generate a scene in Three.js?” It was “can I generate a scene that satisfies the exact contract FlowBoard expects when it captures from the browser IDE?” That contract turned out to be stricter than it looks. A scene can run fine in the editor and still fail silently when FlowBoard tries to capture it at the requested resolution or restore camera presets.</p>
+
+            <p>So the new skill is built around that constraint. I documented the scene contract, added a validator in <code>scripts/validate.py</code>, and made the workflow insist on exposing the right window globals like <code>window.renderer</code>, <code>window.scene</code>, <code>window.camera</code>, and <code>window.controls</code>. Those are small details, but they are exactly the kind of details that separate “it renders on my machine” from “it plugs into the product correctly.”</p>
+
+            <h2>Adding guardrails around the workflow</h2>
+            <p>I also added a share-URL generator and a live browser test. The share URL matters because the handoff into the Three.js IDE should feel simple: generate a scene, open it in the IDE, paste or load it, and capture. The live test matters because validators only catch structural mistakes. I wanted another layer that boots a real browser, runs the scene, exercises the capture flow, and proves the FlowBoard-side protocol still works end to end.</p>
+
+            <p>That combination changed how I think about this feature. The skill is not just “write some scene code.” It is really a small reliability system: authoring guidance, contract documentation, mechanical validation, browser-level verification, and then an example scene that shows the standard in practice. I capped the week off by adding a noir alley example and tightening the README so the whole FlowBoard skills package explains where this new piece fits.</p>
+
+            <h2>Why this feels useful</h2>
+            <p>I like this direction because it gives FlowBoard a better bridge between story intent and image generation. A screenplay shot like “wide exterior, low angle, dusk, subject framed against signage” can now become a composition block-in instead of only a paragraph of prompt text. That is a more concrete artifact. It is easier to inspect, easier to revise, and easier to reuse.</p>
+
+            <p>Next I want to see how far this can go in real production use. The immediate question is whether these block-ins consistently improve shot planning for narrative workflows, or whether I still need better tooling around camera presets, reusable staging kits, and FX-node handoff. Either way, this week felt like solid product work: not just adding another feature, but making a messy creative step more testable and more repeatable.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
