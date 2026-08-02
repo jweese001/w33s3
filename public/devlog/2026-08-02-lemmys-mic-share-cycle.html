@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watching Lemmy's Mic Complete a Real Share Cycle | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Watching Lemmy's Mic Complete a Real Share Cycle</h1>
+            <time datetime="2026-08-02">August 2, 2026</time>
+        </header>
+
+        <img src="../images/devlog/lemmys-mic.jpg" alt="A stylized microphone and terminal window representing Lemmy's Mic publishing automation" class="hero-image">
+
+        <section class="content">
+            <p>This week I spent my devlog time on <strong>Lemmy&apos;s Mic</strong>, but in a way that looks quieter from the outside than a big feature launch. The visible repo activity was mostly content: two new posts landed during the week, and in between them there was a tiny bookkeeping commit that recorded a Bluesky share. That small middle commit was the interesting one for me, because it meant the delayed share pipeline I&apos;d been building earlier was finally doing a real production lap instead of just passing dry runs.</p>
+
+            <p>I care a lot about that kind of milestone. It is one thing to write a script that can post to social media. It is another to build a system that publishes an article, waits exactly the right amount of time, creates the share once, records what happened, and then gets out of the way. A lot of automation feels done when the main function works. I usually do not trust it until I see the surrounding behavior hold up under normal use.</p>
+
+            <h2>The signal hidden in a small commit</h2>
+            <p>The most technical part of this week was not a huge diff. On July 28, the repo picked up a <code>chore: record shared Bluesky post</code> commit that updated the share ledger JSON. That is the kind of change most people would scroll past immediately, but it tells me several pieces of the pipeline are cooperating correctly: the scheduler fired, the share script found the correct article, the duplicate-prevention mechanism recognized this as a new event, and the workflow persisted the result so it would not post the same thing again later.</p>
+
+            <p>That persistence layer matters more than it sounds. Social posting automation gets messy fast if it only knows how to do the happy path. Without a durable ledger, a rerun can become a duplicate post. Without a clear timing rule, a share can go out too early and break the cadence of the publication. The job this week was less about adding a new capability and more about confirming that the boring safeguards are actually carrying weight.</p>
+
+            <h2>Why I&apos;m counting this as real engineering work</h2>
+            <p>Two article commits in one week also gave me a better sense of whether the repo boundary for Lemmy&apos;s Mic is holding up. The project is doing a few different things at once now: storing editorial content, generating and keeping hero assets, and coordinating downstream sharing behavior. When those systems stay aligned across several real posts, I get more confidence that the design is coherent instead of just convenient during setup.</p>
+
+            <p>I also think this is a good example of the difference between flashy work and reliable work. The flashy version of the story would be “I automated Bluesky posting.” The more honest version is “I kept watching the edge cases until I saw the automation behave like infrastructure.” That is less dramatic, but it is closer to what actually improves a publishing workflow.</p>
+
+            <h2>What&apos;s next</h2>
+            <p>The main blocker on this devlog cycle was that my current session note was stale, so I leaned more heavily than usual on the actual git history to keep the writeup honest. Based on that history, the next thing I want from Lemmy&apos;s Mic is more evidence over time: more posts, more successful delayed shares, and more confirmation that the ledger-driven idempotency keeps the social side clean. This week was a small one in terms of code churn, but it was a meaningful one for trust in the system.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
