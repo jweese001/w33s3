@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lemmy's Mic Is Teaching Me to Trust Repetition | Devlog | Jeff Weese</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'Sora', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+            --text-4xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+            --text-2xl: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+            --text-xl: clamp(1.1rem, 1rem + .5vw, 1.35rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+            --text-sm: clamp(.875rem, .8rem + .25vw, .95rem);
+            --text-xs: clamp(.75rem, .7rem + .2vw, .85rem);
+
+            --bg-dark: rgb(10, 10, 10);
+            --bg-dark-elevated: rgb(18, 18, 18);
+            --bg-dark-card: rgb(22, 22, 22);
+
+            --text-on-dark: #ffffff;
+            --text-on-dark-muted: rgba(255, 255, 255, .75);
+            --text-on-dark-subtle: rgba(255, 255, 255, .5);
+
+            --accent: #c77dcd;
+            --accent-teal: #9dd9d9;
+
+            --border-dark-subtle: rgba(255, 255, 255, .08);
+
+            --space-sm: .5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+
+            --content-width: 720px;
+            --nav-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: 1.7;
+            background: var(--bg-dark);
+            color: var(--text-on-dark-muted);
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .devlog-post {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-xl);
+        }
+
+        .devlog-post header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .devlog-post h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 400;
+            line-height: 1.15;
+            color: var(--text-on-dark);
+            margin-bottom: var(--space-md);
+        }
+
+        .devlog-post time {
+            font-family: var(--font-mono);
+            font-size: var(--text-xs);
+            color: var(--text-on-dark-subtle);
+            letter-spacing: .05em;
+            text-transform: uppercase;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-2xl) 0;
+        }
+
+        .content h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            color: var(--text-on-dark);
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .content p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: var(--space-lg) 0;
+        }
+
+        .content code {
+            font-family: var(--font-mono);
+            font-size: .9em;
+            background: var(--bg-dark-card);
+            padding: .15em .4em;
+            border-radius: 4px;
+            border: 1px solid var(--border-dark-subtle);
+        }
+
+        .content pre {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            background: var(--bg-dark-card);
+            padding: var(--space-lg);
+            border-radius: 8px;
+            border: 1px solid var(--border-dark-subtle);
+            overflow-x: auto;
+            margin: var(--space-lg) 0;
+        }
+
+        .content pre code {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .content strong {
+            color: var(--text-on-dark);
+            font-weight: 500;
+        }
+
+        .content ul {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .content li {
+            margin-bottom: var(--space-sm);
+        }
+
+        footer {
+            margin-top: var(--space-3xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-dark-subtle);
+        }
+
+        footer a {
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-on-dark-subtle);
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .devlog-post {
+                padding: var(--space-2xl) var(--space-lg);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+            }
+            .content pre {
+                font-size: var(--text-xs);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .devlog-post {
+                padding: var(--space-xl) var(--space-md);
+            }
+            .devlog-post h1 {
+                font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+            }
+            .content h2 {
+                font-size: var(--text-xl);
+            }
+            .hero-image {
+                margin: var(--space-lg) calc(-1 * var(--space-md));
+                width: calc(100% + var(--space-xl));
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="devlog-post">
+        <header>
+            <h1>Lemmy's Mic Is Teaching Me to Trust Repetition</h1>
+            <time datetime="2026-08-16">August 16, 2026</time>
+        </header>
+
+        <img src="../images/devlog/lemmys-mic-cadence-ledger.jpg" alt="A noir comic-style scene of a microphone, article cards, a Bluesky ledger, and terminal windows showing an automated publishing loop" class="hero-image">
+
+        <section class="content">
+            <p>This week I ended up writing from git history more than from my session notes, and I want to be honest about that up front. My main session note was stale, so instead of pretending I had a neat daily narrative, I went back to the repo activity and looked for what actually happened. The clearest signal was <strong>Lemmy's Mic</strong>. Over the past week I published a new article, merged the remote branch back into my local checkout, and recorded a delayed Bluesky share in the project ledger. That is not a dramatic feature sprint, but it is exactly the kind of work that tells me whether a publishing system is maturing.</p>
+
+            <p>The article commit mattered because it exercised the whole content path: markdown, generated hero art, built output, and all the little assumptions that sit between “I wrote something” and “the site now has a new post.” But the most interesting commit was the tiny one: <code>chore: record shared Bluesky post</code>. On paper, that looks like bookkeeping. In practice, it is evidence that the automation made a full round trip in production.</p>
+
+            <h2>The boring commit was the proof</h2>
+            <p>I care a lot about whether unattended workflows leave behind reliable state. If a scheduled social share runs without memory, it can repost the same article. If it stores the wrong identifier, retries become messy. If it depends on perfect timing instead of explicit rules, the whole system feels brittle. That one-line ledger update in <code>.github/bluesky-shared-posts.json</code> told me something important: the scheduler fired, the share script found the correct article, the duplicate-prevention layer recognized it as new, and the result was persisted so the system can safely say “I already did that” later.</p>
+
+            <p>That is the kind of engineering signal I trust more than a flashy dashboard. Small state files, boring commit messages, and clean follow-through are what separate a demo from infrastructure. I have built enough automation over the years to know that the real work usually shows up in the constraints, not the happy path. The ledger is one of those constraints. It gives the pipeline memory, and memory is what makes scheduled publishing behave like a system instead of a script I have to babysit.</p>
+
+            <h2>Repetition is the architecture test</h2>
+            <p>The other thing this week reinforced is that cadence reveals design quality faster than one-off success. A single successful publish is nice, but repeated posts are where weak assumptions start to leak. Every new Lemmy's Mic article asks the same questions: can the content land cleanly, can the asset generation keep up, can the publishing output stay predictable, and can the downstream social step happen once and only once? That repeated loop is a much better test than any isolated dry run.</p>
+
+            <p>Right now, Lemmy's Mic is starting to feel like a small publishing machine with a personality instead of a pile of scripts. The content side is still the visible part, but the invisible part is what I am paying attention to: timing, state, idempotency, and whether the repo shape keeps editorial work and automation close enough to cooperate without turning into a tangle.</p>
+
+            <h2>What I want next</h2>
+            <p>I do not think the next step is some huge new feature. I want more clean repetitions. More articles, more successful delayed shares, and more evidence that the ledger-backed automation stays quiet and correct under normal use. When a system keeps doing the same boring thing well, that is usually when I start trusting it. This week was a good reminder that dependable loops are a feature too.</p>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Portfolio</a>
+        </footer>
+    </article>
+</body>
+</html>
